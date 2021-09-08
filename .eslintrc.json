@@ -34,7 +34,9 @@
           }
         ],
         "semi": "off",
-        "prefer-const": "off"
+        "prefer-const": "off",
+        "no-empty": "off",
+        "no-multiple-empty-lines": "off"
       }
     }
   ]
