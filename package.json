@@ -4,7 +4,8 @@
   "description": "A common requirement in apps we develop is uploading an image from the client, validating on the server, and pushing to an external data service such as AWS S3. \r It is often necessary to offload basic image processing to a task queue for operations such as resizing, converting formats, generating thumbnails, etc.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -23,9 +24,10 @@
     "@typescript-eslint/parser": "~4.28.5",
     "eslint": "7.22.0",
     "eslint-config-prettier": "8.1.0",
-    "husky": "^7.0.2",
+    "husky": "^7.0.0",
     "jest": "27.0.3",
     "prettier": "^2.3.2",
+    "pretty-quick": "^3.1.1",
     "semantic-release": "^17.4.7",
     "semantic-release-gitmoji": "^1.3.4",
     "ts-jest": "27.0.3",
