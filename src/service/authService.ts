@@ -1,13 +1,7 @@
+export class AuthService {
+  async init() {}
 
-class AuthService {
-
-  async init() {
-
-  }
-
-  constructor() {
-
-  }
+  constructor() {}
 }
 
 export default new AuthService()

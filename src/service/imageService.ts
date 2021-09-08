@@ -1,13 +1,7 @@
+export class ImageService {
+  async init() {}
 
-class ImageService {
-
-  async init() {
-
-  }
-
-  constructor() {
-
-  }
+  constructor() {}
 }
 
 export default new ImageService()

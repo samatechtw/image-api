@@ -1,10 +1,10 @@
 {
   "name": "image-api",
   "version": "0.0.0",
-  "description": "A common requirement in apps we develop is uploading an image from the client, validating on the server, and pushing to an external data service such as AWS S3. \r It is often necessary to offload basic image processing to a task queue for operations such as resizing, converting formats, generating thumbnails, etc.",
+  "description": "A common requirement in apps we develop is uploading an image from the client, validating on the server, and pushing to an external data service such as AWS S3.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "prepare": "husky install"
   },
   "repository": {
@@ -20,6 +20,7 @@
   "devDependencies": {
     "@types/jest": "26.0.24",
     "@types/node": "14.14.33",
+    "@types/sharp": "^0.29.0",
     "@typescript-eslint/eslint-plugin": "~4.28.5",
     "@typescript-eslint/parser": "~4.28.5",
     "eslint": "7.22.0",
@@ -33,5 +34,8 @@
     "ts-jest": "27.0.3",
     "ts-node": "^10.2.1",
     "typescript": "~4.3.5"
+  },
+  "dependencies": {
+    "sharp": "^0.29.1"
   }
 }
