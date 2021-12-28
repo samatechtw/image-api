@@ -5,4 +5,6 @@ export enum EnumFileFormat {
   webp = 'webp',
   svg = 'svg',
   heic = 'heic',
+  tiff = 'tiff',
+  avif = 'avif',
 }
