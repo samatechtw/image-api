@@ -4,6 +4,7 @@ import * as sharp from 'sharp'
 
 export class SharpLoader implements ILoader {
   readFormats: EnumFileFormat[] = [
+    EnumFileFormat.jpg,
     EnumFileFormat.jpeg,
     EnumFileFormat.png,
     EnumFileFormat.webp,
@@ -14,6 +15,7 @@ export class SharpLoader implements ILoader {
   ]
 
   writeFormat: EnumFileFormat[] = [
+    EnumFileFormat.jpg,
     EnumFileFormat.jpeg,
     EnumFileFormat.png,
     EnumFileFormat.webp,
@@ -21,7 +23,7 @@ export class SharpLoader implements ILoader {
     EnumFileFormat.tiff,
   ]
 
-  convert = async (buffer: Buffer, toFormat: EnumFileFormat): Promise<Buffer> => {
+  async convert(buffer: Buffer, toFormat: EnumFileFormat): Promise<Buffer> {
     switch (toFormat) {
       case EnumFileFormat.jpeg:
         return await sharp(buffer).jpeg().toBuffer()
@@ -38,7 +40,7 @@ export class SharpLoader implements ILoader {
     throw 'Output format not supported by Sharp'
   }
 
-  resize = async (buffer: Buffer, width: number, height: number): Promise<Buffer> => {
+  async resize(buffer: Buffer, width: number, height: number): Promise<Buffer> {
     return await sharp(buffer).resize(width, height).toBuffer()
   }
 }

@@ -1,6 +1,7 @@
 export enum EnumFileFormat {
-  png = 'png',
+  jpg = 'jpg',
   jpeg = 'jpeg',
+  png = 'png',
   gif = 'gif',
   webp = 'webp',
   svg = 'svg',
