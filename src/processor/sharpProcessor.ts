@@ -2,7 +2,7 @@ import { ILoader } from '../Interface/ILoader'
 import { EnumFileFormat } from '../Enum/EnumFileFormat'
 import * as sharp from 'sharp'
 
-export class SharpLoader implements ILoader {
+export class SharpProcessor implements ILoader {
   readFormats: EnumFileFormat[] = [
     EnumFileFormat.jpg,
     EnumFileFormat.jpeg,
