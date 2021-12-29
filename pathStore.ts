@@ -12,6 +12,10 @@ class PathStore {
   get testAsset() {
     return path.resolve(__dirname, 'src', 'asset', 'test')
   }
+
+  get temp() {
+    return path.resolve(__dirname, 'temp')
+  }
 }
 
 export default new PathStore()

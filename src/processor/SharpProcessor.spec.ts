@@ -1,19 +1,33 @@
 import { SharpProcessor } from './SharpProcessor'
 import { readFile } from 'node:fs/promises'
 import pathStore from '../../pathStore'
-import { EnumFileFormat } from '../Enum/EnumFileFormat'
+import * as path from 'path'
 
 describe('SharpProcessor', () => {
   it('constructor()', async () => {
-    let processor = new SharpProcessor()
+    const processor = new SharpProcessor()
 
     expect(processor).toBeInstanceOf(SharpProcessor)
   })
 
-  it('convert() jpeg', async () => {
-    let processor = new SharpProcessor()
-    let buffer = await readFile(pathStore.testAsset)
+  const processor = new SharpProcessor()
 
-    let output = await processor.convert(buffer, EnumFileFormat.jpeg)
-  })
+  for (let readFormat of processor.readFormats) {
+    for (let writeFormat of processor.writeFormats) {
+      if (readFormat === writeFormat) {
+        continue
+      }
+
+      it(`convert() ${readFormat} to ${writeFormat}`, async () => {
+        let inBuffer = await readFile(
+          path.resolve(pathStore.testAsset, `wtm_256x256.${readFormat}`),
+        )
+        let outBuffer = await processor.convert(inBuffer, writeFormat)
+
+        // todo: maybe a better way to check output
+        expect(outBuffer.length > 0).toEqual(true)
+        expect(outBuffer).not.toEqual(inBuffer)
+      })
+    }
+  }
 })

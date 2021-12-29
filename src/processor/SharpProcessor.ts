@@ -14,7 +14,7 @@ export class SharpProcessor implements ILoader {
     EnumFileFormat.svg,
   ]
 
-  writeFormat: EnumFileFormat[] = [
+  writeFormats: EnumFileFormat[] = [
     EnumFileFormat.jpg,
     EnumFileFormat.jpeg,
     EnumFileFormat.png,
@@ -25,6 +25,8 @@ export class SharpProcessor implements ILoader {
 
   async convert(buffer: Buffer, toFormat: EnumFileFormat): Promise<Buffer> {
     switch (toFormat) {
+      case EnumFileFormat.jpg:
+        return await sharp(buffer).jpeg().toBuffer()
       case EnumFileFormat.jpeg:
         return await sharp(buffer).jpeg().toBuffer()
       case EnumFileFormat.png:
