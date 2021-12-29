@@ -13,7 +13,7 @@ describe('JpegOptimizer', () => {
 
   const optimizer = new JpegOptimizer()
 
-  for (const algo in EnumJpegOptimizeAlgo) {
+  for (let algo in EnumJpegOptimizeAlgo) {
     it(`optimize() ${algo}`, async () => {
       const inBuffer = await readFile(
         path.resolve(pathStore.testAsset, 'wtm_256x256.jpeg'),
