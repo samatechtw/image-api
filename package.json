@@ -18,13 +18,11 @@
   },
   "homepage": "https://github.com/samatechtw/image-api#readme",
   "devDependencies": {
-    "@types/imagemin": "^8.0.0",
     "@types/jest": "26.0.24",
     "@types/node": "14.14.33",
     "@types/sharp": "^0.29.0",
     "@typescript-eslint/eslint-plugin": "~4.28.5",
     "@typescript-eslint/parser": "~4.28.5",
-    "babel-jest": "^27.4.5",
     "eslint": "7.22.0",
     "eslint-config-prettier": "8.1.0",
     "husky": "^7.0.0",
@@ -39,11 +37,6 @@
   },
   "dependencies": {
     "fs-extra": "^10.0.0",
-    "imagemin": "^8.0.1",
-    "imagemin-jpeg-recompress": "^7.0.0",
-    "imagemin-jpegoptim": "^8.0.0",
-    "imagemin-jpegtran": "^7.0.0",
-    "imagemin-mozjpeg": "^10.0.0",
     "sharp": "^0.29.1"
   }
 }
