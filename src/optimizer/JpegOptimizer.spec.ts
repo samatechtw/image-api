@@ -18,10 +18,10 @@ describe('JpegOptimizer', () => {
       const inBuffer = await readFile(
         path.resolve(pathStore.testAsset, 'wtm_256x256.jpeg'),
       )
-      const outBuffer100 = await optimizer.optimize(
+      const outBuffer90 = await optimizer.optimize(
         inBuffer,
         algo as EnumJpegOptimizeAlgo,
-        100,
+        90,
       )
       const outBuffer50 = await optimizer.optimize(
         inBuffer,
@@ -34,8 +34,8 @@ describe('JpegOptimizer', () => {
         10,
       )
 
-      expect(inBuffer.length > outBuffer100.length).toEqual(true)
-      expect(outBuffer100.length > outBuffer50.length).toEqual(true)
+      expect(inBuffer.length > outBuffer90.length).toEqual(true)
+      expect(outBuffer90.length > outBuffer50.length).toEqual(true)
       expect(outBuffer50.length > outBuffer10.length).toEqual(true)
     })
   }
