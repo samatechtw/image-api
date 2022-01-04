@@ -5,9 +5,5 @@ import EnumOptimizeAlgo from '../Enum/EnumOptimizeAlgo'
 export default interface IOptimizer {
   acceptAlgorithms: EnumOptimizeAlgo[]
 
-  optimize: (
-    buffer: Buffer,
-    algo: EnumJpegOptimizeAlgo,
-    quality: number,
-  ) => Promise<Buffer>
+  optimize: (buffer: Buffer, algo: EnumOptimizeAlgo, quality: number) => Promise<Buffer>
 }

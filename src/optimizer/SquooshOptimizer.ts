@@ -8,7 +8,7 @@ export default class SquooshOptimizer implements IOptimizer {
 
   async optimize(
     buffer: Buffer,
-    algo: EnumJpegOptimizeAlgo,
+    algo: EnumOptimizeAlgo,
     quality: number,
   ): Promise<Buffer> {
     switch (algo) {
