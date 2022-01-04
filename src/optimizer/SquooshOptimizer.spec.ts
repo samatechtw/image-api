@@ -1,19 +1,19 @@
 import { readFile } from 'fs/promises'
-import JpegOptimizer from './JpegOptimizer'
+import SquooshOptimizer from './SquooshOptimizer'
 import EnumJpegOptimizeAlgo from '../Enum/EnumJpegOpitmizeAlgo'
 import pathStore from '../../pathStore'
 import * as path from 'path'
 
-describe('JpegOptimizer', () => {
+describe('SquooshOptimizer', () => {
   it('constructor()', async () => {
-    const optimizer = new JpegOptimizer()
+    const optimizer = new SquooshOptimizer()
 
-    expect(optimizer).toBeInstanceOf(JpegOptimizer)
+    expect(optimizer).toBeInstanceOf(SquooshOptimizer)
   })
 
-  const optimizer = new JpegOptimizer()
+  const optimizer = new SquooshOptimizer()
 
-  for (let algo in EnumJpegOptimizeAlgo) {
+  for (let algo of optimizer.acceptAlgorithms) {
     it(`optimize() ${algo}`, async () => {
       const inBuffer = await readFile(
         path.resolve(pathStore.testAsset, 'wtm_256x256.jpeg'),

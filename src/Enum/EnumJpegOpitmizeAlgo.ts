@@ -1,5 +1,5 @@
 enum EnumJpegOptimizeAlgo {
-  mozJpeg = 'mozJpeg',
+  mozjpeg = 'mozjpeg',
 }
 
 export default EnumJpegOptimizeAlgo

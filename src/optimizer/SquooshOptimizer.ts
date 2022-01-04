@@ -1,10 +1,10 @@
 import { ImagePool } from '@squoosh/lib'
 import IOptimizer from '../Interface/IOptimizer'
-import { EnumFileFormat } from '../Enum/EnumFileFormat'
 import EnumJpegOptimizeAlgo from '../Enum/EnumJpegOpitmizeAlgo'
+import EnumOptimizeAlgo from '../Enum/EnumOptimizeAlgo'
 
-export default class JpegOptimizer implements IOptimizer {
-  acceptFormats: EnumFileFormat[] = [EnumFileFormat.jpg, EnumFileFormat.jpeg]
+export default class SquooshOptimizer implements IOptimizer {
+  acceptAlgorithms: EnumOptimizeAlgo[] = [EnumJpegOptimizeAlgo.mozjpeg]
 
   async optimize(
     buffer: Buffer,
@@ -12,7 +12,7 @@ export default class JpegOptimizer implements IOptimizer {
     quality: number,
   ): Promise<Buffer> {
     switch (algo) {
-      case EnumJpegOptimizeAlgo.mozJpeg:
+      case EnumJpegOptimizeAlgo.mozjpeg:
         const imagePool = new ImagePool()
         const image = imagePool.ingestImage(buffer)
 
