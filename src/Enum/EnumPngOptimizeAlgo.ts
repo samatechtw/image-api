@@ -1,3 +1,5 @@
-enum EnumPngOptimizeAlgo {}
+enum EnumPngOptimizeAlgo {
+  pngquant = 'pngquant',
+}
 
 export default EnumPngOptimizeAlgo

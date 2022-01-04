@@ -29,6 +29,6 @@ export default class SquooshOptimizer implements IOptimizer {
         return res.binary
     }
 
-    throw `Algo ${algo} is not supported`
+    throw `Algo ${algo} is not supported in Squoosh optimizer`
   }
 }

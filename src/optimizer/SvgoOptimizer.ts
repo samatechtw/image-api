@@ -12,11 +12,17 @@ class SvgoOptimizer implements IOptimizer {
     algo: EnumOptimizeAlgo,
     quality: number,
   ): Promise<Buffer> {
-    const svgStr = buffer.toString('utf8')
-    const res = svgo.optimize(svgStr)
-    const resBuffer = Buffer.from(res.data)
+    switch (algo) {
+      case EnumSvgOptimizeAlgo.svgo: {
+        const svgStr = buffer.toString('utf8')
+        const res = svgo.optimize(svgStr)
+        const resBuffer = Buffer.from(res.data)
 
-    return resBuffer
+        return resBuffer
+      }
+    }
+
+    throw `Algo ${algo} is not supported in SvgoOptimizer`
   }
 }
 
