@@ -3,6 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   '@squoosh/lib': ^0.4.0
   '@types/jest': 26.0.24
+  '@types/lodash': ^4.14.178
   '@types/node': 14.14.33
   '@types/sharp': ^0.29.0
   '@types/svgo': ^2.6.0
@@ -13,6 +14,7 @@ specifiers:
   fs-extra: ^10.0.0
   husky: ^7.0.0
   jest: 27.0.3
+  lodash: ^4.17.21
   pngquant: ^4.0.0
   prettier: ^2.3.2
   pretty-quick: ^3.1.1
@@ -26,8 +28,10 @@ specifiers:
 
 dependencies:
   '@squoosh/lib': 0.4.0
+  '@types/lodash': 4.14.178
   '@types/svgo': 2.6.0
   fs-extra: 10.0.0
+  lodash: 4.17.21
   pngquant: 4.0.0
   sharp: 0.29.2
   svgo: 2.8.0
@@ -972,6 +976,10 @@ packages:
   /@types/json-schema/7.0.9:
     resolution: {integrity: sha512-qcUXuemtEu+E5wZSJHNxUXeCZhAfXKQ41D+duX+VYPde7xyEVZci+/oXKJL13tnRs9lR2pr4fod59GT6/X1/yQ==}
     dev: true
+
+  /@types/lodash/4.14.178:
+    resolution: {integrity: sha512-0d5Wd09ItQWH1qFbEyQ7oTQ3GZrMfth5JkbN3EvTKLXcHLRDSXeLnlvlOn0wvxVIwK5o2M8JzP/OWz7T3NRsbw==}
+    dev: false
 
   /@types/minimatch/3.0.5:
     resolution: {integrity: sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ==}
@@ -4261,7 +4269,6 @@ packages:
 
   /lodash/4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
-    dev: true
 
   /logalot/2.1.0:
     resolution: {integrity: sha1-X46MkNME7fElMJUaVVSruMXj9VI=}

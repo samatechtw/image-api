@@ -1,7 +1,7 @@
 import * as Buffer from 'buffer'
 import { EnumFileFormat } from '../Enum/EnumFileFormat'
 
-export interface ILoader {
+export interface IProcessor {
   readFormats: EnumFileFormat[]
   writeFormats: EnumFileFormat[]
 

@@ -1,8 +1,8 @@
-import { ILoader } from '../Interface/ILoader'
+import { IProcessor } from '../Interface/IProcessor'
 import { EnumFileFormat } from '../Enum/EnumFileFormat'
 import * as sharp from 'sharp'
 
-export class SharpProcessor implements ILoader {
+export class SharpProcessor implements IProcessor {
   readFormats: EnumFileFormat[] = [
     EnumFileFormat.jpg,
     EnumFileFormat.jpeg,
