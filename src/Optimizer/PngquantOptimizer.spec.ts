@@ -20,9 +20,26 @@ describe('PngquantOptimizer', () => {
       const inBuffer = await readFile(
         path.resolve(pathStore.testAsset, 'wtm_256x256.png'),
       )
-      const outBuffer = await optimizer.optimize(inBuffer, algo, 90)
+      const outBuffer90 = await optimizer.optimize(inBuffer, algo, 90)
+      const outBuffer50 = await optimizer.optimize(inBuffer, algo, 50)
+      const outBuffer10 = await optimizer.optimize(inBuffer, algo, 10)
 
-      expect(inBuffer.length > outBuffer.length).toEqual(true)
+      await writeFile(
+        path.resolve(pathStore.testOut, `wtm_256x256_${algo}_${90}.png`),
+        outBuffer90,
+      )
+      await writeFile(
+        path.resolve(pathStore.testOut, `wtm_256x256_${algo}_${50}.png`),
+        outBuffer50,
+      )
+      await writeFile(
+        path.resolve(pathStore.testOut, `wtm_256x256_${algo}_${10}.png`),
+        outBuffer10,
+      )
+
+      expect(inBuffer.length > outBuffer90.length).toEqual(true)
+      expect(outBuffer90.length > outBuffer50.length).toEqual(true)
+      expect(outBuffer50.length > outBuffer10.length).toEqual(true)
     })
   }
 })

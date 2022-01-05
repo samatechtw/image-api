@@ -3,6 +3,7 @@ import { readFile } from 'fs/promises'
 import pathStore from '../../pathStore'
 import EnumJpegOptimizeAlgo from '../Enum/EnumJpegOpitmizeAlgo'
 import * as path from 'path'
+import { writeFile } from 'node:fs/promises'
 
 describe('SvgoOptimizer', () => {
   it('constructor()', async () => {
@@ -21,6 +22,11 @@ describe('SvgoOptimizer', () => {
 
       // quality option is no use in svgo
       const outBuffer = await optimizer.optimize(inBuffer, algo, 90)
+
+      await writeFile(
+        path.resolve(pathStore.testOut, `wtm_256x256_${algo}.svg`),
+        outBuffer,
+      )
 
       expect(inBuffer.length > outBuffer.length).toEqual(true)
     })

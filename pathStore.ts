@@ -13,8 +13,8 @@ class PathStore {
     return path.resolve(__dirname, 'src', 'asset', 'test')
   }
 
-  get temp() {
-    return path.resolve(__dirname, 'temp')
+  get testOut() {
+    return path.resolve(__dirname, 'testOut')
   }
 }
 

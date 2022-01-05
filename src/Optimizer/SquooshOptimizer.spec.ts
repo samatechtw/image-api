@@ -1,8 +1,8 @@
 import { readFile } from 'fs/promises'
 import SquooshOptimizer from './SquooshOptimizer'
-import EnumJpegOptimizeAlgo from '../Enum/EnumJpegOpitmizeAlgo'
 import pathStore from '../../pathStore'
 import * as path from 'path'
+import { writeFile } from 'node:fs/promises'
 
 describe('SquooshOptimizer', () => {
   it('constructor()', async () => {
@@ -21,6 +21,19 @@ describe('SquooshOptimizer', () => {
       const outBuffer90 = await optimizer.optimize(inBuffer, algo, 90)
       const outBuffer50 = await optimizer.optimize(inBuffer, algo, 50)
       const outBuffer10 = await optimizer.optimize(inBuffer, algo, 10)
+
+      await writeFile(
+        path.resolve(pathStore.testOut, `wtm_256x256_${algo}_${90}.jpeg`),
+        outBuffer90,
+      )
+      await writeFile(
+        path.resolve(pathStore.testOut, `wtm_256x256_${algo}_${50}.jpeg`),
+        outBuffer50,
+      )
+      await writeFile(
+        path.resolve(pathStore.testOut, `wtm_256x256_${algo}_${10}.jpeg`),
+        outBuffer10,
+      )
 
       expect(inBuffer.length > outBuffer90.length).toEqual(true)
       expect(outBuffer90.length > outBuffer50.length).toEqual(true)
