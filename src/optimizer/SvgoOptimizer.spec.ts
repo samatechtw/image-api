@@ -18,11 +18,9 @@ describe('SvgoOptimizer', () => {
       const inBuffer = await readFile(
         path.resolve(pathStore.testAsset, 'wtm_256x256.svg'),
       )
-      const outBuffer = await optimizer.optimize(
-        inBuffer,
-        algo as EnumJpegOptimizeAlgo,
-        90, // no use in svgo
-      )
+
+      // quality option is no use in svgo
+      const outBuffer = await optimizer.optimize(inBuffer, algo, 90)
 
       expect(inBuffer.length > outBuffer.length).toEqual(true)
     })

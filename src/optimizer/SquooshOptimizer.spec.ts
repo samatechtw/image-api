@@ -18,21 +18,9 @@ describe('SquooshOptimizer', () => {
       const inBuffer = await readFile(
         path.resolve(pathStore.testAsset, 'wtm_256x256.jpeg'),
       )
-      const outBuffer90 = await optimizer.optimize(
-        inBuffer,
-        algo as EnumJpegOptimizeAlgo,
-        90,
-      )
-      const outBuffer50 = await optimizer.optimize(
-        inBuffer,
-        algo as EnumJpegOptimizeAlgo,
-        50,
-      )
-      const outBuffer10 = await optimizer.optimize(
-        inBuffer,
-        algo as EnumJpegOptimizeAlgo,
-        10,
-      )
+      const outBuffer90 = await optimizer.optimize(inBuffer, algo, 90)
+      const outBuffer50 = await optimizer.optimize(inBuffer, algo, 50)
+      const outBuffer10 = await optimizer.optimize(inBuffer, algo, 10)
 
       expect(inBuffer.length > outBuffer90.length).toEqual(true)
       expect(outBuffer90.length > outBuffer50.length).toEqual(true)

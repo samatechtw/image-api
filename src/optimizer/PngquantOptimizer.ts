@@ -12,17 +12,18 @@ class PngquantOptimizer implements IOptimizer {
   optimize(buffer: Buffer, algo: EnumOptimizeAlgo, quality: number): Promise<Buffer> {
     switch (algo) {
       case EnumPngOptimizeAlgo.pngquant: {
-        const pngQuanter = new PngQuant([192, '--quality', quality, '--nofs', '-'])
-        const readStream = Readable.from(buffer.toString())
-        const distStream = new stream.Writable()
-        const resBuffer = Buffer.from([])
+        const pngQuanter = new PngQuant([256, '--quality', quality, '--nofs', '-'])
+        const stream: Readable = Readable.from(buffer).pipe(pngQuanter)
+        let chunks = []
 
-        distStream.on('close', (data) => {
-          console.log(data)
+        return new Promise<Buffer>((resolve, reject) => {
+          stream.on('data', (data) => {
+            chunks = [...chunks, ...data]
+          })
+          stream.on('end', () => {
+            resolve(Buffer.from(chunks))
+          })
         })
-
-        readStream.pipe(pngQuanter).pipe(distStream)
-        return
       }
     }
 
