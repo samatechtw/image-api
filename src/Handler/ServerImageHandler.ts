@@ -87,14 +87,21 @@ class ServerImageHandler {
       config.outputFormat &&
       config.inputFormat !== config.outputFormat
     ) {
+      let hasMatchedProcessor = false
+
       for (const processor of this.processors) {
         if (
           processor.readFormats.indexOf(config.inputFormat) > -1 &&
           processor.writeFormats.indexOf(config.outputFormat) > -1
         ) {
+          hasMatchedProcessor = true
           resBuffer = await processor.convert(resBuffer, config.outputFormat)
           break
         }
+      }
+
+      if (!hasMatchedProcessor) {
+        throw `Can not convert ${config.inputFormat} to ${config.outputFormat}: no matched processor.`
       }
     }
 

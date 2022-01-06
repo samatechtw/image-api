@@ -5,16 +5,24 @@ class PathStore {
     return path.resolve(__dirname)
   }
 
-  get asset() {
-    return path.resolve(__dirname, 'src', 'asset')
+  get src() {
+    return path.resolve(__dirname, 'src')
   }
 
-  get testAsset() {
-    return path.resolve(__dirname, 'src', 'asset', 'test')
+  get dist() {
+    return path.resolve(__dirname, 'dist')
   }
 
   get testOut() {
     return path.resolve(__dirname, 'testOut')
+  }
+
+  get asset() {
+    return path.resolve(this.src, 'asset')
+  }
+
+  get testAsset() {
+    return path.resolve(this.src, 'asset', 'test')
   }
 }
 
