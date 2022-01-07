@@ -10,8 +10,16 @@ export default [
     input: path.resolve(pathStore.src, 'Handler', 'ServerImageHandler.ts'),
     output: {
       file: path.resolve(pathStore.dist, 'ServerImageHandler.js'),
-      format: 'cjs',
+      sourcemap: true,
     },
-    plugins: [typescript(), resolve(), commonjs(), json()],
+    plugins: [
+      typescript(),
+      resolve({
+        preferBuiltins: true,
+      }),
+      commonjs(),
+      json(),
+    ],
+    external: ['sharp'],
   },
 ]

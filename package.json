@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "build": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript"
   },
   "repository": {
     "type": "git",
