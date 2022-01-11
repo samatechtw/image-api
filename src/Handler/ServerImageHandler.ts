@@ -57,7 +57,7 @@ class ServerImageHandler {
       throw `Input format ${config.inputFormat} is not supported`
     }
 
-    if (this.writeFormats.indexOf(config.outputFormat) === -1) {
+    if (config.outputFormat && this.writeFormats.indexOf(config.outputFormat) === -1) {
       throw `Output format ${config.outputFormat} is not supported`
     }
 
@@ -82,11 +82,7 @@ class ServerImageHandler {
     }
 
     // then convert
-    if (
-      config.inputFormat &&
-      config.outputFormat &&
-      config.inputFormat !== config.outputFormat
-    ) {
+    if (config.outputFormat && config.inputFormat !== config.outputFormat) {
       let hasMatchedProcessor = false
 
       for (const processor of this.processors) {
