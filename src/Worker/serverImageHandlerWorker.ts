@@ -10,5 +10,5 @@ const ping = () => {
 
 worker({
   ping: ping,
-  handle: handler.handle,
+  handlePath: handler.handlePath,
 })

@@ -9,6 +9,9 @@ import SquooshOptimizer from '../Optimizer/SquooshOptimizer'
 import PngquantOptimizer from '../Optimizer/PngquantOptimizer'
 import SvgoOptimizer from '../Optimizer/SvgoOptimizer'
 import EnumOptimizeAlgo from '../Enum/EnumOptimizeAlgo'
+import { readFile, writeFile } from 'node:fs/promises'
+import * as path from 'path'
+import * as os from 'os'
 
 class ServerImageHandler {
   // sort by performance
@@ -51,7 +54,7 @@ class ServerImageHandler {
     return _.uniq(res)
   }
 
-  async handle(buffer: Buffer, config: IServerImageHandlerConfig): Promise<Buffer> {
+  handle = async (buffer: Buffer, config: IServerImageHandlerConfig): Promise<Buffer> => {
     // check format
     if (this.readFormats.indexOf(config.inputFormat) === -1) {
       throw `Input format ${config.inputFormat} is not supported`
@@ -115,7 +118,23 @@ class ServerImageHandler {
       }
     }
 
-    return resBuffer
+    // convert to buffer type again because some optimizer output uint8array
+    return Buffer.from(resBuffer)
+  }
+
+  // for worker
+  handlePath = async (
+    inputPath: string,
+    config: IServerImageHandlerConfig,
+  ): Promise<string> => {
+    const inputBuffer = await readFile(inputPath)
+    const outputBuffer = await this.handle(inputBuffer, config)
+    // can not use uuid module in child_process
+    const outputPath = path.resolve(os.tmpdir(), Math.random().toString())
+
+    await writeFile(outputPath, outputBuffer)
+
+    return outputPath
   }
 }
 

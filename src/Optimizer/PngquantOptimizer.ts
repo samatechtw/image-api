@@ -1,9 +1,8 @@
-import * as PngQuant from 'pngquant'
+import PngQuant from 'pngquant'
 import IOptimizer from '../Interface/IOptimizer'
 import EnumOptimizeAlgo from '../Enum/EnumOptimizeAlgo'
 import EnumPngOptimizeAlgo from '../Enum/EnumPngOptimizeAlgo'
 import { Readable, Writable } from 'stream'
-import * as stream from 'stream'
 import { Buffer } from 'buffer'
 
 class PngquantOptimizer implements IOptimizer {
