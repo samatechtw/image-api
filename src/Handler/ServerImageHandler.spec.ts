@@ -19,7 +19,7 @@ describe('ServerImageHandler', () => {
     const sourceBuffer = await readFile(
       path.resolve(pathStore.testAsset, 'wtm_256x256.jpg'),
     )
-    const resultBuffer = await handler.handle(sourceBuffer, {
+    const resultBuffer = await handler.handleBuffer(sourceBuffer, {
       width: 48,
       height: 48,
       inputFormat: EnumFileFormat.jpg,
@@ -37,7 +37,7 @@ describe('ServerImageHandler', () => {
     const sourceBuffer = await readFile(
       path.resolve(pathStore.testAsset, 'wtm_256x256.jpg'),
     )
-    const resultBuffer = await handler.handle(sourceBuffer, {
+    const resultBuffer = await handler.handleBuffer(sourceBuffer, {
       inputFormat: EnumFileFormat.jpg,
       outputFormat: EnumFileFormat.png,
     })
@@ -53,7 +53,7 @@ describe('ServerImageHandler', () => {
     const sourceBuffer = await readFile(
       path.resolve(pathStore.testAsset, 'wtm_256x256.jpg'),
     )
-    const resultBuffer = await handler.handle(sourceBuffer, {
+    const resultBuffer = await handler.handleBuffer(sourceBuffer, {
       inputFormat: EnumFileFormat.jpg,
       optimizeAlgo: EnumJpegOptimizeAlgo.mozjpeg,
       quality: 90,
@@ -71,7 +71,7 @@ describe('ServerImageHandler', () => {
     const sourceBuffer = await readFile(
       path.resolve(pathStore.testAsset, 'wtm_256x256.jpg'),
     )
-    const resultBuffer = await handler.handle(sourceBuffer, {
+    const resultBuffer = await handler.handleBuffer(sourceBuffer, {
       inputFormat: EnumFileFormat.jpg,
       outputFormat: EnumFileFormat.png,
       width: 48,
@@ -89,7 +89,7 @@ describe('ServerImageHandler', () => {
     const sourceBuffer = await readFile(
       path.resolve(pathStore.testAsset, 'wtm_256x256.jpg'),
     )
-    const resultBuffer = await handler.handle(sourceBuffer, {
+    const resultBuffer = await handler.handleBuffer(sourceBuffer, {
       inputFormat: EnumFileFormat.jpg,
       outputFormat: EnumFileFormat.png,
       optimizeAlgo: EnumPngOptimizeAlgo.pngquant,
@@ -108,7 +108,7 @@ describe('ServerImageHandler', () => {
     const sourceBuffer = await readFile(
       path.resolve(pathStore.testAsset, 'wtm_256x256.jpg'),
     )
-    const resultBuffer = await handler.handle(sourceBuffer, {
+    const resultBuffer = await handler.handleBuffer(sourceBuffer, {
       inputFormat: EnumFileFormat.jpg,
       width: 48,
       height: 48,
@@ -128,7 +128,7 @@ describe('ServerImageHandler', () => {
     const sourceBuffer = await readFile(
       path.resolve(pathStore.testAsset, 'wtm_256x256.jpg'),
     )
-    const resultBuffer = await handler.handle(sourceBuffer, {
+    const resultBuffer = await handler.handleBuffer(sourceBuffer, {
       inputFormat: EnumFileFormat.jpg,
       outputFormat: EnumFileFormat.png,
       width: 48,
@@ -149,7 +149,7 @@ describe('ServerImageHandler', () => {
     const sourceBuffer = await readFile(
       path.resolve(pathStore.testAsset, 'wtm_256x256.jpg'),
     )
-    const resultBuffer = await handler.handle(sourceBuffer, {
+    const resultBuffer = await handler.handleBuffer(sourceBuffer, {
       inputFormat: EnumFileFormat.jpg,
     })
     const resultMeta = await sharp(resultBuffer).metadata()

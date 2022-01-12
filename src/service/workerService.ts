@@ -21,8 +21,11 @@ export class WorkerService {
     return resBuffer
   }
 
-  async handle(buffer: Buffer, config: IServerImageHandlerConfig): Promise<Buffer> {
-    let resBuffer = await this.workerPool.exec('handle', [buffer, config])
+  async handlePath(
+    sourcePath: string,
+    config: IServerImageHandlerConfig,
+  ): Promise<string> {
+    let resBuffer = await this.workerPool.exec('handlePath', [sourcePath, config])
 
     return resBuffer
   }

@@ -54,7 +54,10 @@ class ServerImageHandler {
     return _.uniq(res)
   }
 
-  handle = async (buffer: Buffer, config: IServerImageHandlerConfig): Promise<Buffer> => {
+  handleBuffer = async (
+    buffer: Buffer,
+    config: IServerImageHandlerConfig,
+  ): Promise<Buffer> => {
     // check format
     if (this.readFormats.indexOf(config.inputFormat) === -1) {
       throw `Input format ${config.inputFormat} is not supported`
@@ -128,9 +131,12 @@ class ServerImageHandler {
     config: IServerImageHandlerConfig,
   ): Promise<string> => {
     const inputBuffer = await readFile(inputPath)
-    const outputBuffer = await this.handle(inputBuffer, config)
+    const outputBuffer = await this.handleBuffer(inputBuffer, config)
     // can not use uuid module in child_process
-    const outputPath = path.resolve(os.tmpdir(), Math.random().toString())
+    const outputPath = path.resolve(
+      os.tmpdir(),
+      (Math.random() * Math.pow(10, 16)).toString(),
+    )
 
     await writeFile(outputPath, outputBuffer)
 

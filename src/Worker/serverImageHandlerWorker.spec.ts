@@ -5,7 +5,7 @@ import { readFile, unlink } from 'node:fs/promises'
 import IServerImageHandlerConfig from '../Interface/IServerImageHandlerConfig'
 import ServerImageHandler from '../Handler/ServerImageHandler'
 import { EnumFileFormat } from '../Enum/EnumFileFormat'
-import EnumJpegOptimizeAlgo from '../Enum/EnumJpegOpitmizeAlgo'
+import EnumPngOptimizeAlgo from '../Enum/EnumPngOptimizeAlgo'
 
 describe('serverImageHandlerWorker', () => {
   it('ping()', async () => {
@@ -32,7 +32,7 @@ describe('serverImageHandlerWorker', () => {
     const resBuffer = await readFile(resPath)
     await unlink(resPath)
     const handler = new ServerImageHandler()
-    const expectRes = await handler.handle(sourceBuffer, config)
+    const expectRes = await handler.handleBuffer(sourceBuffer, config)
 
     expect(resBuffer).toEqual(expectRes)
   })
@@ -51,7 +51,7 @@ describe('serverImageHandlerWorker', () => {
     const resBuffer = await readFile(resPath)
     await unlink(resPath)
     const handler = new ServerImageHandler()
-    const expectRes = await handler.handle(sourceBuffer, config)
+    const expectRes = await handler.handleBuffer(sourceBuffer, config)
 
     expect(resBuffer).toEqual(expectRes)
   })
@@ -60,18 +60,18 @@ describe('serverImageHandlerWorker', () => {
     const workerPool = pool(path.resolve(pathStore.dist, 'serverImageHandlerWorker.js'), {
       workerType: 'process',
     })
-    const sourcePath = path.resolve(pathStore.testAsset, 'wtm_256x256.jpg')
+    const sourcePath = path.resolve(pathStore.testAsset, 'wtm_256x256.png')
     const sourceBuffer = await readFile(sourcePath)
     const config: IServerImageHandlerConfig = {
-      inputFormat: EnumFileFormat.jpg,
-      optimizeAlgo: EnumJpegOptimizeAlgo.mozjpeg,
+      inputFormat: EnumFileFormat.png,
+      optimizeAlgo: EnumPngOptimizeAlgo.pngquant,
       quality: 90,
     }
     const resPath = await workerPool.exec('handlePath', [sourcePath, config])
     const resBuffer = await readFile(resPath)
     await unlink(resPath)
     const handler = new ServerImageHandler()
-    const expectRes = await handler.handle(sourceBuffer, config)
+    const expectRes = await handler.handleBuffer(sourceBuffer, config)
 
     expect(resBuffer).toEqual(expectRes)
   })

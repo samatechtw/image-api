@@ -23,6 +23,6 @@ export default [
       json(),
       wasm(),
     ],
-    external: ['sharp', '@squoosh/lib'],
+    external: ['sharp', '@squoosh/lib', 'pngquant'],
   },
 ]
