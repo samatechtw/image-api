@@ -16,7 +16,7 @@ class SvgoOptimizer implements IOptimizer {
       case EnumSvgOptimizeAlgo.svgo: {
         const svgStr = buffer.toString('utf8')
         const res = svgo.optimize(svgStr)
-        const resBuffer = Buffer.from(res.data)
+        const resBuffer = Buffer.from(res['data'])
 
         return resBuffer
       }

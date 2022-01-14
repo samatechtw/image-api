@@ -3,6 +3,7 @@ import pathStore from '../../pathStore'
 import { cpus, pool } from 'workerpool'
 import { Buffer } from 'buffer'
 import IServerImageHandlerConfig from '../Interface/IServerImageHandlerConfig'
+import ProcessJob from '../Klass/ProcessJob'
 
 export class WorkerService {
   private get workerPath() {
@@ -22,12 +23,11 @@ export class WorkerService {
   }
 
   async handlePath(
-    sourcePath: string,
+    inputPath: string,
+    outputPath: string,
     config: IServerImageHandlerConfig,
-  ): Promise<string> {
-    let resBuffer = await this.workerPool.exec('handlePath', [sourcePath, config])
-
-    return resBuffer
+  ) {
+    await this.workerPool.exec('handlePath', [inputPath, outputPath, config])
   }
 }
 

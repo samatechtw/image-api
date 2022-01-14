@@ -128,19 +128,13 @@ class ServerImageHandler {
   // for worker
   handlePath = async (
     inputPath: string,
+    outputPath: string,
     config: IServerImageHandlerConfig,
-  ): Promise<string> => {
+  ) => {
     const inputBuffer = await readFile(inputPath)
     const outputBuffer = await this.handleBuffer(inputBuffer, config)
-    // can not use uuid module in child_process
-    const outputPath = path.resolve(
-      os.tmpdir(),
-      (Math.random() * Math.pow(10, 16)).toString(),
-    )
 
     await writeFile(outputPath, outputBuffer)
-
-    return outputPath
   }
 }
 

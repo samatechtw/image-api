@@ -7,6 +7,8 @@ import ServerImageHandler from '../Handler/ServerImageHandler'
 import { readFile, unlink } from 'node:fs/promises'
 import EnumJpegOptimizeAlgo from '../Enum/EnumJpegOpitmizeAlgo'
 import EnumPngOptimizeAlgo from '../Enum/EnumPngOptimizeAlgo'
+import * as os from 'os'
+import { v4 } from 'uuid'
 
 describe('workerService', () => {
   it('constructor()', async () => {
@@ -43,15 +45,18 @@ describe('workerService', () => {
       optimizeAlgo: EnumPngOptimizeAlgo.pngquant,
       quality: 90,
     }
-    const resPath = await workerService.handlePath(sourcePath, config)
+    const resPath = path.resolve(os.tmpdir(), v4())
+    await workerService.handlePath(sourcePath, resPath, config)
+
+    const expectPath = path.resolve(os.tmpdir(), v4())
     const handler = new ServerImageHandler()
-    const expectResPath = await handler.handlePath(sourcePath, config)
+    await handler.handlePath(sourcePath, expectPath, config)
 
     const resBuffer = await readFile(resPath)
-    const expectResBuffer = await readFile(expectResPath)
+    const expectResBuffer = await readFile(expectPath)
 
     await unlink(resPath)
-    await unlink(expectResPath)
+    await unlink(expectPath)
 
     expect(resBuffer).toEqual(expectResBuffer)
   })
@@ -80,12 +85,16 @@ describe('workerService', () => {
       optimizeAlgo: EnumPngOptimizeAlgo.pngquant,
       quality: 90,
     }
+    const resPath1 = path.resolve(os.tmpdir(), v4())
+    const resPath2 = path.resolve(os.tmpdir(), v4())
+    const resPath3 = path.resolve(os.tmpdir(), v4())
+    const resPath4 = path.resolve(os.tmpdir(), v4())
 
-    const [resPath1, resPath2, resPath3, resPath4] = await Promise.all([
-      workerService.handlePath(sourcePath, config1),
-      workerService.handlePath(sourcePath, config2),
-      workerService.handlePath(sourcePath, config3),
-      workerService.handlePath(sourcePath, config4),
+    await Promise.all([
+      workerService.handlePath(sourcePath, resPath1, config1),
+      workerService.handlePath(sourcePath, resPath2, config2),
+      workerService.handlePath(sourcePath, resPath3, config3),
+      workerService.handlePath(sourcePath, resPath4, config4),
     ])
 
     const resBuffer1 = await readFile(resPath1)
@@ -93,11 +102,15 @@ describe('workerService', () => {
     const resBuffer3 = await readFile(resPath3)
     const resBuffer4 = await readFile(resPath4)
 
+    const expectResPath1 = path.resolve(os.tmpdir(), v4())
+    const expectResPath2 = path.resolve(os.tmpdir(), v4())
+    const expectResPath3 = path.resolve(os.tmpdir(), v4())
+    const expectResPath4 = path.resolve(os.tmpdir(), v4())
     const handler = new ServerImageHandler()
-    const expectResPath1 = await handler.handlePath(sourcePath, config1)
-    const expectResPath2 = await handler.handlePath(sourcePath, config2)
-    const expectResPath3 = await handler.handlePath(sourcePath, config3)
-    const expectResPath4 = await handler.handlePath(sourcePath, config4)
+    await handler.handlePath(sourcePath, expectResPath1, config1)
+    await handler.handlePath(sourcePath, expectResPath2, config2)
+    await handler.handlePath(sourcePath, expectResPath3, config3)
+    await handler.handlePath(sourcePath, expectResPath4, config4)
 
     const expectResBuffer1 = await readFile(expectResPath1)
     const expectResBuffer2 = await readFile(expectResPath2)
