@@ -3,7 +3,7 @@ import pathStore from '../../pathStore'
 import { cpus, pool } from 'workerpool'
 import { Buffer } from 'buffer'
 import IServerImageHandlerConfig from '../Interface/IServerImageHandlerConfig'
-import ProcessJob from '../Klass/ProcessJob'
+import ProcessData from '../Klass/ProcessData'
 
 export class WorkerService {
   private get workerPath() {

@@ -1,38 +1,30 @@
-import PQueue from 'p-queue'
-import { cpus } from 'workerpool'
-import ProcessJob from '../Klass/ProcessJob'
-import { createClient } from 'redis'
-import EnumProcessJobStatus from '../Enum/EnumProcessJobStatus'
+import ProcessData from '../Klass/ProcessData'
+import Bull from 'bull'
 import workerService from './workerService'
 
 export class QueueService {
-  queue = new PQueue({
-    concurrency: cpus,
-  })
-  redis = createClient()
+  queue = new Bull('workerQueue')
 
-  async add(job: ProcessJob) {
-    await this.queue.add(async () => {
-      await workerService.handlePath(job.tempInputPath, job.tempOutputPath, job.config)
-      job.status = EnumProcessJobStatus.complete
-      await this.redis.set(job.id, job.toString())
-      return
-    })
-    job.status = EnumProcessJobStatus.inQueue
-    await this.redis.set(job.id, job.toString())
+  async add(data: ProcessData): Promise<number> {
+    const bullJob = await this.queue.add(data)
+    return bullJob.id as number
   }
 
-  async removeById(jobId: string) {
-    // todo: how to remove in p-queue?
-    return await this.redis.del(jobId)
+  async removeById(jobId: number) {
+    let bullJob = await this.queue.getJob(jobId)
+    await bullJob.remove()
   }
 
-  async getById(jobId: string) {
-    return await this.redis.get(jobId)
+  async getById(jobId: number) {
+    let bullJob = await this.queue.getJob(jobId)
+    return bullJob.data
   }
 
   async init() {
-    await this.redis.connect()
+    this.queue.process(async (bullJob) => {
+      let data: ProcessData = bullJob.data
+      await workerService.handlePath(data.tempInputPath, data.tempOutputPath, data.config)
+    })
   }
 
   constructor() {}
