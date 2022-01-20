@@ -1,5 +1,4 @@
 import * as path from 'path'
-import pathStore from './pathStore'
 import typescript from '@rollup/plugin-typescript'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
@@ -8,14 +7,16 @@ import wasm from '@rollup/plugin-wasm'
 
 export default [
   {
-    input: path.resolve(pathStore.src, 'Worker', 'serverImageHandlerWorker.ts'),
+    input: path.resolve('src', 'Worker', 'serverImageHandlerWorker.ts'),
     output: {
-      file: path.resolve(pathStore.dist, 'serverImageHandlerWorker.js'),
+      file: path.resolve('dist', 'serverImageHandlerWorker.js'),
       sourcemap: true,
       format: 'cjs',
     },
     plugins: [
-      typescript(),
+      typescript({
+        module: 'esnext',
+      }),
       resolve({
         preferBuiltins: true,
       }),

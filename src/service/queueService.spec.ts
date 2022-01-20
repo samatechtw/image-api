@@ -33,8 +33,6 @@ describe('queueService basic', () => {
       path.resolve(pathStore.testAsset, 'wtm_256x256.jpeg'),
       data.tempInputPath,
     )
-    console.log(data.tempInputPath)
-    console.log(data.tempOutputPath)
     const jobId = await queueService.add(data)
     const job = await queueService.queue.getJob(jobId)
 
