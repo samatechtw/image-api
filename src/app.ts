@@ -1,3 +1,0 @@
-let run = async () => {}
-
-run()

@@ -1,10 +1,10 @@
 import * as path from 'path'
-import pathStore from './pathStore'
 import typescript from '@rollup/plugin-typescript'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
 import wasm from '@rollup/plugin-wasm'
+import pathStore from './pathStore'
 
 export default [
   {
@@ -15,7 +15,9 @@ export default [
       format: 'cjs',
     },
     plugins: [
-      typescript(),
+      typescript({
+        module: 'esnext',
+      }),
       resolve({
         preferBuiltins: true,
       }),
