@@ -2,7 +2,7 @@ import PngquantOptimizer from './PngquantOptimizer'
 import { readFile } from 'fs/promises'
 import pathStore from '../../pathStore'
 import EnumJpegOptimizeAlgo from '../Enum/EnumJpegOpitmizeAlgo'
-import * as path from 'path'
+import path from 'path'
 import { writeFile } from 'node:fs/promises'
 import EnumPngOptimizeAlgo from '../Enum/EnumPngOptimizeAlgo'
 

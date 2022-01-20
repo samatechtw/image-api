@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "module": "CommonJS",
     "moduleResolution": "Node",
     "target": "ESNext",
     "sourceMap": true,
@@ -9,5 +8,11 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
   },
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    }
+  ],
+  "include": ["src/**/*.ts", "src/**/*.js", "pathStore.ts"],
   "exclude": ["node_modules"]
 }

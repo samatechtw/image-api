@@ -10,7 +10,7 @@ import PngquantOptimizer from '../Optimizer/PngquantOptimizer'
 import SvgoOptimizer from '../Optimizer/SvgoOptimizer'
 import EnumOptimizeAlgo from '../Enum/EnumOptimizeAlgo'
 import { readFile, writeFile } from 'node:fs/promises'
-import * as path from 'path'
+import path from 'path'
 import * as os from 'os'
 
 class ServerImageHandler {

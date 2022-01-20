@@ -1,3 +1,5 @@
 /dist
 /node_modules
 /testOut
+
+pnpm-lock.yaml

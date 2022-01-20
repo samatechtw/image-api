@@ -1,7 +1,7 @@
 import { SharpProcessor } from './SharpProcessor'
 import { readFile, writeFile } from 'node:fs/promises'
 import pathStore from '../../pathStore'
-import * as path from 'path'
+import path from 'path'
 
 describe('SharpProcessor', () => {
   it('constructor()', async () => {
