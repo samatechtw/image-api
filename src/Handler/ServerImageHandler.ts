@@ -1,6 +1,6 @@
 import { IProcessor } from '../Interface/IProcessor'
 import { SharpProcessor } from '../Processor/SharpProcessor'
-import { EnumFileFormat } from '../Enum/EnumFileFormat'
+import EnumFileFormat from '../Enum/EnumFileFormat'
 import * as _ from 'lodash'
 import { Buffer } from 'buffer'
 import IServerImageHandlerConfig from '../Interface/IServerImageHandlerConfig'

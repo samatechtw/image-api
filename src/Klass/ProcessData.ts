@@ -2,7 +2,7 @@ import { v4 } from 'uuid'
 import EnumProcessJobStatus from '../Enum/EnumProcessJobStatus'
 import { unlink } from 'node:fs/promises'
 import IServerImageHandlerConfig from '../Interface/IServerImageHandlerConfig'
-import { EnumFileFormat } from '../Enum/EnumFileFormat'
+import EnumFileFormat from '../Enum/EnumFileFormat'
 import path from 'path'
 import * as os from 'os'
 

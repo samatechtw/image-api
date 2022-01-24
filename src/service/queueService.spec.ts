@@ -5,7 +5,7 @@ import pWaitFor from 'p-wait-for'
 import { copyFile } from 'node:fs/promises'
 import path from 'path'
 import pathStore from '../../pathStore'
-import { EnumFileFormat } from '../Enum/EnumFileFormat'
+import EnumFileFormat from '../Enum/EnumFileFormat'
 
 describe('queueService basic', () => {
   it('constructor()', async () => {

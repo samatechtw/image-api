@@ -4,7 +4,7 @@ import pathStore from '../../pathStore'
 import { readFile, unlink } from 'node:fs/promises'
 import IServerImageHandlerConfig from '../Interface/IServerImageHandlerConfig'
 import ServerImageHandler from '../Handler/ServerImageHandler'
-import { EnumFileFormat } from '../Enum/EnumFileFormat'
+import EnumFileFormat from '../Enum/EnumFileFormat'
 import EnumPngOptimizeAlgo from '../Enum/EnumPngOptimizeAlgo'
 
 describe('serverImageHandlerWorker', () => {

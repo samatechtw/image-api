@@ -1,5 +1,5 @@
 import * as Buffer from 'buffer'
-import { EnumFileFormat } from '../Enum/EnumFileFormat'
+import EnumFileFormat from '../Enum/EnumFileFormat'
 
 export interface IProcessor {
   readFormats: EnumFileFormat[]

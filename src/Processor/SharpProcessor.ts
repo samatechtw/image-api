@@ -1,5 +1,5 @@
 import { IProcessor } from '../Interface/IProcessor'
-import { EnumFileFormat } from '../Enum/EnumFileFormat'
+import EnumFileFormat from '../Enum/EnumFileFormat'
 import sharp from 'sharp'
 
 export class SharpProcessor implements IProcessor {

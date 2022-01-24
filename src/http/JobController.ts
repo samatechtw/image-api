@@ -1,11 +1,25 @@
 import JobService from './JobService'
-import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common'
-import AddJobDto from '../Dto/AddJobDto'
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Post,
+  Put,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common'
+import { FileInterceptor } from '@nestjs/platform-express'
 
-@Controller('queue')
+@Controller('job')
 class JobController {
   @Post()
-  async add(@Body() addQueueDto: AddJobDto) {}
+  @UseInterceptors(FileInterceptor('file'))
+  async add(@UploadedFile() file: Express.Multer.File, @Body() body) {
+    let jobId = await this.jobService.add(file.filename, file.buffer, body['config'])
+
+    return 0
+  }
 
   @Delete(':id')
   async removeById() {}
@@ -19,7 +33,7 @@ class JobController {
   @Get(':id')
   async getById() {}
 
-  constructor(private readonly queueService: JobService) {}
+  constructor(private readonly jobService: JobService) {}
 }
 
 export default JobController

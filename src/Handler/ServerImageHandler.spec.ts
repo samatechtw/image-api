@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises'
 import path from 'path'
 import pathStore from '../../pathStore'
 import sharp from 'sharp'
-import { EnumFileFormat } from '../Enum/EnumFileFormat'
+import EnumFileFormat from '../Enum/EnumFileFormat'
 import EnumJpegOptimizeAlgo from '../Enum/EnumJpegOpitmizeAlgo'
 import EnumPngOptimizeAlgo from '../Enum/EnumPngOptimizeAlgo'
 
