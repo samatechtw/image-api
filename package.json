@@ -22,6 +22,7 @@
   "homepage": "https://github.com/samatechtw/image-api#readme",
   "devDependencies": {
     "@nestjs/cli": "^8.2.0",
+    "@nestjs/testing": "^8.2.6",
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-typescript": "^8.3.0",
@@ -72,6 +73,7 @@
     "@types/uuid": "^8.3.4",
     "bull": "^4.2.1",
     "lodash": "^4.17.21",
+    "node-fetch": "^3.2.0",
     "p-wait-for": "^4.1.0",
     "pngquant": "^4.0.0",
     "reflect-metadata": "^0.1.13",

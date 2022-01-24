@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core'
-import { AppModule } from './http/app.module'
 import { NestExpressApplication } from '@nestjs/platform-express'
+import AppModule from './http/AppModule'
 
 let run = async () => {
   const app = await NestFactory.create<NestExpressApplication>(AppModule)
