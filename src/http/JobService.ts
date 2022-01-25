@@ -30,6 +30,10 @@ class JobService {
 
     return jobId
   }
+
+  async removeById(jobId: number) {
+    await queueService.removeById(jobId)
+  }
 }
 
 export default JobService
