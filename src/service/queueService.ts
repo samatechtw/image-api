@@ -15,7 +15,7 @@ export class QueueService {
     await bullJob.remove()
   }
 
-  async getById(jobId: number) {
+  async getById(jobId: number): Promise<ProcessData> {
     let bullJob = await this.queue.getJob(jobId)
     return bullJob.data
   }

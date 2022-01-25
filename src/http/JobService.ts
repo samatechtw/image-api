@@ -34,6 +34,15 @@ class JobService {
   async removeById(jobId: number) {
     await queueService.removeById(jobId)
   }
+
+  async getAll(): Promise<ProcessData[]> {
+    return []
+  }
+
+  async getById(jobId: number): Promise<ProcessData> {
+    let data = await queueService.getById(jobId)
+    return data
+  }
 }
 
 export default JobService

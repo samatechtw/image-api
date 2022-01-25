@@ -37,7 +37,10 @@ class JobController {
 
   @Get(':id')
   @HttpCode(200)
-  async getById() {}
+  async getById(@Param('id') id: string) {
+    let data = await this.jobService.getById(parseInt(id))
+    return data
+  }
 
   constructor(private readonly jobService: JobService) {}
 }

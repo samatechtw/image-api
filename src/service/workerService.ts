@@ -1,5 +1,5 @@
 import path from 'path'
-import pathStore from '../../pathStore'
+import pathStore from '../store/pathStore'
 import { cpus, pool } from 'workerpool'
 import { Buffer } from 'buffer'
 import IServerImageHandlerConfig from '../Interface/IServerImageHandlerConfig'
