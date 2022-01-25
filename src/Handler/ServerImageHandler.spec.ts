@@ -1,7 +1,7 @@
 import ServerImageHandler from './ServerImageHandler'
 import { readFile } from 'node:fs/promises'
 import path from 'path'
-import pathStore from '../../pathStore'
+import pathStore from '../store/pathStore'
 import sharp from 'sharp'
 import EnumFileFormat from '../Enum/EnumFileFormat'
 import EnumJpegOptimizeAlgo from '../Enum/EnumJpegOpitmizeAlgo'

@@ -1,6 +1,6 @@
 import { SharpProcessor } from './SharpProcessor'
 import { readFile, writeFile } from 'node:fs/promises'
-import pathStore from '../../pathStore'
+import pathStore from '../store/pathStore'
 import * as path from 'path'
 
 describe('SharpProcessor', () => {

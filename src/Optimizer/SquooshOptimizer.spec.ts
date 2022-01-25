@@ -1,6 +1,6 @@
 import { readFile } from 'fs/promises'
 import SquooshOptimizer from './SquooshOptimizer'
-import pathStore from '../../pathStore'
+import pathStore from '../store/pathStore'
 import * as path from 'path'
 import { writeFile } from 'node:fs/promises'
 

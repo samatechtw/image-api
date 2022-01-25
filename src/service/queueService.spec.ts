@@ -4,7 +4,7 @@ import { existsSync } from 'fs'
 import pWaitFor from 'p-wait-for'
 import { copyFile } from 'node:fs/promises'
 import path from 'path'
-import pathStore from '../../pathStore'
+import pathStore from '../store/pathStore'
 import EnumFileFormat from '../Enum/EnumFileFormat'
 
 describe('queueService basic', () => {

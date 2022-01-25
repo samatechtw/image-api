@@ -1,6 +1,6 @@
 import workerService, { WorkerService } from './workerService'
 import path from 'path'
-import pathStore from '../../pathStore'
+import pathStore from '../store/pathStore'
 import IServerImageHandlerConfig from '../Interface/IServerImageHandlerConfig'
 import EnumFileFormat from '../Enum/EnumFileFormat'
 import ServerImageHandler from '../Handler/ServerImageHandler'

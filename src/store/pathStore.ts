@@ -1,20 +1,21 @@
 import * as path from 'path'
+import rootPath from 'app-root-path'
 
 class PathStore {
   get root() {
-    return path.resolve(__dirname)
+    return rootPath.path
   }
 
   get src() {
-    return path.resolve(__dirname, 'src')
+    return path.resolve(this.root, 'src')
   }
 
   get dist() {
-    return path.resolve(__dirname, 'dist')
+    return path.resolve(this.root, 'dist')
   }
 
   get testOut() {
-    return path.resolve(__dirname, 'testOut')
+    return path.resolve(this.root, 'testOut')
   }
 
   get asset() {
