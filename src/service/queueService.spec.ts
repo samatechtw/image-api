@@ -17,7 +17,7 @@ describe('queueService basic', () => {
   })
 })
 
-describe('queueService basic', () => {
+describe('queueService', () => {
   beforeAll(async () => {
     await queueService.init()
   })

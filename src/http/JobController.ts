@@ -16,9 +16,10 @@ class JobController {
   @Post()
   @UseInterceptors(FileInterceptor('file'))
   async add(@UploadedFile() file: Express.Multer.File, @Body() body) {
-    let jobId = await this.jobService.add(file.filename, file.buffer, body['config'])
+    const config = JSON.parse(body['config'])
+    const jobId = await this.jobService.add(file.originalname, file.buffer, config)
 
-    return 0
+    return jobId
   }
 
   @Delete(':id')
