@@ -4,6 +4,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  Param,
   Post,
   Put,
   UploadedFile,
@@ -14,6 +16,7 @@ import { FileInterceptor } from '@nestjs/platform-express'
 @Controller('job')
 class JobController {
   @Post()
+  @HttpCode(201)
   @UseInterceptors(FileInterceptor('file'))
   async add(@UploadedFile() file: Express.Multer.File, @Body() body) {
     const config = JSON.parse(body['config'])
@@ -23,15 +26,17 @@ class JobController {
   }
 
   @Delete(':id')
-  async removeById() {}
-
-  @Put(':id')
-  async updateById() {}
+  @HttpCode(204)
+  async removeById(@Param('id') id: string) {
+    await this.jobService.removeById(parseInt(id))
+  }
 
   @Get()
+  @HttpCode(200)
   async getAll() {}
 
   @Get(':id')
+  @HttpCode(200)
   async getById() {}
 
   constructor(private readonly jobService: JobService) {}

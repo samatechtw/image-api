@@ -56,9 +56,41 @@ describe('AppModule', () => {
       body: formData,
     })
     const text = await fetched.text()
+    const jobId = parseInt(text)
 
     expect(fetched.ok).toEqual(true)
     expect(fetched.status).toEqual(201)
-    expect(typeof parseInt(text)).toEqual('number')
+    expect(typeof jobId).toEqual('number')
+  })
+
+  it('DELETE /job/:id', async () => {
+    const formData = new FormData()
+    const fileBuffer = await readFile(
+      path.resolve(pathStore.testAsset, 'wtm_256x256.jpeg'),
+    )
+    formData.append('file', fileBuffer, {
+      contentType: 'image/jpeg',
+      filename: 'wtm_256x256.jpeg',
+    })
+    const config: IServerImageHandlerConfig = {
+      inputFormat: EnumFileFormat.jpeg,
+      width: 48,
+      height: 48,
+    }
+    formData.append('config', JSON.stringify(config))
+
+    const fetchedAdd = await fetch('http://localhost:3001/job', {
+      method: 'post',
+      body: formData,
+    })
+    const text = await fetchedAdd.text()
+    const jobId = parseInt(text)
+
+    const fetchedDelete = await fetch(`http://localhost:3001/job/${jobId}`, {
+      method: 'delete',
+    })
+
+    expect(fetchedDelete.ok).toEqual(true)
+    expect(fetchedDelete.status).toEqual(204)
   })
 })
