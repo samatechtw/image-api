@@ -1,3 +1,7 @@
 /dist
 /node_modules
-/testOut
+/test-out
+
+.DS_Store
+
+pnpm-lock.yaml

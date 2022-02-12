@@ -6,7 +6,8 @@
   "scripts": {
     "dev:cp": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript --watch",
     "dev:app": "nest start --watch",
-    "build:cp": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
+    "build:cp-old": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
+    "build:cp": "tsc -p tsconfig.build.json",
     "build:app": "nest build",
     "start": "nest start",
     "test": "jest --runInBand"
@@ -55,7 +56,7 @@
     "semantic-release": "^17.4.7",
     "semantic-release-gitmoji": "^1.3.4",
     "source-map-support": "^0.5.20",
-    "supertest": "^6.1.3",
+    "supertest": "^6.2.2",
     "ts-jest": "27.0.3",
     "ts-loader": "^9.2.6",
     "ts-node": "^10.4.0",
@@ -66,6 +67,7 @@
   },
   "dependencies": {
     "@babel/preset-env": "^7.16.8",
+    "@nestjs/bull": "^0.4.2",
     "@nestjs/common": "^8.0.0",
     "@nestjs/core": "^8.0.0",
     "@nestjs/platform-express": "^8.0.0",
@@ -76,8 +78,9 @@
     "@types/svgo": "^2.6.0",
     "@types/uuid": "^8.3.4",
     "app-root-path": "^3.0.0",
-    "bull": "^4.2.1",
+    "bull": "^3.29.3",
     "form-data": "^4.0.0",
+    "fs-extra": "^10.0.0",
     "lodash": "^4.17.21",
     "node-fetch": "^3.2.0",
     "p-wait-for": "^4.1.0",
