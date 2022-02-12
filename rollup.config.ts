@@ -7,9 +7,9 @@ import wasm from '@rollup/plugin-wasm'
 
 export default [
   {
-    input: path.resolve('src', 'Worker', 'serverImageHandlerWorker.ts'),
+    input: path.resolve('src', 'worker', 'server-image-handler.worker.ts'),
     output: {
-      file: path.resolve('dist', 'serverImageHandlerWorker.js'),
+      file: path.resolve('dist', 'server-image-handler.worker.js'),
       sourcemap: true,
       format: 'cjs',
     },
@@ -25,5 +25,12 @@ export default [
       wasm(),
     ],
     external: ['sharp', '@squoosh/lib', 'pngquant'],
+    // Ignore warnings from third party modules
+    onwarn: (warning, warn) => {
+      if (warning.id?.indexOf(__dirname + '/node_modules/') === 0) {
+        return
+      }
+      warn(warning)
+    },
   },
 ]
