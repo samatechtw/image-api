@@ -10,7 +10,7 @@
     "build:worker": "tsc -p tsconfig.build.json",
     "build:app": "nest build",
     "start": "nest start",
-    "test": "jest --runInBand --detectOpenHandles",
+    "test": "jest",
     "lint": "eslint --ext .js,.ts .",
     "format": "prettier -w \"{**/*,*}.{ts,js,json}\"",
     "format:check": "prettier --check \"{**/*,*}.{ts,js,json}\""
