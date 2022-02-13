@@ -1,5 +1,4 @@
 import { writeFile } from 'node:fs/promises'
-import _ from 'lodash'
 import { Injectable } from '@nestjs/common'
 import { InjectQueue } from '@nestjs/bull'
 import { Queue } from 'bull'
@@ -39,7 +38,7 @@ export class JobService {
   }
 
   async removeById(jobId: number) {
-    let job = await this.workerQueue.getJob(jobId)
+    const job = await this.workerQueue.getJob(jobId)
     await job.remove()
   }
 
@@ -48,11 +47,11 @@ export class JobService {
   }
 
   async getById(jobId: number): Promise<ProcessData> {
-    let data = await this.workerQueue.getJob(jobId)
+    const data = await this.workerQueue.getJob(jobId)
     return data.data
   }
 
-  // TODO -- this is only for testing, consider using a specific test module outside application code
+  // TODO -- only for testing, consider using a specific test module outside application code
   async clear() {
     // TODO is using force here ok, or are we hiding a bug in the tests?
     await this.workerQueue.obliterate({ force: true })

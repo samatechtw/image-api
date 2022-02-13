@@ -18,7 +18,7 @@ export class WorkerService {
 
   async ping(): Promise<string> {
     const handler = new ServerImageHandler()
-    let resBuffer = await this.workerPool.exec(handler.ping, [])
+    const resBuffer = await this.workerPool.exec(handler.ping, [])
 
     return resBuffer
   }

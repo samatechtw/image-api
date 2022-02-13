@@ -8,7 +8,7 @@ export class SquooshOptimizer implements IOptimizer {
 
   async optimize(buffer: Buffer, algo: OptimizeAlgo, quality: number): Promise<Buffer> {
     switch (algo) {
-      case JpegOptimizeAlgo.mozjpeg:
+      case JpegOptimizeAlgo.mozjpeg: {
         const imagePool = new ImagePool()
         const image = imagePool.ingestImage(buffer)
 
@@ -23,6 +23,7 @@ export class SquooshOptimizer implements IOptimizer {
         const res = await image.encodedWith.mozjpeg
 
         return res.binary
+      }
     }
 
     throw `Algo ${algo} is not supported in Squoosh optimizer`

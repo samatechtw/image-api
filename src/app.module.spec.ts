@@ -9,16 +9,16 @@ import { FileFormat } from './enum/file-format'
 import { ProcessData } from './util/process-data'
 import { JobService } from './job/job.service'
 import { JobProcessor } from './job/job.processor'
+import { BullModule, getQueueToken } from '@nestjs/bull'
 
 describe('AppModule', () => {
   let app: INestApplication
   let api: supertest.SuperTest<supertest.Test>
-  let jobService: JobService
-  let jobProcessor: JobProcessor
   let config: IServerImageHandlerConfig
   let moduleRef: TestingModule
-  let jobServiceMock: any
-  let jobProcessorMock: any
+  let jobServiceMock
+  let jobProcessorMock
+  let queue
 
   beforeAll(async () => {
     jobServiceMock = {
@@ -45,9 +45,7 @@ describe('AppModule', () => {
     app = moduleRef.createNestApplication()
     await app.init()
     api = supertest(app.getHttpServer())
-
-    jobService = moduleRef.get<JobService>(JobService)
-    jobProcessor = moduleRef.get<JobProcessor>(JobProcessor)
+    queue = moduleRef.get(getQueueToken('workerQueue'))
   })
 
   beforeEach(async () => {
@@ -59,7 +57,10 @@ describe('AppModule', () => {
   })
 
   afterAll(async () => {
+    // TODO -- this never returns in CI
+    await queue.close()
     await moduleRef.close()
+    await app.close()
   })
 
   it('GET /ping', async () => {

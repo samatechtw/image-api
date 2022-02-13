@@ -15,7 +15,7 @@ export class PngquantOptimizer implements IOptimizer {
         const stream: Readable = Readable.from(buffer).pipe(pngQuanter)
         let chunks = []
 
-        return new Promise<Buffer>((resolve, reject) => {
+        return new Promise<Buffer>((resolve, _reject) => {
           stream.on('data', (data) => {
             chunks = [...chunks, ...data]
           })
