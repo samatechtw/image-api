@@ -26,7 +26,7 @@ export class ServerImageHandler {
   get readFormats(): FileFormat[] {
     let res = []
 
-    for (let processor of this.processors) {
+    for (const processor of this.processors) {
       res = [...res, ...processor.readFormats]
     }
 
@@ -36,7 +36,7 @@ export class ServerImageHandler {
   get writeFormats(): FileFormat[] {
     let res = []
 
-    for (let processor of this.processors) {
+    for (const processor of this.processors) {
       res = [...res, ...processor.writeFormats]
     }
 
@@ -46,7 +46,7 @@ export class ServerImageHandler {
   get acceptOptimizeAlgorithms(): OptimizeAlgo[] {
     let res = []
 
-    for (let optimizer of this.optimizers) {
+    for (const optimizer of this.optimizers) {
       res = [...res, ...optimizer.acceptAlgorithms]
     }
 
@@ -102,7 +102,7 @@ export class ServerImageHandler {
       }
 
       if (!hasMatchedProcessor) {
-        throw `Can not convert ${config.inputFormat} to ${config.outputFormat}: no matched processor.`
+        throw `Can't convert ${config.inputFormat} to ${config.outputFormat}: no matched processor.`
       }
     }
 

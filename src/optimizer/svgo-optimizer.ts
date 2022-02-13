@@ -7,7 +7,7 @@ import { SvgOptimizeAlgo } from '../enum/svg-optimize-algo'
 export class SvgoOptimizer implements IOptimizer {
   acceptAlgorithms: OptimizeAlgo[] = [SvgOptimizeAlgo.svgo]
 
-  async optimize(buffer: Buffer, algo: OptimizeAlgo, quality: number): Promise<Buffer> {
+  async optimize(buffer: Buffer, algo: OptimizeAlgo, _quality: number): Promise<Buffer> {
     switch (algo) {
       case SvgOptimizeAlgo.svgo: {
         const svgStr = buffer.toString('utf8')

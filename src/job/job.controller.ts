@@ -32,12 +32,14 @@ export class JobController {
 
   @Get()
   @HttpCode(200)
-  async getAll() {}
+  async getAll() {
+    return ''
+  }
 
   @Get(':id')
   @HttpCode(200)
   async getById(@Param('id') id: string) {
-    let data = await this.jobService.getById(parseInt(id))
+    const data = await this.jobService.getById(parseInt(id))
     return data
   }
 

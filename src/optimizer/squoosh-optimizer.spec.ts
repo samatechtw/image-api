@@ -12,7 +12,7 @@ describe('SquooshOptimizer', () => {
   })
 
   it('optimize()', async () => {
-    for (let algo of optimizer.acceptAlgorithms) {
+    for (const algo of optimizer.acceptAlgorithms) {
       const inBuffer = await readFile(
         path.resolve(pathStore.testAsset, 'wtm_256x256.jpeg'),
       )

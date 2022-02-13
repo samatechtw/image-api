@@ -1,27 +1,79 @@
-name: CI
-
+name: PR Commit
 on:
   pull_request:
-    branches: [master]
+    branches: [main]
+env:
+  WORKSPACE_ROOT: .
 
 jobs:
-  release:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-
+  lint:
+    name: Lint
+    runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - name: Checkout code into workspace directory
+        uses: actions/checkout@v2
         with:
-          node-version: '14.x'
-      - uses: shogo82148/actions-setup-redis@v1
+          fetch-depth: 0
+      - name: Set up NodeJS v16
+        uses: actions/setup-node@v2
         with:
-          redis-version: '6.x'
+          node-version: '16'
+      - name: Install npm modules
+        run: npm install
+      - name: Lint source code
+        run: npm run lint
 
-      - run: npm install
-      - run: npm run build:cp
-      - run: npm run build:app
-      - run: npm run test
+  check-format:
+    name: Check Format
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code into workspace directory
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Set up NodeJS v16
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - name: Install npm modules
+        run: npm install
+      - name: Check code format
+        run: npm run format:check
+
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code into workspace directory
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Set up NodeJS v16
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - name: Install npm modules
+        run: npm install
+      - name: Build worker
+        run: npm run build:worker
+      - name: Run unit tests
+        run: npm run test
+
+  build:
+    name: Build library
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code into workspace directory
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Set up NodeJS v16
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - name: Install npm modules
+        run: npm install
+      - name: Build app
+        run: npm run build:app
+      - name: Build worker
+        run: npm run build:worker

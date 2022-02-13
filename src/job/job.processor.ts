@@ -17,7 +17,7 @@ export class JobProcessor {
   @Process('processData')
   async handle(job: Job) {
     console.log('Start image processing...')
-    let data: ProcessData = job.data
+    const data: ProcessData = job.data
     await this.workerService.handlePath(
       data.tempInputPath,
       data.tempOutputPath,

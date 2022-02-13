@@ -14,7 +14,7 @@ COPY babel.config.js nest-cli.json package.json package-lock.json rollup.config.
 COPY src ./src
 
 RUN npm install
-RUN npm run build:cp
+RUN npm run build:worker
 RUN npm run build:app
 RUN npm run start
 
