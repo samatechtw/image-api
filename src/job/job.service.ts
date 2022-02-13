@@ -50,11 +50,4 @@ export class JobService {
     const data = await this.workerQueue.getJob(jobId)
     return data.data
   }
-
-  // TODO -- only for testing, consider using a specific test module outside application code
-  async clear() {
-    // TODO is using force here ok, or are we hiding a bug in the tests?
-    await this.workerQueue.obliterate({ force: true })
-    // await this.workerQueue.close()
-  }
 }
