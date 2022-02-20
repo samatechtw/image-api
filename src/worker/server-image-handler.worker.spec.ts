@@ -4,7 +4,7 @@ import { readFile, unlink } from 'node:fs/promises'
 import pathStore from '../store/path-store'
 import { IServerImageHandlerConfig } from '../interface/i-server-image-handler-config'
 import { FileFormat } from '../enum/file-format'
-import { PngOptimizeAlgo } from '../enum/png-optimize-algo'
+import { OptimizationAlgorithm } from '../enum/optimization-algorithm'
 
 describe('server-image-handler.worker', () => {
   it('ping()', async () => {
@@ -70,7 +70,7 @@ describe('server-image-handler.worker', () => {
     const targetPath = path.resolve(pathStore.testOut, 'wtm_256x256.pngquant.png')
     const config: IServerImageHandlerConfig = {
       inputFormat: FileFormat.png,
-      optimizeAlgo: PngOptimizeAlgo.pngquant,
+      optimizeAlgo: OptimizationAlgorithm.pngquant,
       quality: 90,
     }
 

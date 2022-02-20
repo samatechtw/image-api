@@ -1,14 +1,17 @@
 import { ImagePool } from '@squoosh/lib'
 import { IOptimizer } from '../interface/i-optimizer'
-import { JpegOptimizeAlgo } from '../enum/jpeg-optimize-algo'
-import { OptimizeAlgo } from '../enum/optimize-algo'
+import { OptimizationAlgorithm } from '../enum/optimization-algorithm'
 
 export class SquooshOptimizer implements IOptimizer {
-  acceptAlgorithms: OptimizeAlgo[] = [JpegOptimizeAlgo.mozjpeg]
+  acceptAlgorithms: OptimizationAlgorithm[] = [OptimizationAlgorithm.mozjpeg]
 
-  async optimize(buffer: Buffer, algo: OptimizeAlgo, quality: number): Promise<Buffer> {
+  async optimize(
+    buffer: Buffer,
+    algo: OptimizationAlgorithm,
+    quality: number,
+  ): Promise<Buffer> {
     switch (algo) {
-      case JpegOptimizeAlgo.mozjpeg: {
+      case OptimizationAlgorithm.mozjpeg: {
         const imagePool = new ImagePool()
         const image = imagePool.ingestImage(buffer)
 

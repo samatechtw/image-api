@@ -1,16 +1,19 @@
 import PngQuant from 'pngquant'
 import { IOptimizer } from '../interface/i-optimizer'
-import { OptimizeAlgo } from '../enum/optimize-algo'
-import { PngOptimizeAlgo } from '../enum/png-optimize-algo'
+import { OptimizationAlgorithm } from '../enum/optimization-algorithm'
 import { Readable } from 'stream'
 import { Buffer } from 'buffer'
 
 export class PngquantOptimizer implements IOptimizer {
-  acceptAlgorithms: OptimizeAlgo[] = [PngOptimizeAlgo.pngquant]
+  acceptAlgorithms: OptimizationAlgorithm[] = [OptimizationAlgorithm.pngquant]
 
-  optimize(buffer: Buffer, algo: OptimizeAlgo, quality: number): Promise<Buffer> {
+  optimize(
+    buffer: Buffer,
+    algo: OptimizationAlgorithm,
+    quality: number,
+  ): Promise<Buffer> {
     switch (algo) {
-      case PngOptimizeAlgo.pngquant: {
+      case OptimizationAlgorithm.pngquant: {
         const pngQuanter = new PngQuant([256, '--quality', quality, '--nofs', '-'])
         const stream: Readable = Readable.from(buffer).pipe(pngQuanter)
         let chunks = []

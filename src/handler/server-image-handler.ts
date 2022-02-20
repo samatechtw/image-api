@@ -7,7 +7,7 @@ import { SquooshOptimizer } from '../optimizer/squoosh-optimizer'
 import { PngquantOptimizer } from '../optimizer/pngquant-optimizer'
 import { SvgoOptimizer } from '../optimizer/svgo-optimizer'
 import { FileFormat } from '../enum/file-format'
-import { OptimizeAlgo } from '../enum/optimize-algo'
+import { OptimizationAlgorithm } from '../enum/optimization-algorithm'
 import { IProcessor } from '../interface/i-processor'
 import { SharpProcessor } from '../processor/sharp-processor'
 import { worker } from 'workerpool'
@@ -43,7 +43,7 @@ export class ServerImageHandler {
     return _.uniq(res)
   }
 
-  get acceptOptimizeAlgorithms(): OptimizeAlgo[] {
+  get acceptOptimizeAlgorithms(): OptimizationAlgorithm[] {
     let res = []
 
     for (const optimizer of this.optimizers) {
