@@ -4,8 +4,7 @@ import { promises as fs } from 'fs'
 import { ServerImageHandler } from './server-image-handler'
 import pathStore from '../store/path-store'
 import { FileFormat } from '../enum/file-format'
-import { JpegOptimizeAlgo } from '../enum/jpeg-optimize-algo'
-import { PngOptimizeAlgo } from '../enum/png-optimize-algo'
+import { OptimizationAlgorithm } from '../enum/optimization-algorithm'
 
 describe('ServerImageHandler', () => {
   it('constructor()', async () => {
@@ -55,7 +54,7 @@ describe('ServerImageHandler', () => {
     )
     const resultBuffer = await handler.handleBuffer(sourceBuffer, {
       inputFormat: FileFormat.jpg,
-      optimizeAlgo: JpegOptimizeAlgo.mozjpeg,
+      optimizeAlgo: OptimizationAlgorithm.mozjpeg,
       quality: 90,
     })
     const resultMeta = await sharp(resultBuffer).metadata()
@@ -92,7 +91,7 @@ describe('ServerImageHandler', () => {
     const resultBuffer = await handler.handleBuffer(sourceBuffer, {
       inputFormat: FileFormat.jpg,
       outputFormat: FileFormat.png,
-      optimizeAlgo: PngOptimizeAlgo.pngquant,
+      optimizeAlgo: OptimizationAlgorithm.pngquant,
       quality: 50,
     })
     const resultMeta = await sharp(resultBuffer).metadata()
@@ -112,7 +111,7 @@ describe('ServerImageHandler', () => {
       inputFormat: FileFormat.jpg,
       width: 48,
       height: 48,
-      optimizeAlgo: JpegOptimizeAlgo.mozjpeg,
+      optimizeAlgo: OptimizationAlgorithm.mozjpeg,
       quality: 50,
     })
     const resultMeta = await sharp(resultBuffer).metadata()
@@ -133,7 +132,7 @@ describe('ServerImageHandler', () => {
       outputFormat: FileFormat.png,
       width: 48,
       height: 48,
-      optimizeAlgo: PngOptimizeAlgo.pngquant,
+      optimizeAlgo: OptimizationAlgorithm.pngquant,
       quality: 50,
     })
     const resultMeta = await sharp(resultBuffer).metadata()

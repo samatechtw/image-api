@@ -7,8 +7,7 @@ import pathStore from '../store/path-store'
 import { IServerImageHandlerConfig } from '../interface/i-server-image-handler-config'
 import { FileFormat } from '../enum/file-format'
 import { ServerImageHandler } from '../handler/server-image-handler'
-import { JpegOptimizeAlgo } from '../enum/jpeg-optimize-algo'
-import { PngOptimizeAlgo } from '../enum/png-optimize-algo'
+import { OptimizationAlgorithm } from '../enum/optimization-algorithm'
 
 describe('workerService', () => {
   let workerService: WorkerService
@@ -57,7 +56,7 @@ describe('workerService', () => {
       outputFormat: FileFormat.png,
       width: 48,
       height: 48,
-      optimizeAlgo: PngOptimizeAlgo.pngquant,
+      optimizeAlgo: OptimizationAlgorithm.pngquant,
       quality: 90,
     }
     const resPath = path.resolve(os.tmpdir(), v4())
@@ -90,7 +89,7 @@ describe('workerService', () => {
     }
     const config3: IServerImageHandlerConfig = {
       inputFormat: FileFormat.jpeg,
-      optimizeAlgo: JpegOptimizeAlgo.mozjpeg,
+      optimizeAlgo: OptimizationAlgorithm.mozjpeg,
       quality: 90,
     }
     const config4: IServerImageHandlerConfig = {
@@ -98,7 +97,7 @@ describe('workerService', () => {
       outputFormat: FileFormat.png,
       width: 48,
       height: 48,
-      optimizeAlgo: PngOptimizeAlgo.pngquant,
+      optimizeAlgo: OptimizationAlgorithm.pngquant,
       quality: 90,
     }
     const resPath1 = path.resolve(os.tmpdir(), v4())

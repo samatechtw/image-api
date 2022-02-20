@@ -1,4 +1,4 @@
-import { OptimizeAlgo } from '../enum/optimize-algo'
+import { OptimizationAlgorithm } from '../enum/optimization-algorithm'
 import { FileFormat } from '../enum/file-format'
 
 export interface IServerImageHandlerConfig {
@@ -6,6 +6,6 @@ export interface IServerImageHandlerConfig {
   outputFormat?: FileFormat
   width?: number
   height?: number
-  optimizeAlgo?: OptimizeAlgo
+  optimizeAlgo?: OptimizationAlgorithm
   quality?: number
 }
