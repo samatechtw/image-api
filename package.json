@@ -4,9 +4,8 @@
   "description": "Service that allows uploading an image, validating it, and pushing to an external data service such as AWS S3.",
   "main": "src/main.ts",
   "scripts": {
-    "dev:worker": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript --watch",
+    "dev:worker": "tsc -w -p tsconfig.build.json ",
     "dev:app": "nest start --watch",
-    "build:worker-old": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
     "build:worker": "tsc -p tsconfig.build.json",
     "build:app": "nest build",
     "start": "nest start",
