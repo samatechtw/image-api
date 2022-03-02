@@ -1,8 +1,8 @@
 import { Process, Processor } from '@nestjs/bull'
 import { Logger } from '@nestjs/common'
 import { Job } from 'bull'
-import { ProcessData } from '../util/process-data'
-import { WorkerService } from './worker.service'
+import { ProcessData } from '../klass/process-data'
+import { WorkerService } from '../service/worker-service'
 
 @Processor('workerQueue')
 export class JobProcessor {

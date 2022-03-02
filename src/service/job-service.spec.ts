@@ -2,7 +2,7 @@ import { BullModule, getQueueToken } from '@nestjs/bull'
 import { Test, TestingModule } from '@nestjs/testing'
 import { FileFormat } from '../enum/file-format'
 import { IServerImageHandlerConfig } from '../interface/i-server-image-handler-config'
-import { JobService } from './job.service'
+import { JobService } from './job-service'
 
 describe('JobService', () => {
   let jobService: JobService
