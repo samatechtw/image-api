@@ -9,7 +9,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common'
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger'
-import { JobService } from './job.service'
+import { JobService } from '../service/job-service'
 import { FileInterceptor } from '@nestjs/platform-express'
 import { ICreateImageJobResponse } from './i-create-job-response'
 import { CreateJobDto } from './create-job.dto'

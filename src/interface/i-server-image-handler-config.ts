@@ -8,4 +8,5 @@ export interface IServerImageHandlerConfig {
   height?: number
   optimizeAlgo?: OptimizationAlgorithm
   quality?: number
+  s3endPoint?: string
 }

@@ -42,6 +42,11 @@ class JobConfigDto implements IServerImageHandlerConfig {
   @IsEnum(FileFormat)
   optimizeAlgo?: OptimizationAlgorithm
 
+  @ApiProperty({
+    description: 'Image quality. It is required when you try to optimize image.',
+  })
+  @IsOptional()
+  @IsNumber()
   quality?: number
 }
 
