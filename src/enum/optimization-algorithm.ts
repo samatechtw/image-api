@@ -1,10 +1,27 @@
 export enum OptimizationAlgorithm {
-  // PNG
-  pngquant = 'pngquant',
   // JPEG
   mozjpeg = 'mozjpeg',
+  jpegCompress = 'jpegCompress',
+
+  // PNG
+  pngquant = 'pngquant',
+  pngCompress = 'pngCompress',
+
+  // WEBP
+  webpCompress = 'webpCompress',
+
   // SVG
   svgo = 'svgo',
+
   // GIF
-  // TODO
+  gifsicle = 'gifsicle',
+
+  // TIFF
+  tiffCompress = 'tiffCompress',
+
+  // HEIF
+  heifCompress = 'heifCompress',
+
+  // AVIF
+  avifCompress = 'avifCompress',
 }
