@@ -71,6 +71,7 @@
     "webpack-cli": "^4.9.1"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.53.1",
     "@babel/preset-env": "^7.16.8",
     "@nestjs/bull": "^0.4.2",
     "@nestjs/common": "^8.0.0",

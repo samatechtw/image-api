@@ -8,5 +8,6 @@ export interface IServerImageHandlerConfig {
   height?: number
   optimizeAlgo?: OptimizationAlgorithm
   quality?: number
-  s3endPoint?: string
+  s3Region?: string
+  s3BucketName?: string
 }
