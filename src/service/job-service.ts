@@ -5,7 +5,7 @@ import { Queue } from 'bull'
 import { ProcessData } from '../klass/process-data'
 import { FileFormat } from '../enum/file-format'
 import { IServerImageHandlerConfig } from '../interface/i-server-image-handler-config'
-import { isStringEnum } from '../util/is-string-enum'
+import stringHelper from '../helper/string-helper'
 
 @Injectable()
 export class JobService {
@@ -21,7 +21,7 @@ export class JobService {
     }
     const fileFormat = fileName.split('.').pop()
 
-    if (!isStringEnum(FileFormat, fileFormat)) {
+    if (!stringHelper.isInEnum(FileFormat, fileFormat)) {
       throw new Error('Unknown file format')
     }
 

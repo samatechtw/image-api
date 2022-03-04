@@ -11,8 +11,9 @@ import {
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger'
 import { JobService } from '../service/job-service'
 import { FileInterceptor } from '@nestjs/platform-express'
-import { ICreateImageJobResponse } from './i-create-job-response'
+import { ICreateImageJobResponse } from '../interface/i-create-job-response'
 import { CreateJobDto } from './create-job.dto'
+import 'multer'
 
 @ApiTags('Jobs')
 @Controller('jobs')
