@@ -6,8 +6,8 @@ import { IOptimizer } from '../interface/i-optimizer'
 import { SquooshOptimizer } from '../optimizer/squoosh-optimizer'
 import { PngquantOptimizer } from '../optimizer/pngquant-optimizer'
 import { SvgoOptimizer } from '../optimizer/svgo-optimizer'
-import { FileFormat } from '../enum/file-format'
-import { OptimizationAlgorithm } from '../enum/optimization-algorithm'
+import { EnumFileFormat } from '../enum/enum-file-format'
+import { EnumOptimizationAlgorithm } from '../enum/enum-optimization-algorithm'
 import { IProcessor } from '../interface/i-processor'
 import { SharpProcessor } from '../processor/sharp-processor'
 import { worker } from 'workerpool'
@@ -23,7 +23,7 @@ export class ServerImageHandler {
     new SvgoOptimizer(),
   ]
 
-  get readFormats(): FileFormat[] {
+  get readFormats(): EnumFileFormat[] {
     let res = []
 
     for (const processor of this.processors) {
@@ -33,7 +33,7 @@ export class ServerImageHandler {
     return _.uniq(res)
   }
 
-  get writeFormats(): FileFormat[] {
+  get writeFormats(): EnumFileFormat[] {
     let res = []
 
     for (const processor of this.processors) {
@@ -43,7 +43,7 @@ export class ServerImageHandler {
     return _.uniq(res)
   }
 
-  get acceptOptimizeAlgorithms(): OptimizationAlgorithm[] {
+  get acceptOptimizeAlgorithms(): EnumOptimizationAlgorithm[] {
     let res = []
 
     for (const optimizer of this.optimizers) {

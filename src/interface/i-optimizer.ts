@@ -1,12 +1,12 @@
 import * as Buffer from 'buffer'
-import { OptimizationAlgorithm } from '../enum/optimization-algorithm'
+import { EnumOptimizationAlgorithm } from '../enum/enum-optimization-algorithm'
 
 export interface IOptimizer {
-  acceptAlgorithms: OptimizationAlgorithm[]
+  acceptAlgorithms: EnumOptimizationAlgorithm[]
 
   optimize: (
     buffer: Buffer,
-    algo: OptimizationAlgorithm,
+    algo: EnumOptimizationAlgorithm,
     quality: number,
   ) => Promise<Buffer>
 }

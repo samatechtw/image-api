@@ -1,4 +1,4 @@
-export enum FileFormat {
+export enum EnumFileFormat {
   unknown = 'unknown',
   jpg = 'jpg',
   jpeg = 'jpeg',

@@ -3,8 +3,8 @@ import path from 'path'
 import { readFile, unlink } from 'node:fs/promises'
 import pathStore from '../store/path-store'
 import { IServerImageHandlerConfig } from '../interface/i-server-image-handler-config'
-import { FileFormat } from '../enum/file-format'
-import { OptimizationAlgorithm } from '../enum/optimization-algorithm'
+import { EnumFileFormat } from '../enum/enum-file-format'
+import { EnumOptimizationAlgorithm } from '../enum/enum-optimization-algorithm'
 
 describe('server-image-handler.worker', () => {
   it('ping()', async () => {
@@ -24,7 +24,7 @@ describe('server-image-handler.worker', () => {
     const sourcePath = path.resolve(pathStore.testAsset, 'wtm_256x256.jpg')
     const targetPath = path.resolve(pathStore.testOut, 'wtm_256x256_48x48.jpg')
     const config: IServerImageHandlerConfig = {
-      inputFormat: FileFormat.jpg,
+      inputFormat: EnumFileFormat.jpg,
       width: 48,
       height: 48,
     }
@@ -47,8 +47,8 @@ describe('server-image-handler.worker', () => {
     const sourcePath = path.resolve(pathStore.testAsset, 'wtm_256x256.png')
     const targetPath = path.resolve(pathStore.testOut, 'wtm_256x256.png.jpg')
     const config: IServerImageHandlerConfig = {
-      inputFormat: FileFormat.png,
-      outputFormat: FileFormat.jpg,
+      inputFormat: EnumFileFormat.png,
+      outputFormat: EnumFileFormat.jpg,
     }
 
     await workerPool.exec('handlePath', [sourcePath, targetPath, config])
@@ -69,8 +69,8 @@ describe('server-image-handler.worker', () => {
     const sourcePath = path.resolve(pathStore.testAsset, 'wtm_256x256.png')
     const targetPath = path.resolve(pathStore.testOut, 'wtm_256x256.pngquant.png')
     const config: IServerImageHandlerConfig = {
-      inputFormat: FileFormat.png,
-      optimizeAlgo: OptimizationAlgorithm.pngquant,
+      inputFormat: EnumFileFormat.png,
+      optimizeAlgo: EnumOptimizationAlgorithm.pngquant,
       quality: 90,
     }
 

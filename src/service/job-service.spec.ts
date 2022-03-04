@@ -1,6 +1,6 @@
 import { BullModule, getQueueToken } from '@nestjs/bull'
 import { Test, TestingModule } from '@nestjs/testing'
-import { FileFormat } from '../enum/file-format'
+import { EnumFileFormat } from '../enum/enum-file-format'
 import { IServerImageHandlerConfig } from '../interface/i-server-image-handler-config'
 import { JobService } from './job-service'
 
@@ -15,7 +15,7 @@ describe('JobService', () => {
       add: jest.fn(() => ({ id: 1 })),
     }
     testConfig = {
-      inputFormat: FileFormat.jpg,
+      inputFormat: EnumFileFormat.jpg,
     }
     testBuffer = Buffer.from([21, 31])
 

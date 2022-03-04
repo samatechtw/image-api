@@ -5,9 +5,9 @@ import { v4 } from 'uuid'
 import { WorkerService } from './worker-service'
 import pathStore from '../store/path-store'
 import { IServerImageHandlerConfig } from '../interface/i-server-image-handler-config'
-import { FileFormat } from '../enum/file-format'
+import { EnumFileFormat } from '../enum/enum-file-format'
 import { ServerImageHandler } from '../handler/server-image-handler'
-import { OptimizationAlgorithm } from '../enum/optimization-algorithm'
+import { EnumOptimizationAlgorithm } from '../enum/enum-optimization-algorithm'
 
 describe('workerService', () => {
   let workerService: WorkerService
@@ -52,11 +52,11 @@ describe('workerService', () => {
   it('handlePath() single', async () => {
     const sourcePath = path.resolve(pathStore.testAsset, 'wtm_256x256.jpeg')
     const config: IServerImageHandlerConfig = {
-      inputFormat: FileFormat.jpeg,
-      outputFormat: FileFormat.png,
+      inputFormat: EnumFileFormat.jpeg,
+      outputFormat: EnumFileFormat.png,
       width: 48,
       height: 48,
-      optimizeAlgo: OptimizationAlgorithm.pngquant,
+      optimizeAlgo: EnumOptimizationAlgorithm.pngquant,
       quality: 90,
     }
     const resPath = path.resolve(os.tmpdir(), v4())
@@ -79,25 +79,25 @@ describe('workerService', () => {
   it('handlePath() multiple', async () => {
     const sourcePath = path.resolve(pathStore.testAsset, 'wtm_256x256.jpeg')
     const config1: IServerImageHandlerConfig = {
-      inputFormat: FileFormat.jpeg,
+      inputFormat: EnumFileFormat.jpeg,
       width: 48,
       height: 48,
     }
     const config2: IServerImageHandlerConfig = {
-      inputFormat: FileFormat.jpeg,
-      outputFormat: FileFormat.png,
+      inputFormat: EnumFileFormat.jpeg,
+      outputFormat: EnumFileFormat.png,
     }
     const config3: IServerImageHandlerConfig = {
-      inputFormat: FileFormat.jpeg,
-      optimizeAlgo: OptimizationAlgorithm.mozjpeg,
+      inputFormat: EnumFileFormat.jpeg,
+      optimizeAlgo: EnumOptimizationAlgorithm.mozjpeg,
       quality: 90,
     }
     const config4: IServerImageHandlerConfig = {
-      inputFormat: FileFormat.jpeg,
-      outputFormat: FileFormat.png,
+      inputFormat: EnumFileFormat.jpeg,
+      outputFormat: EnumFileFormat.png,
       width: 48,
       height: 48,
-      optimizeAlgo: OptimizationAlgorithm.pngquant,
+      optimizeAlgo: EnumOptimizationAlgorithm.pngquant,
       quality: 90,
     }
     const resPath1 = path.resolve(os.tmpdir(), v4())
