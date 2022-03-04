@@ -3,8 +3,8 @@ import path from 'path'
 import { promises as fs } from 'fs'
 import { ServerImageHandler } from './server-image-handler'
 import pathStore from '../store/path-store'
-import { FileFormat } from '../enum/file-format'
-import { OptimizationAlgorithm } from '../enum/optimization-algorithm'
+import { EnumFileFormat } from '../enum/enum-file-format'
+import { EnumOptimizationAlgorithm } from '../enum/enum-optimization-algorithm'
 
 describe('ServerImageHandler', () => {
   it('constructor()', async () => {
@@ -21,7 +21,7 @@ describe('ServerImageHandler', () => {
     const resultBuffer = await handler.handleBuffer(sourceBuffer, {
       width: 48,
       height: 48,
-      inputFormat: FileFormat.jpg,
+      inputFormat: EnumFileFormat.jpg,
     })
     const resultMeta = await sharp(resultBuffer).metadata()
 
@@ -37,8 +37,8 @@ describe('ServerImageHandler', () => {
       path.resolve(pathStore.testAsset, 'wtm_256x256.jpg'),
     )
     const resultBuffer = await handler.handleBuffer(sourceBuffer, {
-      inputFormat: FileFormat.jpg,
-      outputFormat: FileFormat.png,
+      inputFormat: EnumFileFormat.jpg,
+      outputFormat: EnumFileFormat.png,
     })
     const resultMeta = await sharp(resultBuffer).metadata()
 
@@ -53,8 +53,8 @@ describe('ServerImageHandler', () => {
       path.resolve(pathStore.testAsset, 'wtm_256x256.jpg'),
     )
     const resultBuffer = await handler.handleBuffer(sourceBuffer, {
-      inputFormat: FileFormat.jpg,
-      optimizeAlgo: OptimizationAlgorithm.mozjpeg,
+      inputFormat: EnumFileFormat.jpg,
+      optimizeAlgo: EnumOptimizationAlgorithm.mozjpeg,
       quality: 90,
     })
     const resultMeta = await sharp(resultBuffer).metadata()
@@ -71,8 +71,8 @@ describe('ServerImageHandler', () => {
       path.resolve(pathStore.testAsset, 'wtm_256x256.jpg'),
     )
     const resultBuffer = await handler.handleBuffer(sourceBuffer, {
-      inputFormat: FileFormat.jpg,
-      outputFormat: FileFormat.png,
+      inputFormat: EnumFileFormat.jpg,
+      outputFormat: EnumFileFormat.png,
       width: 48,
       height: 48,
     })
@@ -89,9 +89,9 @@ describe('ServerImageHandler', () => {
       path.resolve(pathStore.testAsset, 'wtm_256x256.jpg'),
     )
     const resultBuffer = await handler.handleBuffer(sourceBuffer, {
-      inputFormat: FileFormat.jpg,
-      outputFormat: FileFormat.png,
-      optimizeAlgo: OptimizationAlgorithm.pngquant,
+      inputFormat: EnumFileFormat.jpg,
+      outputFormat: EnumFileFormat.png,
+      optimizeAlgo: EnumOptimizationAlgorithm.pngquant,
       quality: 50,
     })
     const resultMeta = await sharp(resultBuffer).metadata()
@@ -108,10 +108,10 @@ describe('ServerImageHandler', () => {
       path.resolve(pathStore.testAsset, 'wtm_256x256.jpg'),
     )
     const resultBuffer = await handler.handleBuffer(sourceBuffer, {
-      inputFormat: FileFormat.jpg,
+      inputFormat: EnumFileFormat.jpg,
       width: 48,
       height: 48,
-      optimizeAlgo: OptimizationAlgorithm.mozjpeg,
+      optimizeAlgo: EnumOptimizationAlgorithm.mozjpeg,
       quality: 50,
     })
     const resultMeta = await sharp(resultBuffer).metadata()
@@ -128,11 +128,11 @@ describe('ServerImageHandler', () => {
       path.resolve(pathStore.testAsset, 'wtm_256x256.jpg'),
     )
     const resultBuffer = await handler.handleBuffer(sourceBuffer, {
-      inputFormat: FileFormat.jpg,
-      outputFormat: FileFormat.png,
+      inputFormat: EnumFileFormat.jpg,
+      outputFormat: EnumFileFormat.png,
       width: 48,
       height: 48,
-      optimizeAlgo: OptimizationAlgorithm.pngquant,
+      optimizeAlgo: EnumOptimizationAlgorithm.pngquant,
       quality: 50,
     })
     const resultMeta = await sharp(resultBuffer).metadata()
@@ -149,7 +149,7 @@ describe('ServerImageHandler', () => {
       path.resolve(pathStore.testAsset, 'wtm_256x256.jpg'),
     )
     const resultBuffer = await handler.handleBuffer(sourceBuffer, {
-      inputFormat: FileFormat.jpg,
+      inputFormat: EnumFileFormat.jpg,
     })
     const resultMeta = await sharp(resultBuffer).metadata()
 

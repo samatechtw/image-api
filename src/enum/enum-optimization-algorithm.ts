@@ -1,4 +1,4 @@
-export enum OptimizationAlgorithm {
+export enum EnumOptimizationAlgorithm {
   // JPEG
   mozjpeg = 'mozjpeg',
   jpegCompress = 'jpegCompress',

@@ -1,12 +1,12 @@
-import { OptimizationAlgorithm } from '../enum/optimization-algorithm'
-import { FileFormat } from '../enum/file-format'
+import { EnumOptimizationAlgorithm } from '../enum/enum-optimization-algorithm'
+import { EnumFileFormat } from '../enum/enum-file-format'
 
 export interface IServerImageHandlerConfig {
-  inputFormat: FileFormat
-  outputFormat?: FileFormat
+  inputFormat: EnumFileFormat
+  outputFormat?: EnumFileFormat
   width?: number
   height?: number
-  optimizeAlgo?: OptimizationAlgorithm
+  optimizeAlgo?: EnumOptimizationAlgorithm
   quality?: number
   s3Region?: string
   s3BucketName?: string

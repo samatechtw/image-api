@@ -1,4 +1,4 @@
-export enum ProcessJobStatus {
+export enum EnumProcessJobStatus {
   initialized = 'initialized',
   inQueue = 'inQueue',
   processing = 'processing',

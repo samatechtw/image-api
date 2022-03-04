@@ -2,26 +2,26 @@ import { IsNumber, IsEnum, IsObject, IsOptional, ValidateNested } from 'class-va
 import { Type } from 'class-transformer'
 import { ApiProperty } from '@nestjs/swagger'
 import { IServerImageHandlerConfig } from '../interface/i-server-image-handler-config'
-import { FileFormat } from '../enum/file-format'
-import { OptimizationAlgorithm } from '../enum/optimization-algorithm'
+import { EnumFileFormat } from '../enum/enum-file-format'
+import { EnumOptimizationAlgorithm } from '../enum/enum-optimization-algorithm'
 
 class JobConfigDto implements IServerImageHandlerConfig {
   @ApiProperty({
     description: 'Input file format type',
-    example: FileFormat.jpg,
-    enum: FileFormat,
+    example: EnumFileFormat.jpg,
+    enum: EnumFileFormat,
   })
-  @IsEnum(FileFormat)
-  inputFormat: FileFormat
+  @IsEnum(EnumFileFormat)
+  inputFormat: EnumFileFormat
 
   @ApiProperty({
     description: 'Input file format type',
-    example: FileFormat.jpg,
-    enum: FileFormat,
+    example: EnumFileFormat.jpg,
+    enum: EnumFileFormat,
   })
   @IsOptional()
-  @IsEnum(FileFormat)
-  outputFormat?: FileFormat
+  @IsEnum(EnumFileFormat)
+  outputFormat?: EnumFileFormat
 
   @ApiProperty({ description: 'Image width' })
   @IsOptional()
@@ -35,12 +35,12 @@ class JobConfigDto implements IServerImageHandlerConfig {
 
   @ApiProperty({
     description: 'Optimization algorithm',
-    example: OptimizationAlgorithm.mozjpeg,
-    enum: OptimizationAlgorithm,
+    example: EnumOptimizationAlgorithm.mozjpeg,
+    enum: EnumOptimizationAlgorithm,
   })
   @IsOptional()
-  @IsEnum(FileFormat)
-  optimizeAlgo?: OptimizationAlgorithm
+  @IsEnum(EnumFileFormat)
+  optimizeAlgo?: EnumOptimizationAlgorithm
 
   @ApiProperty({
     description: 'Image quality. It is required when you try to optimize image.',

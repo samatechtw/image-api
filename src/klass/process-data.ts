@@ -1,7 +1,7 @@
 import { v4 } from 'uuid'
 import { promises as fs } from 'fs'
 import { IServerImageHandlerConfig } from '../interface/i-server-image-handler-config'
-import { FileFormat } from '../enum/file-format'
+import { EnumFileFormat } from '../enum/enum-file-format'
 import path from 'path'
 import * as os from 'os'
 
@@ -10,7 +10,7 @@ export class ProcessData {
   readonly tempOutputPath: string = path.resolve(os.tmpdir(), v4())
 
   config: IServerImageHandlerConfig = {
-    inputFormat: FileFormat.unknown,
+    inputFormat: EnumFileFormat.unknown,
   }
 
   async cleanTempFile() {

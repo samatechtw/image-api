@@ -1,10 +1,10 @@
 import * as Buffer from 'buffer'
-import { FileFormat } from '../enum/file-format'
+import { EnumFileFormat } from '../enum/enum-file-format'
 
 export interface IProcessor {
-  readFormats: FileFormat[]
-  writeFormats: FileFormat[]
+  readFormats: EnumFileFormat[]
+  writeFormats: EnumFileFormat[]
 
   resize: (buffer: Buffer, width: number, height: number) => Promise<Buffer>
-  convert: (buffer: Buffer, toFormat: FileFormat) => Promise<Buffer>
+  convert: (buffer: Buffer, toFormat: EnumFileFormat) => Promise<Buffer>
 }

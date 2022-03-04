@@ -1,18 +1,18 @@
 import * as svgo from 'svgo'
 import { Buffer } from 'buffer'
 import { IOptimizer } from '../interface/i-optimizer'
-import { OptimizationAlgorithm } from '../enum/optimization-algorithm'
+import { EnumOptimizationAlgorithm } from '../enum/enum-optimization-algorithm'
 
 export class SvgoOptimizer implements IOptimizer {
-  acceptAlgorithms: OptimizationAlgorithm[] = [OptimizationAlgorithm.svgo]
+  acceptAlgorithms: EnumOptimizationAlgorithm[] = [EnumOptimizationAlgorithm.svgo]
 
   async optimize(
     buffer: Buffer,
-    algo: OptimizationAlgorithm,
+    algo: EnumOptimizationAlgorithm,
     _quality: number,
   ): Promise<Buffer> {
     switch (algo) {
-      case OptimizationAlgorithm.svgo: {
+      case EnumOptimizationAlgorithm.svgo: {
         const svgStr = buffer.toString('utf8')
         const res = svgo.optimize(svgStr)
         const resBuffer = Buffer.from(res['data'])

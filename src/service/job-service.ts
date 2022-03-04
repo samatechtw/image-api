@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectQueue } from '@nestjs/bull'
 import { Queue } from 'bull'
 import { ProcessData } from '../klass/process-data'
-import { FileFormat } from '../enum/file-format'
+import { EnumFileFormat } from '../enum/enum-file-format'
 import { IServerImageHandlerConfig } from '../interface/i-server-image-handler-config'
 import stringHelper from '../helper/string-helper'
 
@@ -21,13 +21,13 @@ export class JobService {
     }
     const fileFormat = fileName.split('.').pop()
 
-    if (!stringHelper.isInEnum(FileFormat, fileFormat)) {
+    if (!stringHelper.isInEnum(EnumFileFormat, fileFormat)) {
       throw new Error('Unknown file format')
     }
 
     const processData = new ProcessData({
       config: {
-        inputFormat: fileFormat as FileFormat,
+        inputFormat: fileFormat as EnumFileFormat,
         ...config,
       },
     })

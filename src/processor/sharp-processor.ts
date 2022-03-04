@@ -1,41 +1,41 @@
 import sharp from 'sharp'
 import { IProcessor } from '../interface/i-processor'
-import { FileFormat } from '../enum/file-format'
+import { EnumFileFormat } from '../enum/enum-file-format'
 
 export class SharpProcessor implements IProcessor {
-  readFormats: FileFormat[] = [
-    FileFormat.jpg,
-    FileFormat.jpeg,
-    FileFormat.png,
-    FileFormat.webp,
-    FileFormat.avif,
-    FileFormat.tiff,
-    FileFormat.gif,
-    FileFormat.svg,
+  readFormats: EnumFileFormat[] = [
+    EnumFileFormat.jpg,
+    EnumFileFormat.jpeg,
+    EnumFileFormat.png,
+    EnumFileFormat.webp,
+    EnumFileFormat.avif,
+    EnumFileFormat.tiff,
+    EnumFileFormat.gif,
+    EnumFileFormat.svg,
   ]
 
-  writeFormats: FileFormat[] = [
-    FileFormat.jpg,
-    FileFormat.jpeg,
-    FileFormat.png,
-    FileFormat.webp,
-    FileFormat.avif,
-    FileFormat.tiff,
+  writeFormats: EnumFileFormat[] = [
+    EnumFileFormat.jpg,
+    EnumFileFormat.jpeg,
+    EnumFileFormat.png,
+    EnumFileFormat.webp,
+    EnumFileFormat.avif,
+    EnumFileFormat.tiff,
   ]
 
-  async convert(buffer: Buffer, toFormat: FileFormat): Promise<Buffer> {
+  async convert(buffer: Buffer, toFormat: EnumFileFormat): Promise<Buffer> {
     switch (toFormat) {
-      case FileFormat.jpg:
+      case EnumFileFormat.jpg:
         return await sharp(buffer).jpeg().toBuffer()
-      case FileFormat.jpeg:
+      case EnumFileFormat.jpeg:
         return await sharp(buffer).jpeg().toBuffer()
-      case FileFormat.png:
+      case EnumFileFormat.png:
         return await sharp(buffer).png().toBuffer()
-      case FileFormat.webp:
+      case EnumFileFormat.webp:
         return await sharp(buffer).webp().toBuffer()
-      case FileFormat.avif:
+      case EnumFileFormat.avif:
         return await sharp(buffer).webp().toBuffer()
-      case FileFormat.tiff:
+      case EnumFileFormat.tiff:
         return await sharp(buffer).tiff().toBuffer()
     }
 
