@@ -1,15 +1,13 @@
 import { writeFile } from 'node:fs/promises'
-import { Injectable } from '@nestjs/common'
-import { InjectQueue } from '@nestjs/bull'
-import { Queue } from 'bull'
 import { ProcessData } from '../klass/process-data'
 import { EnumFileFormat } from '../enum/enum-file-format'
 import { IServerImageHandlerConfig } from '../interface/i-server-image-handler-config'
 import stringHelper from '../helper/string-helper'
+import Bull from "bull";
 
-@Injectable()
 export class JobService {
-  constructor(@InjectQueue('workerQueue') private readonly workerQueue: Queue) {}
+
+  workerQueue = new Bull('worker-queue')
 
   async add(
     fileName: string,
@@ -51,3 +49,5 @@ export class JobService {
     return data.data
   }
 }
+
+export default new JobService()
