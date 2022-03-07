@@ -46,6 +46,7 @@
     "@types/workerpool": "^6.1.0",
     "@typescript-eslint/eslint-plugin": "5.11.0",
     "@typescript-eslint/parser": "5.11.0",
+    "aws-sdk-client-mock": "^0.6.2",
     "babel-jest": "^27.4.6",
     "eslint": "8.9.0",
     "eslint-config-prettier": "8.3.0",
@@ -72,6 +73,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.53.1",
+    "@aws-sdk/lib-storage": "^3.53.1",
     "@babel/preset-env": "^7.16.8",
     "@nestjs/bull": "^0.4.2",
     "@nestjs/common": "^8.0.0",
