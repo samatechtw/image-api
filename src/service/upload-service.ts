@@ -1,20 +1,35 @@
 import {
   S3Client,
-  CreateBucketCommandOutput,
   CreateMultipartUploadCommand,
+  UploadPartCommand,
+  CompleteMultipartUploadCommand,
 } from '@aws-sdk/client-s3'
+import { Upload } from '@aws-sdk/lib-storage'
 
 export class UploadService {
+  s3Client: S3Client = null
+
   toS3 = async (buffer: Buffer, region: string, bucketName: string) => {
-    const s3 = new S3Client({
-      region: region,
-    })
-    const command = new CreateMultipartUploadCommand({
-      ACL: 'public-read',
-      Bucket: bucketName,
-      Key: '',
-    })
-    const res: CreateBucketCommandOutput = await s3.send(command)
+    try {
+      const parallelUploads3 = new Upload({
+        client: new S3Client({
+          region: region,
+        }),
+        params: {
+          Bucket: bucketName,
+          Key: 'test',
+          Body: buffer,
+        },
+      })
+
+      parallelUploads3.on('httpUploadProgress', (progress) => {
+        console.log(progress)
+      })
+
+      await parallelUploads3.done()
+    } catch (e) {
+      console.log(e)
+    }
   }
 }
 
