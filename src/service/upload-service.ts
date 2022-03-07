@@ -5,13 +5,12 @@ import {
   CompleteMultipartUploadCommand,
 } from '@aws-sdk/client-s3'
 import { Upload } from '@aws-sdk/lib-storage'
+import { Progress } from "@aws-sdk/lib-storage/dist-types/types";
 
 export class UploadService {
-  s3Client: S3Client = null
-
   toS3 = async (buffer: Buffer, region: string, bucketName: string) => {
     try {
-      const parallelUploads3 = new Upload({
+      const uploader = new Upload({
         client: new S3Client({
           region: region,
         }),
@@ -22,15 +21,18 @@ export class UploadService {
         },
       })
 
-      parallelUploads3.on('httpUploadProgress', (progress) => {
-        console.log(progress)
-      })
+      uploader.on('httpUploadProgress', this.onS3UploadProgress)
 
-      await parallelUploads3.done()
+      await uploader.done()
     } catch (e) {
       console.log(e)
     }
   }
+
+  // for functional test
+  onS3UploadProgress = ((progress: Progress)=> {
+    return progress
+  })
 }
 
 export default new UploadService()
