@@ -13,7 +13,23 @@ export class ProcessData {
     inputFormat: EnumFileFormat.unknown,
   }
 
-  async cleanTempFile() {
+  get hasS3(): boolean {
+    return typeof this.config.s3BucketName === "string"
+      && typeof this.config.s3Region === "string"
+  }
+
+  get isValid(): boolean {
+    let isValid = true
+
+    if(this.hasS3) {
+      isValid = isValid && this.config.s3BucketName.trim().length > 0
+      // we don't check region because it can be changed by AWS
+    }
+
+    return isValid
+  }
+
+  cleanTempFile = async ()=> {
     await fs.unlink(this.tempInputPath)
     await fs.unlink(this.tempOutputPath)
   }
