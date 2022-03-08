@@ -3,31 +3,33 @@ import { ProcessData } from '../klass/process-data'
 import { EnumFileFormat } from '../enum/enum-file-format'
 import { IServerImageHandlerConfig } from '../interface/i-server-image-handler-config'
 import stringHelper from '../helper/string-helper'
-import Bull from "bull";
+import Bull, {
+  ActiveEventCallback,
+  CleanedEventCallback,
+  CompletedEventCallback,
+  ErrorEventCallback,
+  EventCallback,
+  FailedEventCallback,
+  ProcessCallbackFunction,
+  ProcessPromiseFunction,
+  ProgressEventCallback,
+  RemovedEventCallback,
+  StalledEventCallback,
+  WaitingEventCallback,
+} from 'bull'
+import envStore from '../store/env-store'
+import workerService from './worker-service'
 
 export class JobService {
+  workerQueue = new Bull<ProcessData>('worker-queue')
 
-  workerQueue = new Bull('worker-queue')
-
-  async add(
+  add = async (
     fileName: string,
     fileBuffer: Buffer,
     config: IServerImageHandlerConfig,
-  ): Promise<number> {
-    if (!fileName.includes('.')) {
-      throw new Error('Missing file format')
-    }
-    const fileFormat = fileName.split('.').pop()
-
-    if (!stringHelper.isInEnum(EnumFileFormat, fileFormat)) {
-      throw new Error('Unknown file format')
-    }
-
+  ): Promise<number> => {
     const processData = new ProcessData({
-      config: {
-        inputFormat: fileFormat as EnumFileFormat,
-        ...config,
-      },
+      config: config,
     })
     await writeFile(processData.tempInputPath, fileBuffer)
     const job = await this.workerQueue.add('processData', processData)
@@ -35,19 +37,99 @@ export class JobService {
     return job.id as number
   }
 
-  async removeById(jobId: number) {
+  removeById = async (jobId: number) => {
     const job = await this.workerQueue.getJob(jobId)
     await job.remove()
   }
 
-  async getAll(): Promise<ProcessData[]> {
-    return []
-  }
-
-  async getById(jobId: number): Promise<ProcessData> {
+  getById = async (jobId: number): Promise<ProcessData> => {
     const data = await this.workerQueue.getJob(jobId)
     return data.data
   }
+
+  onError: ErrorEventCallback = (error) => {
+    console.log('onError')
+  }
+
+  onWaiting: WaitingEventCallback = (jobId) => {
+    console.log('onWaiting')
+  }
+
+  onActive: ActiveEventCallback<ProcessData> = (job, jobPromise) => {
+    console.log('onActive')
+  }
+
+  onStalled: StalledEventCallback<ProcessData> = (job) => {
+    console.log('onStalled')
+  }
+
+  onProgress: ProgressEventCallback<ProcessData> = (job, progress) => {
+    console.log('onProgress')
+  }
+
+  onCompleted: CompletedEventCallback<ProcessData> = (job, result) => {
+    console.log('onCompleted')
+  }
+
+  onFailed: FailedEventCallback<ProcessData> = (job, error) => {
+    console.log('onFailed')
+  }
+
+  onPaused: EventCallback = () => {
+    console.log('onPaused')
+  }
+
+  onResume: EventCallback = () => {
+    console.log('onResume')
+  }
+
+  onRemoved: RemovedEventCallback<ProcessData> = (job) => {
+    console.log('onRemoved')
+  }
+
+  onCleaned: CleanedEventCallback<ProcessData> = (jobs, status) => {
+    console.log('onCleaned')
+  }
+
+  onDrained: EventCallback = () => {
+    console.log('onDrained')
+  }
+
+  process: ProcessPromiseFunction<ProcessData> = async (job) => {
+    await workerService.handlePath(
+      job.data.tempInputPath,
+      job.data.tempOutputPath,
+      job.data.config,
+    )
+  }
+
+  // for test
+  setListeners = () => {
+    this.workerQueue.on('error', this.onError)
+    this.workerQueue.on('waiting', this.onWaiting)
+    this.workerQueue.on('active', this.onActive)
+    this.workerQueue.on('stalled', this.onStalled)
+    this.workerQueue.on('progress', this.onProgress)
+    this.workerQueue.on('completed', this.onCompleted)
+    this.workerQueue.on('failed', this.onFailed)
+    this.workerQueue.on('paused', this.onPaused)
+    this.workerQueue.on('resumed', this.onResume)
+    this.workerQueue.on('removed', this.onRemoved)
+    this.workerQueue.on('cleaned', this.onCleaned)
+    this.workerQueue.on('drained', this.onDrained)
+  }
+
+  init = () => {
+    this.setListeners()
+    this.workerQueue.process(envStore.workerCount, this.process)
+  }
+
+  close = async () => {
+    this.workerQueue.removeAllListeners()
+    await this.workerQueue.close()
+  }
+
+  constructor() {}
 }
 
 export default new JobService()
