@@ -2,7 +2,7 @@ import * as os from 'os'
 import path from 'path'
 import { readFile, unlink } from 'node:fs/promises'
 import { v4 } from 'uuid'
-import { WorkerService } from './worker-service'
+import workerService, { WorkerService } from './worker-service'
 import pathStore from '../store/path-store'
 import { IServerImageHandlerConfig } from '../interface/i-server-image-handler-config'
 import { EnumFileFormat } from '../enum/enum-file-format'
@@ -10,18 +10,15 @@ import { ServerImageHandler } from '../handler/server-image-handler'
 import { EnumOptimizationAlgorithm } from '../enum/enum-optimization-algorithm'
 
 describe('workerService', () => {
-  let workerService: WorkerService
-
   beforeAll(() => {
-    workerService = new WorkerService()
     workerService.init()
   })
 
   afterAll(async () => {
     try {
       await workerService.close()
-    } catch (_e) {
-      console.log(_e)
+    } catch (e) {
+      console.log(e)
     }
   })
 

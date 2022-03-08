@@ -6,34 +6,34 @@ import pathStore from '../store/path-store'
 export class WorkerService {
   workerPool: WorkerPool
 
-  init() {
-    const workerPath = pathStore.serverImageHandlerWorker
-
-    this.workerPool = pool(workerPath, {
-      minWorkers: 'max',
-      maxWorkers: cpus,
-      workerType: 'process',
-    })
-  }
-
-  async ping(): Promise<string> {
+  ping = async (): Promise<string> => {
     const handler = new ServerImageHandler()
     const resBuffer = await this.workerPool.exec(handler.ping, [])
 
     return resBuffer
   }
 
-  async handlePath(
+  handlePath = async (
     inputPath: string,
     outputPath: string,
     config: IServerImageHandlerConfig,
-  ) {
+  ) => {
     await this.workerPool.exec('handlePath', [inputPath, outputPath, config])
   }
 
-  async close() {
+  close = async () => {
     if (this.workerPool) {
       await this.workerPool.terminate(true)
     }
   }
+
+  init = () => {
+    this.workerPool = pool(pathStore.serverImageHandlerWorker, {
+      minWorkers: 'max',
+      maxWorkers: cpus,
+      workerType: 'process',
+    })
+  }
 }
+
+export default new WorkerService()
