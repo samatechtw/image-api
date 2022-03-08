@@ -2,6 +2,7 @@ import { cpus, pool, WorkerPool } from 'workerpool'
 import { ServerImageHandler } from '../handler/server-image-handler'
 import { IServerImageHandlerConfig } from '../interface/i-server-image-handler-config'
 import pathStore from '../store/path-store'
+import envStore from '../store/env-store'
 
 export class WorkerService {
   workerPool: WorkerPool
@@ -30,7 +31,7 @@ export class WorkerService {
   init = () => {
     this.workerPool = pool(pathStore.serverImageHandlerWorker, {
       minWorkers: 'max',
-      maxWorkers: cpus,
+      maxWorkers: envStore.workerCount,
       workerType: 'process',
     })
   }
