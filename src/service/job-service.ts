@@ -1,4 +1,4 @@
-import { writeFile } from 'node:fs/promises'
+import { readFile, writeFile } from 'node:fs/promises'
 import { ProcessData } from '../klass/process-data'
 import { EnumFileFormat } from '../enum/enum-file-format'
 import { IServerImageHandlerConfig } from '../interface/i-server-image-handler-config'
@@ -19,6 +19,7 @@ import Bull, {
 } from 'bull'
 import envStore from '../store/env-store'
 import workerService from './worker-service'
+import uploadService from './upload-service'
 
 export class JobService {
   workerQueue = new Bull<ProcessData>('worker-queue')
@@ -96,11 +97,23 @@ export class JobService {
   }
 
   process: ProcessPromiseFunction<ProcessData> = async (job) => {
+    let processData = job.data
+
     await workerService.handlePath(
-      job.data.tempInputPath,
-      job.data.tempOutputPath,
-      job.data.config,
+      processData.tempInputPath,
+      processData.tempOutputPath,
+      processData.config,
     )
+
+    if (processData.hasS3) {
+      const outBuffer = await readFile(processData.tempOutputPath)
+
+      await uploadService.toS3(
+        outBuffer,
+        processData.config.s3Region,
+        processData.config.s3BucketName,
+      )
+    }
   }
 
   // for test
