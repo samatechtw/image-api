@@ -6,7 +6,6 @@ import { IServerImageHandlerConfig } from '../interface/i-server-image-handler-c
 import { EnumFileFormat } from '../enum/enum-file-format'
 
 describe('JobService', () => {
-  jest.setTimeout(1000 * 1000)
   let onErrorMock: jest.Mock = null
   let onWaitingMock: jest.Mock = null
 

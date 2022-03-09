@@ -48,51 +48,51 @@ export class JobService {
   }
 
   onError: ErrorEventCallback = (error) => {
-    console.log('onError')
+    // console.log('onError')
   }
 
   onWaiting: WaitingEventCallback = (jobId) => {
-    console.log('onWaiting')
+    // console.log('onWaiting')
   }
 
   onActive: ActiveEventCallback<ProcessData> = (job, jobPromise) => {
-    console.log('onActive')
+    // console.log('onActive')
   }
 
   onStalled: StalledEventCallback<ProcessData> = (job) => {
-    console.log('onStalled')
+    // console.log('onStalled')
   }
 
   onProgress: ProgressEventCallback<ProcessData> = (job, progress) => {
-    console.log('onProgress')
+    // console.log('onProgress')
   }
 
   onCompleted: CompletedEventCallback<ProcessData> = (job, result) => {
-    console.log('onCompleted')
+    // console.log('onCompleted')
   }
 
   onFailed: FailedEventCallback<ProcessData> = (job, error) => {
-    console.log('onFailed')
+    // console.log('onFailed')
   }
 
   onPaused: EventCallback = () => {
-    console.log('onPaused')
+    // console.log('onPaused')
   }
 
   onResume: EventCallback = () => {
-    console.log('onResume')
+    // console.log('onResume')
   }
 
   onRemoved: RemovedEventCallback<ProcessData> = (job) => {
-    console.log('onRemoved')
+    // console.log('onRemoved')
   }
 
   onCleaned: CleanedEventCallback<ProcessData> = (jobs, status) => {
-    console.log('onCleaned')
+    // console.log('onCleaned')
   }
 
   onDrained: EventCallback = () => {
-    console.log('onDrained')
+    // console.log('onDrained')
   }
 
   process: ProcessPromiseFunction<ProcessData> = async (job) => {
