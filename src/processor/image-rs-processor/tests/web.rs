@@ -3,7 +3,10 @@
 #![cfg(target_arch = "wasm32")]
 
 extern crate wasm_bindgen_test;
+
+use std::fs;
 use wasm_bindgen_test::*;
+use image_rs_processor::convert;
 
 wasm_bindgen_test_configure!(run_in_browser);
 

@@ -9,4 +9,6 @@ export enum EnumFileFormat {
   heic = 'heic',
   tiff = 'tiff',
   avif = 'avif',
+  bmp = 'bmp',
+  ico = 'ico',
 }
