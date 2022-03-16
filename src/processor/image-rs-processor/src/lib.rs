@@ -2,11 +2,9 @@ mod utils;
 
 use std::fs;
 use std::io::Cursor;
-use std::panic;
 use image::{ImageFormat, ImageOutputFormat};
 use image::imageops::FilterType;
 use wasm_bindgen::prelude::*;
-use web_sys::console;
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
 // allocator.
@@ -36,7 +34,18 @@ pub fn convert(file_data: &[u8], to_format: &str)-> Vec<u8> {
 #[wasm_bindgen]
 pub fn resize(file_data: &[u8], width: u32, height: u32)-> Vec<u8> {
     let img = image::load_from_memory(file_data).unwrap();
+    let format = ImageOutputFormat::from(image::guess_format(file_data).unwrap());
     let resized_img = img.resize_exact(width, height, FilterType::Nearest);
+    let mut c: Cursor<Vec<u8>> = Cursor::new(Vec::new());
 
-    return resized_img.into_bytes()
+    image::write_buffer_with_format(
+        &mut c,
+        resized_img.as_bytes(),
+        resized_img.width(),
+        resized_img.height(),
+        resized_img.color(),
+        format
+    );
+
+    return c.into_inner()
 }

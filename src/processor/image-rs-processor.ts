@@ -1,6 +1,6 @@
 import { IProcessor } from '../interface/i-processor'
 import { EnumFileFormat } from '../enum/enum-file-format'
-import { convert } from './image-rs-processor/pkg/image_rs_processor'
+import { convert, resize } from './image-rs-processor/pkg/image_rs_processor'
 
 export class ImageRsProcessor implements IProcessor {
   readFormats: EnumFileFormat[] = [
@@ -22,10 +22,10 @@ export class ImageRsProcessor implements IProcessor {
   ]
 
   async convert(buffer: Buffer, toFormat: EnumFileFormat): Promise<Buffer> {
-    return await convert(buffer, toFormat) as any
+    return Buffer.from(convert(buffer, toFormat))
   }
 
   async resize(buffer: Buffer, width: number, height: number): Promise<Buffer> {
-    return Promise.resolve(undefined)
+    return Buffer.from(resize(buffer, width, height))
   }
 }

@@ -1,6 +1,7 @@
 /dist
 /node_modules
 /test-out
+!/test-out/.gitkeep
 
 .DS_Store
 

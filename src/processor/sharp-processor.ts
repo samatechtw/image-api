@@ -43,6 +43,10 @@ export class SharpProcessor implements IProcessor {
   }
 
   async resize(buffer: Buffer, width: number, height: number): Promise<Buffer> {
-    return await sharp(buffer).resize(width, height).toBuffer()
+    return await sharp(buffer)
+      .resize(width, height, {
+        fit: 'fill',
+      })
+      .toBuffer()
   }
 }
