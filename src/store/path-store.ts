@@ -10,12 +10,16 @@ class PathStore {
     return path.resolve(this.root, 'src')
   }
 
-  get dist() {
-    return path.resolve(this.root, 'dist')
+  get distServer() {
+    return path.resolve(this.root, 'dist-server')
+  }
+
+  get distWeb() {
+    return path.resolve(this.root, 'dist-web')
   }
 
   get serverImageHandlerWorker() {
-    return path.resolve(this.dist, 'src/worker/server-image-handler.worker.js')
+    return path.resolve(this.distServer, 'src/worker/server-image-handler.worker.js')
   }
 
   get testOut() {

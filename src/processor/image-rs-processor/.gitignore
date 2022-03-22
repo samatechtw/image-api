@@ -2,7 +2,8 @@
 **/*.rs.bk
 Cargo.lock
 bin/
-pkg/
+pkg-web/
+pkg-node/
 wasm-pack.log
 
 test_out/

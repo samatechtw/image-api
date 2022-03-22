@@ -144,11 +144,4 @@ export class ServerImageHandler {
   ping = () => {
     return 'pong'
   }
-
-  createWorker = () => {
-    return worker({
-      ping: this.ping,
-      handlePath: this.handlePath,
-    })
-  }
 }
