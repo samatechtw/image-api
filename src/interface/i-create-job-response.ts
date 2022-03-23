@@ -1,3 +1,3 @@
 export interface ICreateImageJobResponse {
-  jobId: number
+  jobId: string
 }

@@ -20,7 +20,7 @@ describe('ImageRsProcessor', () => {
             continue
           }
 
-          it(`resize() to ${newWidth}x${newHeight}`, async () => {
+          it(`resize() .${readFormat} to ${newWidth}x${newHeight}`, async () => {
             const inBuffer = await readFile(
               path.resolve(pathStore.testAsset, `wtm_256x256.${readFormat}`),
             )

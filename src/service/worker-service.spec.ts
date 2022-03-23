@@ -10,16 +10,12 @@ import { ServerImageHandler } from '../handler/server-image-handler'
 import { EnumOptimizationAlgorithm } from '../enum/enum-optimization-algorithm'
 
 describe('workerService', () => {
-  beforeAll(() => {
-    workerService.init()
+  beforeAll(async () => {
+    await workerService.init()
   })
 
   afterAll(async () => {
-    try {
-      await workerService.close()
-    } catch (e) {
-      console.log(e)
-    }
+    await workerService.close()
   })
 
   it('constructor()', async () => {

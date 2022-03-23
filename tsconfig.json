@@ -7,8 +7,7 @@
     "allowJs": true,
     "esModuleInterop": true,
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "outDir": "./dist"
+    "experimentalDecorators": true
   },
   "references": [
     {

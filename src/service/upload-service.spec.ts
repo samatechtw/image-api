@@ -1,8 +1,8 @@
 import uploadService, { UploadService } from './upload-service'
 import { S3Client } from '@aws-sdk/client-s3'
 import { mockClient, mockLibStorageUpload } from 'aws-sdk-client-mock'
-import { Progress } from "@aws-sdk/lib-storage/dist-types/types";
-import _ from "lodash";
+import { Progress } from '@aws-sdk/lib-storage/dist-types/types'
+import _ from 'lodash'
 
 describe('uploadService', () => {
   it('constructor()', async () => {
@@ -21,7 +21,7 @@ describe('uploadService', () => {
     const bucket = 'the-bucket'
     await uploadService.toS3(buffer, 'us-west', bucket)
 
-    let progressArr: Progress[] = _.map(onProgressMock.mock.calls, (r)=> (r[0]))
+    const progressArr: Progress[] = _.map(onProgressMock.mock.calls, (r) => r[0])
 
     expect(progressArr.length).toEqual(3)
     expect(progressArr[0].Bucket).toEqual(bucket)

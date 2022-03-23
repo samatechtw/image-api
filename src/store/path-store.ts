@@ -19,7 +19,7 @@ class PathStore {
   }
 
   get serverImageHandlerWorker() {
-    return path.resolve(this.distServer, 'src/worker/server-image-handler.worker.js')
+    return path.resolve(this.distServer, 'src/worker/server-image-handler-worker.js')
   }
 
   get testOut() {

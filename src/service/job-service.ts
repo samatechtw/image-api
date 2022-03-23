@@ -1,8 +1,6 @@
 import { readFile, writeFile } from 'node:fs/promises'
 import { ProcessData } from '../klass/process-data'
-import { EnumFileFormat } from '../enum/enum-file-format'
 import { IServerImageHandlerConfig } from '../interface/i-server-image-handler-config'
-import stringHelper from '../helper/string-helper'
 import Bull, {
   ActiveEventCallback,
   CleanedEventCallback,
@@ -10,7 +8,6 @@ import Bull, {
   ErrorEventCallback,
   EventCallback,
   FailedEventCallback,
-  ProcessCallbackFunction,
   ProcessPromiseFunction,
   ProgressEventCallback,
   RemovedEventCallback,
@@ -20,30 +17,32 @@ import Bull, {
 import envStore from '../store/env-store'
 import workerService from './worker-service'
 import uploadService from './upload-service'
+import { EnumProcessJobStatus } from '../enum/enum-process-job-status'
+import { Logger } from '@nestjs/common'
 
 export class JobService {
-  workerQueue = new Bull<ProcessData>('worker-queue')
+  workerQueue: Bull.Queue<ProcessData> = null
 
   add = async (
     fileName: string,
     fileBuffer: Buffer,
     config: IServerImageHandlerConfig,
-  ): Promise<number> => {
+  ): Promise<string> => {
     const processData = new ProcessData({
       config: config,
     })
     await writeFile(processData.tempInputPath, fileBuffer)
-    const job = await this.workerQueue.add('processData', processData)
+    const job = await this.workerQueue.add(processData)
 
-    return job.id as number
+    return job.id as string
   }
 
-  removeById = async (jobId: number) => {
+  removeById = async (jobId: string) => {
     const job = await this.workerQueue.getJob(jobId)
     await job.remove()
   }
 
-  getById = async (jobId: number): Promise<ProcessData> => {
+  getById = async (jobId: string): Promise<ProcessData> => {
     const data = await this.workerQueue.getJob(jobId)
     return data.data
   }
@@ -56,8 +55,12 @@ export class JobService {
     // console.log('onWaiting')
   }
 
-  onActive: ActiveEventCallback<ProcessData> = (job, jobPromise) => {
-    // console.log('onActive')
+  onActive: ActiveEventCallback<ProcessData> = async (job, jobPromise) => {
+    await job.update(
+      Object.assign({}, job.data, {
+        status: EnumProcessJobStatus.processing,
+      }),
+    )
   }
 
   onStalled: StalledEventCallback<ProcessData> = (job) => {
@@ -68,12 +71,22 @@ export class JobService {
     // console.log('onProgress')
   }
 
-  onCompleted: CompletedEventCallback<ProcessData> = (job, result) => {
-    // console.log('onCompleted')
+  onCompleted: CompletedEventCallback<ProcessData> = async (job, result) => {
+    Logger.log('complete')
+    await job.update(
+      Object.assign({}, job.data, {
+        status: EnumProcessJobStatus.complete,
+      }),
+    )
   }
 
-  onFailed: FailedEventCallback<ProcessData> = (job, error) => {
-    // console.log('onFailed')
+  onFailed: FailedEventCallback<ProcessData> = async (job, error) => {
+    Logger.error(error)
+    await job.update(
+      Object.assign({}, job.data, {
+        status: EnumProcessJobStatus.fail,
+      }),
+    )
   }
 
   onPaused: EventCallback = () => {
@@ -97,21 +110,25 @@ export class JobService {
   }
 
   process: ProcessPromiseFunction<ProcessData> = async (job) => {
-    let processData = job.data
-
     await workerService.handlePath(
-      processData.tempInputPath,
-      processData.tempOutputPath,
-      processData.config,
+      job.data.tempInputPath,
+      job.data.tempOutputPath,
+      job.data.config,
     )
 
-    if (processData.hasS3) {
-      const outBuffer = await readFile(processData.tempOutputPath)
+    if (job.data.hasS3) {
+      await job.update(
+        Object.assign({}, job.data, {
+          status: EnumProcessJobStatus.uploadingToS3,
+        }),
+      )
+
+      const outBuffer = await readFile(job.data.tempOutputPath)
 
       await uploadService.toS3(
         outBuffer,
-        processData.config.s3Region,
-        processData.config.s3BucketName,
+        job.data.config.s3Region,
+        job.data.config.s3BucketName,
       )
     }
   }
@@ -132,14 +149,26 @@ export class JobService {
     this.workerQueue.on('drained', this.onDrained)
   }
 
-  init = () => {
+  init = async () => {
+    this.workerQueue = new Bull<ProcessData>('worker-queue')
+    this.workerQueue.process(this.process)
     this.setListeners()
-    this.workerQueue.process(envStore.workerCount, this.process)
+    await this.workerQueue.isReady()
   }
 
   close = async () => {
     this.workerQueue.removeAllListeners()
     await this.workerQueue.close()
+  }
+
+  clean = async () => {
+    await this.workerQueue.pause()
+    await this.workerQueue.clean(0, 'paused')
+    await this.workerQueue.clean(0, 'wait')
+    await this.workerQueue.clean(0, 'active')
+    await this.workerQueue.clean(0, 'completed')
+    await this.workerQueue.clean(0, 'failed')
+    await this.workerQueue.resume()
   }
 
   constructor() {}
