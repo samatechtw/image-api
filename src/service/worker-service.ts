@@ -5,7 +5,7 @@ import pathStore from '../store/path-store'
 import envStore from '../store/env-store'
 
 export class WorkerService {
-  workerPool: WorkerPool
+  workerPool: WorkerPool = null
 
   ping = async (): Promise<string> => {
     const handler = new ServerImageHandler()
@@ -28,7 +28,11 @@ export class WorkerService {
     }
   }
 
-  init = () => {
+  init = async () => {
+    if (this.workerPool) {
+      await this.workerPool.terminate(true)
+    }
+
     this.workerPool = pool(pathStore.serverImageHandlerWorker, {
       minWorkers: 'max',
       maxWorkers: envStore.workerCount,

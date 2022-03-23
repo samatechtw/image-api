@@ -5,7 +5,7 @@ import {
   CompleteMultipartUploadCommand,
 } from '@aws-sdk/client-s3'
 import { Upload } from '@aws-sdk/lib-storage'
-import { Progress } from "@aws-sdk/lib-storage/dist-types/types";
+import { Progress } from '@aws-sdk/lib-storage/dist-types/types'
 
 export class UploadService {
   toS3 = async (buffer: Buffer, region: string, bucketName: string) => {
@@ -30,9 +30,9 @@ export class UploadService {
   }
 
   // for functional test
-  onS3UploadProgress = ((progress: Progress)=> {
+  onS3UploadProgress = (progress: Progress) => {
     return progress
-  })
+  }
 }
 
 export default new UploadService()

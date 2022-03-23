@@ -18,10 +18,13 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '16'
-      - name: Install npm modules
-        run: npm install
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.0.2
+      - name: Install modules
+        run: pnpm install
       - name: Lint source code
-        run: npm run lint
+        run: pnpm run lint
 
   check-format:
     name: Check Format
@@ -35,14 +38,22 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '16'
-      - name: Install npm modules
-        run: npm install
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.0.2
+      - name: Install modules
+        run: pnpm install
       - name: Check code format
-        run: npm run format:check
+        run: pnpm run format:check
 
   unit-tests:
     name: Unit Tests
     runs-on: ubuntu-20.04
+    services:
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
     steps:
       - name: Checkout code into workspace directory
         uses: actions/checkout@v2
@@ -52,15 +63,63 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '16'
-      - name: Install npm modules
-        run: npm install
-      - name: Build worker
-        run: npm run build:worker
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.0.2
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+      - name: Install modules
+        run: pnpm install
+      - name: Build image-rs processor
+        run: pnpm run build:image-rs
+      - name: Build server
+        run: pnpm run build:server
       - name: Run unit tests
-        run: npm run test
+        run: pnpm run test:unit
 
-  build:
-    name: Build library
+  e2e-tests:
+    name: E2E Tests
+    runs-on: ubuntu-20.04
+    services:
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+    steps:
+      - name: Checkout code into workspace directory
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Set up NodeJS v16
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.0.2
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+      - name: Install modules
+        run: pnpm install
+      - name: Build image-rs processor
+        run: pnpm run build:image-rs
+      - name: Build server
+        run: pnpm run build:server
+      - name: Run server
+        run: pnpm run start &
+      - name: Wait server start
+        run: sleep 20
+      - name: Run e2e test
+        run: pnpm run test:e2e
+
+  build-server:
+    name: Build server
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout code into workspace directory
@@ -71,9 +130,55 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '16'
-      - name: Install npm modules
-        run: npm install
-      - name: Build app
-        run: npm run build:app
-      - name: Build worker
-        run: npm run build:worker
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.0.2
+      - name: Install modules
+        run: pnpm install
+      - name: Build server
+        run: pnpm run build:server
+
+  build-web:
+    name: Build client library
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code into workspace directory
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Set up NodeJS v16
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.0.2
+      - name: Install modules
+        run: pnpm install
+      - name: Build web
+        run: pnpm run build:web
+
+  build-wasm:
+    name: Build wasm libraries
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code into workspace directory
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Set up NodeJS v16
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.0.2
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+      - name: Install modules
+        run: pnpm install
+      - name: Build image-rs
+        run: pnpm run build:image-rs

@@ -5,7 +5,7 @@ import { IServerImageHandlerConfig } from '../interface/i-server-image-handler-c
 import { EnumFileFormat } from '../enum/enum-file-format'
 import { EnumOptimizationAlgorithm } from '../enum/enum-optimization-algorithm'
 
-class JobConfigDto implements IServerImageHandlerConfig {
+export class JobConfigDto implements IServerImageHandlerConfig {
   @ApiProperty({
     description: 'Input file format type',
     example: EnumFileFormat.jpg,
@@ -48,12 +48,4 @@ class JobConfigDto implements IServerImageHandlerConfig {
   @IsOptional()
   @IsNumber()
   quality?: number
-}
-
-export class CreateJobDto {
-  @ApiProperty({ description: 'Job processing configuration' })
-  @IsObject()
-  @ValidateNested()
-  @Type(() => JobConfigDto)
-  config: JobConfigDto
 }

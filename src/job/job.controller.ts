@@ -9,11 +9,11 @@ import {
   UseInterceptors,
 } from '@nestjs/common'
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger'
-import { JobService } from '../service/job-service'
 import { FileInterceptor } from '@nestjs/platform-express'
 import { ICreateImageJobResponse } from '../interface/i-create-job-response'
-import { CreateJobDto } from './create-job.dto'
 import 'multer'
+import { JobConfigDto } from './create-job.dto'
+import jobService from '../service/job-service'
 
 @ApiTags('Jobs')
 @Controller('jobs')
@@ -38,9 +38,10 @@ export class JobController {
   @UseInterceptors(FileInterceptor('file'))
   async add(
     @UploadedFile() file: Express.Multer.File,
-    @Body() dto: CreateJobDto,
+    @Body() body,
   ): Promise<ICreateImageJobResponse> {
-    const jobId = await this.jobService.add(file.originalname, file.buffer, dto.config)
+    const config: JobConfigDto = JSON.parse(body['config'])
+    const jobId = await jobService.add(file.originalname, file.buffer, config)
 
     return { jobId }
   }
@@ -60,7 +61,7 @@ export class JobController {
   })
   @Delete(':id')
   async removeById(@Param('id') id: string) {
-    await this.jobService.removeById(parseInt(id))
+    await jobService.removeById(id)
   }
 
   @ApiOperation({
@@ -80,7 +81,7 @@ export class JobController {
   async getAll() {
     // TODO -- implement
     // TODO -- add filters
-    return ''
+    return []
   }
 
   @ApiOperation({
@@ -98,9 +99,7 @@ export class JobController {
   })
   @Get(':id')
   async getById(@Param('id') id: string) {
-    const data = await this.jobService.getById(parseInt(id))
+    const data = await jobService.getById(id)
     return data
   }
-
-  constructor(private readonly jobService: JobService) {}
 }

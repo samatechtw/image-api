@@ -4,24 +4,21 @@ import path from 'path'
 import pathStore from '../store/path-store'
 import { IServerImageHandlerConfig } from '../interface/i-server-image-handler-config'
 import { EnumFileFormat } from '../enum/enum-file-format'
+import workerService from './worker-service'
 
 describe('JobService', () => {
-  let onErrorMock: jest.Mock = null
-  let onWaitingMock: jest.Mock = null
-
   beforeAll(async () => {
-    jobService.init()
+    await workerService.init()
+    await jobService.init()
   })
 
   afterAll(async () => {
+    await workerService.close()
     await jobService.close()
   })
 
-  beforeEach(() => {
-    onErrorMock = jest.fn()
-    onWaitingMock = jest.fn()
-    jobService.onError = onErrorMock
-    jobService.onWaiting = onWaitingMock
+  beforeEach(async () => {
+    await jobService.clean()
     jobService.setListeners()
   })
 
@@ -37,10 +34,18 @@ describe('JobService', () => {
     }
 
     await jobService.add(fileName, buffer, config)
-    await jobService.workerQueue.pause()
+    let jobCounts = await jobService.workerQueue.getJobCounts()
 
-    expect(onErrorMock.mock.calls.length).toEqual(0)
-    expect(onWaitingMock.mock.calls.length).toEqual(1)
+    expect(jobCounts.active).toEqual(1)
+    expect(jobCounts.completed).toEqual(0)
+    expect(jobCounts.failed).toEqual(0)
+
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    jobCounts = await jobService.workerQueue.getJobCounts()
+
+    expect(jobCounts.active).toEqual(0)
+    expect(jobCounts.completed).toEqual(1)
+    expect(jobCounts.failed).toEqual(0)
   })
 
   it('add() invalid fileName', async () => {

@@ -4,11 +4,16 @@ import { NestExpressApplication } from '@nestjs/platform-express'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 import { Logger, ValidationPipe } from '@nestjs/common'
 import { AppModule } from './app.module'
+import workerService from './service/worker-service'
+import jobService from './service/job-service'
 
 const run = async () => {
   // TODO -- get port from config
   const port = 3500
   const app = await NestFactory.create<NestExpressApplication>(AppModule)
+
+  await workerService.init()
+  await jobService.init()
 
   if (process.env.NODE_ENV !== 'production') {
     const options = new DocumentBuilder()

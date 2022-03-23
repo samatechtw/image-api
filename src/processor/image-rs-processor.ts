@@ -19,7 +19,8 @@ export class ImageRsProcessor implements IProcessor {
     EnumFileFormat.png,
     EnumFileFormat.gif,
     EnumFileFormat.bmp,
-    EnumFileFormat.ico,
+    // An resize issue: 128x128 file size > 256x256 file size
+    // EnumFileFormat.ico,
   ]
 
   writeFormats: EnumFileFormat[] = [
