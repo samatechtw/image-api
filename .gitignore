@@ -2,6 +2,7 @@
 /dist-web
 /node_modules
 /test-out
+/dist
 !/test-out/.gitkeep
 
 .DS_Store
