@@ -1,0 +1,14 @@
+name: Environment Setup
+description: 'Setup PNPM and Node'
+runs:
+  using: 'composite'
+  steps:
+    - name: Install wasm-pack
+      shell: bash
+      run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+    - name: Build image-rs processor
+      shell: bash
+      run: pnpm run build:image-rs
+    - name: Build server
+      shell: bash
+      run: pnpm run build:server
