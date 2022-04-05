@@ -1,7 +1,7 @@
 import * as path from 'path'
 import rootPath from 'app-root-path'
 
-class PathStore {
+class PathUtil {
   get root() {
     return rootPath.path
   }
@@ -35,4 +35,4 @@ class PathStore {
   }
 }
 
-export default new PathStore()
+export const pathUtil = new PathUtil()

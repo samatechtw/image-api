@@ -1,12 +1,12 @@
 import { Configuration } from 'webpack'
-import pathStore from './src/store/path-store'
 import path from 'path'
 import CopyPlugin from 'copy-webpack-plugin'
+import { pathUtil } from './src/config/path-util'
 
 const config: Configuration = {
-  entry: path.resolve(pathStore.src, 'handler', 'web-image-handler.ts'),
+  entry: path.resolve(pathUtil.src, 'handler', 'web-image-handler.ts'),
   output: {
-    path: path.resolve(pathStore.distWeb),
+    path: path.resolve(pathUtil.distWeb),
     filename: 'lib.web.js',
   },
   target: 'web',
@@ -33,8 +33,8 @@ const config: Configuration = {
     new CopyPlugin({
       patterns: [
         {
-          from: path.resolve(pathStore.src, 'processor', 'image-rs-processor'),
-          to: path.resolve(pathStore.distWeb, 'image-rs-processor'),
+          from: path.resolve(pathUtil.src, 'processor', 'image-rs-processor'),
+          to: path.resolve(pathUtil.distWeb, 'image-rs-processor'),
         },
       ],
     }),

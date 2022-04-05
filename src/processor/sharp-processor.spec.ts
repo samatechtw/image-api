@@ -1,6 +1,6 @@
 import * as path from 'path'
 import { readFile, writeFile } from 'node:fs/promises'
-import pathStore from '../store/path-store'
+import { pathUtil } from '../config'
 import { SharpProcessor } from './sharp-processor'
 
 describe('SharpProcessor', () => {
@@ -20,13 +20,13 @@ describe('SharpProcessor', () => {
         for (const writeFormat of processor.writeFormats) {
           it(`resize() to ${newWidth}x${newHeight}`, async () => {
             const inBuffer = await readFile(
-              path.resolve(pathStore.testAsset, `wtm_256x256.${readFormat}`),
+              path.resolve(pathUtil.testAsset, `wtm_256x256.${readFormat}`),
             )
             const outBuffer = await processor.resize(inBuffer, newWidth, newHeight)
 
             await writeFile(
               path.resolve(
-                pathStore.testOut,
+                pathUtil.testOut,
                 `[sharp]wtm_256x256_to_${newWidth}x${newHeight}.${readFormat}`,
               ),
               outBuffer,
@@ -48,13 +48,13 @@ describe('SharpProcessor', () => {
 
       it(`convert() ${readFormat} to ${writeFormat}`, async () => {
         const inBuffer = await readFile(
-          path.resolve(pathStore.testAsset, `wtm_256x256.${readFormat}`),
+          path.resolve(pathUtil.testAsset, `wtm_256x256.${readFormat}`),
         )
         const outBuffer = await processor.convert(inBuffer, writeFormat)
 
         await writeFile(
           path.resolve(
-            pathStore.testOut,
+            pathUtil.testOut,
             `[sharp]wtm_256x256_${readFormat}.${writeFormat}`,
           ),
           outBuffer,

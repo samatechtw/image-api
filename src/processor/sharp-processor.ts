@@ -1,6 +1,6 @@
 import sharp from 'sharp'
-import { IProcessor } from '../interface/i-processor'
-import { EnumFileFormat } from '../enum/enum-file-format'
+import { IProcessor } from '../interface'
+import { EnumFileFormat } from '../enum'
 
 export class SharpProcessor implements IProcessor {
   readFormats: EnumFileFormat[] = [

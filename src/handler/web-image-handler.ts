@@ -1,9 +1,7 @@
-import { IProcessor } from '../interface/i-processor'
-import { IOptimizer } from '../interface/i-optimizer'
-import { SquooshOptimizer } from '../optimizer/squoosh-optimizer'
-import { EnumFileFormat } from '../enum/enum-file-format'
 import * as _ from 'lodash'
-import { EnumOptimizationAlgorithm } from '../enum/enum-optimization-algorithm'
+import { IProcessor, IOptimizer } from '../interface'
+import { SquooshOptimizer } from '../optimizer/squoosh-optimizer'
+import { EnumOptimizationAlgorithm, EnumFileFormat } from '../enum'
 import { ImageRsProcessor } from '../processor/image-rs-processor'
 
 export class WebImageHandler {

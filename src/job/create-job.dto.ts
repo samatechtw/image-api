@@ -1,8 +1,7 @@
 import { IsNumber, IsEnum, IsOptional } from 'class-validator'
 import { ApiProperty } from '@nestjs/swagger'
-import { IServerImageHandlerConfig } from '../interface/i-server-image-handler-config'
-import { EnumFileFormat } from '../enum/enum-file-format'
-import { EnumOptimizationAlgorithm } from '../enum/enum-optimization-algorithm'
+import { IServerImageHandlerConfig } from '../interface'
+import { EnumFileFormat, EnumOptimizationAlgorithm } from '../enum'
 
 export class JobConfigDto implements IServerImageHandlerConfig {
   @ApiProperty({

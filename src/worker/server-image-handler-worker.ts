@@ -1,5 +1,5 @@
 import { worker } from 'workerpool'
-import { ServerImageHandler } from '../handler/server-image-handler'
+import { ServerImageHandler } from '../handler'
 
 const handler = new ServerImageHandler()
 

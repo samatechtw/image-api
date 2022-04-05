@@ -1,8 +1,8 @@
-import uploadService, { UploadService } from './upload-service'
-import { S3Client } from '@aws-sdk/client-s3'
-import { mockClient, mockLibStorageUpload } from 'aws-sdk-client-mock'
-import { Progress } from '@aws-sdk/lib-storage/dist-types/types'
 import _ from 'lodash'
+import { S3Client } from '@aws-sdk/client-s3'
+import { Progress } from '@aws-sdk/lib-storage/dist-types/types'
+import { mockClient, mockLibStorageUpload } from 'aws-sdk-client-mock'
+import { uploadService, UploadService } from './upload-service'
 
 describe('uploadService', () => {
   afterEach(() => {

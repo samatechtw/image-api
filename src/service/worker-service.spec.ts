@@ -2,12 +2,11 @@ import * as os from 'os'
 import path from 'path'
 import { readFile, unlink } from 'node:fs/promises'
 import { v4 } from 'uuid'
-import workerService, { WorkerService } from './worker-service'
-import pathStore from '../store/path-store'
-import { IServerImageHandlerConfig } from '../interface/i-server-image-handler-config'
-import { EnumFileFormat } from '../enum/enum-file-format'
-import { ServerImageHandler } from '../handler/server-image-handler'
-import { EnumOptimizationAlgorithm } from '../enum/enum-optimization-algorithm'
+import { pathUtil } from '../config'
+import { IServerImageHandlerConfig } from '../interface'
+import { ServerImageHandler } from '../handler'
+import { EnumOptimizationAlgorithm, EnumFileFormat } from '../enum'
+import { WorkerService, workerService } from './worker-service'
 
 describe('workerService', () => {
   beforeAll(async () => {
@@ -43,7 +42,7 @@ describe('workerService', () => {
   })
 
   it('handlePath() single', async () => {
-    const sourcePath = path.resolve(pathStore.testAsset, 'wtm_256x256.jpeg')
+    const sourcePath = path.resolve(pathUtil.testAsset, 'wtm_256x256.jpeg')
     const config: IServerImageHandlerConfig = {
       inputFormat: EnumFileFormat.jpeg,
       outputFormat: EnumFileFormat.png,
@@ -70,7 +69,7 @@ describe('workerService', () => {
   })
 
   it('handlePath() multiple', async () => {
-    const sourcePath = path.resolve(pathStore.testAsset, 'wtm_256x256.jpeg')
+    const sourcePath = path.resolve(pathUtil.testAsset, 'wtm_256x256.jpeg')
     const config1: IServerImageHandlerConfig = {
       inputFormat: EnumFileFormat.jpeg,
       width: 48,

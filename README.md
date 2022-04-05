@@ -30,13 +30,10 @@ A Redis instance must be available on port 6379. An easy way to do that is:
 docker run --name redis -d -p 6379:6379 redis:6.0
 ```
 
-Run the app and worker:
+Run the server:
 
 ```bash
-npm run dev:worker
-
-# In another console
-npm run dev:app
+npm run dev:server
 ```
 
 With the app running, API docs are available at http://localhost:3500/docs
@@ -44,8 +41,8 @@ With the app running, API docs are available at http://localhost:3500/docs
 ### Build
 
 ```bash
-npm run build:worker
-npm run build:app
+npm run build:server
+npm run build:web
 ```
 
 ### Test

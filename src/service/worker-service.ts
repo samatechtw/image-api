@@ -1,8 +1,7 @@
-import { pool, WorkerPool } from 'workerpool'
-import { ServerImageHandler } from '../handler/server-image-handler'
-import { IServerImageHandlerConfig } from '../interface/i-server-image-handler-config'
-import pathStore from '../store/path-store'
-import envStore from '../store/env-store'
+import { pool, WorkerPool, cpus } from 'workerpool'
+import { ServerImageHandler } from '../handler'
+import { IServerImageHandlerConfig } from '../interface'
+import { pathUtil } from '../config'
 
 export class WorkerService {
   workerPool: WorkerPool = null
@@ -33,12 +32,12 @@ export class WorkerService {
       await this.workerPool.terminate(true)
     }
 
-    this.workerPool = pool(pathStore.serverImageHandlerWorker, {
+    this.workerPool = pool(pathUtil.serverImageHandlerWorker, {
       minWorkers: 'max',
-      maxWorkers: envStore.workerCount,
+      maxWorkers: cpus,
       workerType: 'process',
     })
   }
 }
 
-export default new WorkerService()
+export const workerService = new WorkerService()

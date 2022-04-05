@@ -1,140 +1,140 @@
-import fetch from 'node-fetch'
-import { IServerImageHandlerConfig } from '../../src/interface/i-server-image-handler-config'
-import { EnumFileFormat } from '../../src/enum/enum-file-format'
-import { readFile } from 'node:fs/promises'
-import pathStore from '../../src/store/path-store'
 import path from 'path'
+import { readFile } from 'node:fs/promises'
+import fetch from 'node-fetch'
 import FormData from 'form-data'
+import { IServerImageHandlerConfig } from '../../src/interface/i-server-image-handler-config'
+import { ProcessData } from '../../src/helper'
+import { pathUtil, apiConfig } from '../../src/config'
+import { EnumFileFormat } from '../../src/enum/enum-file-format'
 import { EnumOptimizationAlgorithm } from '../../src/enum/enum-optimization-algorithm'
-import { ProcessData } from '../../src/klass/process-data'
 import { EnumProcessJobStatus } from '../../src/enum/enum-process-job-status'
 
 describe('api', () => {
-  const apiHost = 'http://localhost:3500'
+  let apiHost: string
+  let authHeaders: Record<string, string>
+
+  beforeEach(() => {
+    apiHost = apiConfig.get('url')
+    const imageApiKey = apiConfig.get('imageApiKey')
+    authHeaders = {
+      'X-IMAGE-API-KEY': imageApiKey,
+    }
+  })
 
   it('GET /ping', async () => {
     const fetched = await fetch(`${apiHost}/ping`)
     const text = await fetched.text()
 
-    expect(fetched.ok).toEqual(true)
+    expect(fetched.status).toEqual(200)
     expect(text).toEqual('pong')
   })
 
-  it('POST /jobs convert format', async () => {
-    const fileBuffer = await readFile(
-      path.resolve(pathStore.testAsset, 'wtm_256x256.jpg'),
-    )
-    const config: IServerImageHandlerConfig = {
-      inputFormat: EnumFileFormat.jpg,
-      outputFormat: EnumFileFormat.png,
-    }
-    const formData = new FormData()
-    formData.append('file', fileBuffer, {
-      contentType: 'image/jpg',
-      filename: 'wtm_256x256.jpg',
+  describe('test valid request with jpeg', () => {
+    let jpegFormData: FormData
+
+    beforeEach(async () => {
+      const fileBuffer = await readFile(
+        path.resolve(pathUtil.testAsset, 'wtm_256x256.jpg'),
+      )
+      jpegFormData = new FormData()
+      jpegFormData.append('file', fileBuffer, {
+        contentType: 'image/jpg',
+        filename: 'wtm_256x256.jpg',
+      })
     })
-    formData.append('config', JSON.stringify(config))
-    const fetched = await fetch(`${apiHost}/jobs`, {
-      method: 'post',
-      body: formData,
+
+    it('POST /jobs convert format', async () => {
+      const config: IServerImageHandlerConfig = {
+        inputFormat: EnumFileFormat.jpg,
+        outputFormat: EnumFileFormat.png,
+      }
+      jpegFormData.append('config', JSON.stringify(config))
+
+      const fetched = await fetch(`${apiHost}/jobs`, {
+        method: 'POST',
+        body: jpegFormData,
+        headers: authHeaders,
+      })
+      const json = await fetched.json()
+      const jobId = parseInt(json['jobId'])
+
+      expect(fetched.status).toEqual(201)
+      expect(jobId).toBeGreaterThan(0)
+      expect(jobId).toBeLessThan(1000)
     })
-    const json = await fetched.json()
-    const jobId = parseInt(json['jobId'])
 
-    expect(fetched.ok).toEqual(true)
-    expect(jobId).toBeGreaterThan(0)
-    expect(jobId).toBeLessThan(1000)
-  })
+    it('POST /jobs resize', async () => {
+      const config: IServerImageHandlerConfig = {
+        inputFormat: EnumFileFormat.jpg,
+        width: 128,
+        height: 128,
+      }
+      jpegFormData.append('config', JSON.stringify(config))
 
-  it('POST /jobs resize', async () => {
-    const fileBuffer = await readFile(
-      path.resolve(pathStore.testAsset, 'wtm_256x256.jpg'),
-    )
-    const config: IServerImageHandlerConfig = {
-      inputFormat: EnumFileFormat.jpg,
-      width: 128,
-      height: 128,
-    }
-    const formData = new FormData()
-    formData.append('file', fileBuffer, {
-      contentType: 'image/jpg',
-      filename: 'wtm_256x256.jpg',
+      const fetched = await fetch(`${apiHost}/jobs`, {
+        method: 'POST',
+        body: jpegFormData,
+        headers: authHeaders,
+      })
+      const json = await fetched.json()
+      const jobId = parseInt(json['jobId'])
+
+      expect(fetched.status).toEqual(201)
+      expect(jobId).toBeGreaterThan(0)
+      expect(jobId).toBeLessThan(1000)
     })
-    formData.append('config', JSON.stringify(config))
-    const fetched = await fetch(`${apiHost}/jobs`, {
-      method: 'post',
-      body: formData,
+
+    it('POST /jobs optimize', async () => {
+      const config: IServerImageHandlerConfig = {
+        inputFormat: EnumFileFormat.jpg,
+        optimizeAlgo: EnumOptimizationAlgorithm.mozjpeg,
+        quality: 90,
+      }
+      jpegFormData.append('config', JSON.stringify(config))
+
+      const fetched = await fetch(`${apiHost}/jobs`, {
+        method: 'POST',
+        body: jpegFormData,
+        headers: authHeaders,
+      })
+      const json = await fetched.json()
+      const jobId = parseInt(json['jobId'])
+
+      expect(fetched.status).toEqual(201)
+      expect(jobId).toBeGreaterThan(0)
+      expect(jobId).toBeLessThan(1000)
     })
-    const json = await fetched.json()
-    const jobId = parseInt(json['jobId'])
 
-    expect(fetched.ok).toEqual(true)
-    expect(jobId).toBeGreaterThan(0)
-    expect(jobId).toBeLessThan(1000)
-  })
-
-  it('POST /jobs optimize', async () => {
-    const fileBuffer = await readFile(
-      path.resolve(pathStore.testAsset, 'wtm_256x256.jpg'),
-    )
-    const config: IServerImageHandlerConfig = {
-      inputFormat: EnumFileFormat.jpg,
-      optimizeAlgo: EnumOptimizationAlgorithm.mozjpeg,
-      quality: 90,
-    }
-    const formData = new FormData()
-    formData.append('file', fileBuffer, {
-      contentType: 'image/jpg',
-      filename: 'wtm_256x256.jpg',
+    it('POST /jobs upload to s3', async () => {
+      // todo: wait for a real s3
     })
-    formData.append('config', JSON.stringify(config))
-    const fetched = await fetch(`${apiHost}/jobs`, {
-      method: 'post',
-      body: formData,
+
+    it('GET /jobs all jobs', async () => {
+      // todo: wait api impl
     })
-    const json = await fetched.json()
-    const jobId = parseInt(json['jobId'])
 
-    expect(fetched.ok).toEqual(true)
-    expect(jobId).toBeGreaterThan(0)
-    expect(jobId).toBeLessThan(1000)
-  })
+    it('GET /jobs with job id', async () => {
+      const config: IServerImageHandlerConfig = {
+        inputFormat: EnumFileFormat.jpg,
+        optimizeAlgo: EnumOptimizationAlgorithm.mozjpeg,
+        quality: 90,
+      }
+      jpegFormData.append('config', JSON.stringify(config))
 
-  it('POST /jobs upload to s3', async () => {
-    // todo: wait for a real s3
-  })
+      const fetchedPost = await fetch(`${apiHost}/jobs`, {
+        method: 'POST',
+        body: jpegFormData,
+        headers: authHeaders,
+      })
+      const jsonPost = await fetchedPost.json()
+      const jobId = parseInt(jsonPost['jobId'])
 
-  it('GET /jobs all jobs', async () => {
-    // todo: wait api impl
-  })
+      await new Promise((resolve) => setTimeout(resolve, 1000))
 
-  it('GET /jobs with job id', async () => {
-    const fileBuffer = await readFile(
-      path.resolve(pathStore.testAsset, 'wtm_256x256.jpg'),
-    )
-    const config: IServerImageHandlerConfig = {
-      inputFormat: EnumFileFormat.jpg,
-      optimizeAlgo: EnumOptimizationAlgorithm.mozjpeg,
-      quality: 90,
-    }
-    const formData = new FormData()
-    formData.append('file', fileBuffer, {
-      contentType: 'image/jpg',
-      filename: 'wtm_256x256.jpg',
+      const fetchedGet = await fetch(`${apiHost}/jobs/${jobId}`, { headers: authHeaders })
+      const jsonGet: ProcessData = await fetchedGet.json()
+
+      expect(jsonGet.status).toEqual(EnumProcessJobStatus.complete)
     })
-    formData.append('config', JSON.stringify(config))
-    const fetchedPost = await fetch(`${apiHost}/jobs`, {
-      method: 'post',
-      body: formData,
-    })
-    const jsonPost = await fetchedPost.json()
-    const jobId = parseInt(jsonPost['jobId'])
-
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-
-    const fetchedGet = await fetch(`${apiHost}/jobs/${jobId}`)
-    const jsonGet: ProcessData = await fetchedGet.json()
-
-    expect(jsonGet.status).toEqual(EnumProcessJobStatus.complete)
   })
 })

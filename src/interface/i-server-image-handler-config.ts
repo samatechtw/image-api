@@ -1,5 +1,4 @@
-import { EnumOptimizationAlgorithm } from '../enum/enum-optimization-algorithm'
-import { EnumFileFormat } from '../enum/enum-file-format'
+import { EnumOptimizationAlgorithm, EnumFileFormat } from '../enum'
 
 export interface IServerImageHandlerConfig {
   inputFormat: EnumFileFormat

@@ -1,6 +1,6 @@
 import { ImagePool } from '@squoosh/lib'
-import { IOptimizer } from '../interface/i-optimizer'
-import { EnumOptimizationAlgorithm } from '../enum/enum-optimization-algorithm'
+import { IOptimizer } from '../interface'
+import { EnumOptimizationAlgorithm } from '../enum'
 
 export class SquooshOptimizer implements IOptimizer {
   acceptAlgorithms: EnumOptimizationAlgorithm[] = [EnumOptimizationAlgorithm.mozjpeg]

@@ -1,7 +1,7 @@
 import * as path from 'path'
 import { readFile } from 'fs/promises'
 import { writeFile } from 'node:fs/promises'
-import pathStore from '../store/path-store'
+import { pathUtil } from '../config'
 import { PngquantOptimizer } from './pngquant-optimizer'
 
 describe('PngquantOptimizer', () => {
@@ -13,23 +13,21 @@ describe('PngquantOptimizer', () => {
 
   it('optimize()', async () => {
     for (const algo of optimizer.acceptAlgorithms) {
-      const inBuffer = await readFile(
-        path.resolve(pathStore.testAsset, 'wtm_256x256.png'),
-      )
+      const inBuffer = await readFile(path.resolve(pathUtil.testAsset, 'wtm_256x256.png'))
       const outBuffer90 = await optimizer.optimize(inBuffer, algo, 90)
       const outBuffer50 = await optimizer.optimize(inBuffer, algo, 50)
       const outBuffer10 = await optimizer.optimize(inBuffer, algo, 10)
 
       await writeFile(
-        path.resolve(pathStore.testOut, `wtm_256x256_${algo}_${90}.png`),
+        path.resolve(pathUtil.testOut, `wtm_256x256_${algo}_${90}.png`),
         outBuffer90,
       )
       await writeFile(
-        path.resolve(pathStore.testOut, `wtm_256x256_${algo}_${50}.png`),
+        path.resolve(pathUtil.testOut, `wtm_256x256_${algo}_${50}.png`),
         outBuffer50,
       )
       await writeFile(
-        path.resolve(pathStore.testOut, `wtm_256x256_${algo}_${10}.png`),
+        path.resolve(pathUtil.testOut, `wtm_256x256_${algo}_${10}.png`),
         outBuffer10,
       )
 

@@ -1,5 +1,5 @@
 import * as Buffer from 'buffer'
-import { EnumOptimizationAlgorithm } from '../enum/enum-optimization-algorithm'
+import { EnumOptimizationAlgorithm } from '../enum'
 
 export interface IOptimizer {
   acceptAlgorithms: EnumOptimizationAlgorithm[]

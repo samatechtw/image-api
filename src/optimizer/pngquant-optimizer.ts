@@ -1,8 +1,8 @@
 import PngQuant from 'pngquant'
-import { IOptimizer } from '../interface/i-optimizer'
-import { EnumOptimizationAlgorithm } from '../enum/enum-optimization-algorithm'
 import { Readable } from 'stream'
 import { Buffer } from 'buffer'
+import { IOptimizer } from '../interface'
+import { EnumOptimizationAlgorithm } from '../enum'
 
 export class PngquantOptimizer implements IOptimizer {
   acceptAlgorithms: EnumOptimizationAlgorithm[] = [EnumOptimizationAlgorithm.pngquant]

@@ -1,10 +1,10 @@
 import { v4 } from 'uuid'
-import { promises as fs } from 'fs'
-import { IServerImageHandlerConfig } from '../interface/i-server-image-handler-config'
-import { EnumFileFormat } from '../enum/enum-file-format'
+
 import path from 'path'
 import * as os from 'os'
-import { EnumProcessJobStatus } from '../enum/enum-process-job-status'
+import { promises as fs } from 'fs'
+import { IServerImageHandlerConfig } from '../interface'
+import { EnumFileFormat, EnumProcessJobStatus } from '../enum/'
 
 export class ProcessData {
   readonly tempInputPath: string = path.resolve(os.tmpdir(), v4())

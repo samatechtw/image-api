@@ -1,10 +1,10 @@
-import jobService, { JobService } from './job-service'
 import { readFile } from 'node:fs/promises'
 import path from 'path'
-import pathStore from '../store/path-store'
-import { IServerImageHandlerConfig } from '../interface/i-server-image-handler-config'
-import { EnumFileFormat } from '../enum/enum-file-format'
-import workerService from './worker-service'
+import { pathUtil } from '../config'
+import { IServerImageHandlerConfig } from '../interface'
+import { EnumFileFormat } from '../enum'
+import { workerService } from './worker-service'
+import { JobService, jobService } from './job-service'
 
 describe('JobService', () => {
   beforeAll(async () => {
@@ -28,7 +28,7 @@ describe('JobService', () => {
 
   it('add()', async () => {
     const fileName = 'wtm_256x256.jpeg'
-    const buffer = await readFile(path.resolve(pathStore.testAsset, fileName))
+    const buffer = await readFile(path.resolve(pathUtil.testAsset, fileName))
     const config: IServerImageHandlerConfig = {
       inputFormat: EnumFileFormat.jpeg,
     }
