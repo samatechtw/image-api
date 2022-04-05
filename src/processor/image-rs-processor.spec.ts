@@ -1,7 +1,7 @@
-import { ImageRsProcessor } from './image-rs-processor'
 import { readFile, writeFile } from 'node:fs/promises'
 import path from 'path'
-import pathStore from '../store/path-store'
+import { pathUtil } from '../config'
+import { ImageRsProcessor } from './image-rs-processor'
 
 describe('ImageRsProcessor', () => {
   const processor = new ImageRsProcessor()
@@ -22,13 +22,13 @@ describe('ImageRsProcessor', () => {
 
           it(`resize() .${readFormat} to ${newWidth}x${newHeight}`, async () => {
             const inBuffer = await readFile(
-              path.resolve(pathStore.testAsset, `wtm_256x256.${readFormat}`),
+              path.resolve(pathUtil.testAsset, `wtm_256x256.${readFormat}`),
             )
             const outBuffer = await processor.resize(inBuffer, newWidth, newHeight)
 
             await writeFile(
               path.resolve(
-                pathStore.testOut,
+                pathUtil.testOut,
                 `[image-rs]wtm_256x256_to_${newWidth}x${newHeight}.${readFormat}`,
               ),
               outBuffer,
@@ -50,13 +50,13 @@ describe('ImageRsProcessor', () => {
 
       it(`convert() ${readFormat} to ${writeFormat}`, async () => {
         const inBuffer = await readFile(
-          path.resolve(pathStore.testAsset, `wtm_256x256.${readFormat}`),
+          path.resolve(pathUtil.testAsset, `wtm_256x256.${readFormat}`),
         )
         const outBuffer = await processor.convert(inBuffer, writeFormat)
 
         await writeFile(
           path.resolve(
-            pathStore.testOut,
+            pathUtil.testOut,
             `[image-rs]wtm_256x256_${readFormat}.${writeFormat}`,
           ),
           outBuffer,

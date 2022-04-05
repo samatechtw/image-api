@@ -1,7 +1,7 @@
 import * as svgo from 'svgo'
 import { Buffer } from 'buffer'
-import { IOptimizer } from '../interface/i-optimizer'
-import { EnumOptimizationAlgorithm } from '../enum/enum-optimization-algorithm'
+import { IOptimizer } from '../interface'
+import { EnumOptimizationAlgorithm } from '../enum/'
 
 export class SvgoOptimizer implements IOptimizer {
   acceptAlgorithms: EnumOptimizationAlgorithm[] = [EnumOptimizationAlgorithm.svgo]

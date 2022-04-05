@@ -2,7 +2,7 @@ import { readFile } from 'fs/promises'
 import { writeFile } from 'node:fs/promises'
 import * as path from 'path'
 import { SquooshOptimizer } from './squoosh-optimizer'
-import pathStore from '../store/path-store'
+import { pathUtil } from '../config'
 
 describe('SquooshOptimizer', () => {
   let optimizer: SquooshOptimizer
@@ -14,22 +14,22 @@ describe('SquooshOptimizer', () => {
   it('optimize()', async () => {
     for (const algo of optimizer.acceptAlgorithms) {
       const inBuffer = await readFile(
-        path.resolve(pathStore.testAsset, 'wtm_256x256.jpeg'),
+        path.resolve(pathUtil.testAsset, 'wtm_256x256.jpeg'),
       )
       const outBuffer90 = await optimizer.optimize(inBuffer, algo, 90)
       const outBuffer50 = await optimizer.optimize(inBuffer, algo, 50)
       const outBuffer10 = await optimizer.optimize(inBuffer, algo, 10)
 
       await writeFile(
-        path.resolve(pathStore.testOut, `wtm_256x256_${algo}_${90}.jpeg`),
+        path.resolve(pathUtil.testOut, `wtm_256x256_${algo}_${90}.jpeg`),
         outBuffer90,
       )
       await writeFile(
-        path.resolve(pathStore.testOut, `wtm_256x256_${algo}_${50}.jpeg`),
+        path.resolve(pathUtil.testOut, `wtm_256x256_${algo}_${50}.jpeg`),
         outBuffer50,
       )
       await writeFile(
-        path.resolve(pathStore.testOut, `wtm_256x256_${algo}_${10}.jpeg`),
+        path.resolve(pathUtil.testOut, `wtm_256x256_${algo}_${10}.jpeg`),
         outBuffer10,
       )
 

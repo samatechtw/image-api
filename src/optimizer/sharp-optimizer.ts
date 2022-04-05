@@ -1,6 +1,6 @@
-import { IOptimizer } from '../interface/i-optimizer'
-import { EnumOptimizationAlgorithm } from '../enum/enum-optimization-algorithm'
 import sharp from 'sharp'
+import { IOptimizer } from '../interface'
+import { EnumOptimizationAlgorithm } from '../enum'
 
 export class SharpOptimizer implements IOptimizer {
   acceptAlgorithms: EnumOptimizationAlgorithm[] = [

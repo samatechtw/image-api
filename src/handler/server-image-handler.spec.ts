@@ -2,9 +2,8 @@ import sharp from 'sharp'
 import path from 'path'
 import { promises as fs } from 'fs'
 import { ServerImageHandler } from './server-image-handler'
-import pathStore from '../store/path-store'
-import { EnumFileFormat } from '../enum/enum-file-format'
-import { EnumOptimizationAlgorithm } from '../enum/enum-optimization-algorithm'
+import { pathUtil } from '../config'
+import { EnumFileFormat, EnumOptimizationAlgorithm } from '../enum'
 
 describe('ServerImageHandler', () => {
   it('constructor()', async () => {
@@ -16,7 +15,7 @@ describe('ServerImageHandler', () => {
   it('handle() resize', async () => {
     const handler = new ServerImageHandler()
     const sourceBuffer = await fs.readFile(
-      path.resolve(pathStore.testAsset, 'wtm_256x256.jpg'),
+      path.resolve(pathUtil.testAsset, 'wtm_256x256.jpg'),
     )
     const resultBuffer = await handler.handleBuffer(sourceBuffer, {
       width: 48,
@@ -34,7 +33,7 @@ describe('ServerImageHandler', () => {
   it('handle() convert', async () => {
     const handler = new ServerImageHandler()
     const sourceBuffer = await fs.readFile(
-      path.resolve(pathStore.testAsset, 'wtm_256x256.jpg'),
+      path.resolve(pathUtil.testAsset, 'wtm_256x256.jpg'),
     )
     const resultBuffer = await handler.handleBuffer(sourceBuffer, {
       inputFormat: EnumFileFormat.jpg,
@@ -50,7 +49,7 @@ describe('ServerImageHandler', () => {
   it('handle() optimize', async () => {
     const handler = new ServerImageHandler()
     const sourceBuffer = await fs.readFile(
-      path.resolve(pathStore.testAsset, 'wtm_256x256.jpg'),
+      path.resolve(pathUtil.testAsset, 'wtm_256x256.jpg'),
     )
     const resultBuffer = await handler.handleBuffer(sourceBuffer, {
       inputFormat: EnumFileFormat.jpg,
@@ -68,7 +67,7 @@ describe('ServerImageHandler', () => {
   it('handle() resize & convert', async () => {
     const handler = new ServerImageHandler()
     const sourceBuffer = await fs.readFile(
-      path.resolve(pathStore.testAsset, 'wtm_256x256.jpg'),
+      path.resolve(pathUtil.testAsset, 'wtm_256x256.jpg'),
     )
     const resultBuffer = await handler.handleBuffer(sourceBuffer, {
       inputFormat: EnumFileFormat.jpg,
@@ -86,7 +85,7 @@ describe('ServerImageHandler', () => {
   it('handle() convert & optimize', async () => {
     const handler = new ServerImageHandler()
     const sourceBuffer = await fs.readFile(
-      path.resolve(pathStore.testAsset, 'wtm_256x256.jpg'),
+      path.resolve(pathUtil.testAsset, 'wtm_256x256.jpg'),
     )
     const resultBuffer = await handler.handleBuffer(sourceBuffer, {
       inputFormat: EnumFileFormat.jpg,
@@ -105,7 +104,7 @@ describe('ServerImageHandler', () => {
   it('handle() resize & optimize', async () => {
     const handler = new ServerImageHandler()
     const sourceBuffer = await fs.readFile(
-      path.resolve(pathStore.testAsset, 'wtm_256x256.jpg'),
+      path.resolve(pathUtil.testAsset, 'wtm_256x256.jpg'),
     )
     const resultBuffer = await handler.handleBuffer(sourceBuffer, {
       inputFormat: EnumFileFormat.jpg,
@@ -125,7 +124,7 @@ describe('ServerImageHandler', () => {
   it('handle() resize & convert & optimize', async () => {
     const handler = new ServerImageHandler()
     const sourceBuffer = await fs.readFile(
-      path.resolve(pathStore.testAsset, 'wtm_256x256.jpg'),
+      path.resolve(pathUtil.testAsset, 'wtm_256x256.jpg'),
     )
     const resultBuffer = await handler.handleBuffer(sourceBuffer, {
       inputFormat: EnumFileFormat.jpg,
@@ -146,7 +145,7 @@ describe('ServerImageHandler', () => {
   it('handle() do nothing', async () => {
     const handler = new ServerImageHandler()
     const sourceBuffer = await fs.readFile(
-      path.resolve(pathStore.testAsset, 'wtm_256x256.jpg'),
+      path.resolve(pathUtil.testAsset, 'wtm_256x256.jpg'),
     )
     const resultBuffer = await handler.handleBuffer(sourceBuffer, {
       inputFormat: EnumFileFormat.jpg,

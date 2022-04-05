@@ -1,14 +1,13 @@
 import { pool } from 'workerpool'
 import path from 'path'
 import { readFile, unlink } from 'node:fs/promises'
-import pathStore from '../store/path-store'
-import { IServerImageHandlerConfig } from '../interface/i-server-image-handler-config'
-import { EnumFileFormat } from '../enum/enum-file-format'
-import { EnumOptimizationAlgorithm } from '../enum/enum-optimization-algorithm'
+import { pathUtil } from '../config'
+import { IServerImageHandlerConfig } from '../interface'
+import { EnumOptimizationAlgorithm, EnumFileFormat } from '../enum'
 
 describe('server-image-handler.worker', () => {
   it('ping()', async () => {
-    const workerPool = pool(pathStore.serverImageHandlerWorker, {
+    const workerPool = pool(pathUtil.serverImageHandlerWorker, {
       workerType: 'process',
     })
     const res = await workerPool.exec('ping', [])
@@ -18,11 +17,11 @@ describe('server-image-handler.worker', () => {
   })
 
   it('handlePath() resize', async () => {
-    const workerPool = pool(pathStore.serverImageHandlerWorker, {
+    const workerPool = pool(pathUtil.serverImageHandlerWorker, {
       workerType: 'process',
     })
-    const sourcePath = path.resolve(pathStore.testAsset, 'wtm_256x256.jpg')
-    const targetPath = path.resolve(pathStore.testOut, 'wtm_256x256_48x48.jpg')
+    const sourcePath = path.resolve(pathUtil.testAsset, 'wtm_256x256.jpg')
+    const targetPath = path.resolve(pathUtil.testOut, 'wtm_256x256_48x48.jpg')
     const config: IServerImageHandlerConfig = {
       inputFormat: EnumFileFormat.jpg,
       width: 48,
@@ -41,11 +40,11 @@ describe('server-image-handler.worker', () => {
   })
 
   it('handle() convert', async () => {
-    const workerPool = pool(pathStore.serverImageHandlerWorker, {
+    const workerPool = pool(pathUtil.serverImageHandlerWorker, {
       workerType: 'process',
     })
-    const sourcePath = path.resolve(pathStore.testAsset, 'wtm_256x256.png')
-    const targetPath = path.resolve(pathStore.testOut, 'wtm_256x256.png.jpg')
+    const sourcePath = path.resolve(pathUtil.testAsset, 'wtm_256x256.png')
+    const targetPath = path.resolve(pathUtil.testOut, 'wtm_256x256.png.jpg')
     const config: IServerImageHandlerConfig = {
       inputFormat: EnumFileFormat.png,
       outputFormat: EnumFileFormat.jpg,
@@ -63,11 +62,11 @@ describe('server-image-handler.worker', () => {
   })
 
   it('handle() optimize', async () => {
-    const workerPool = pool(pathStore.serverImageHandlerWorker, {
+    const workerPool = pool(pathUtil.serverImageHandlerWorker, {
       workerType: 'process',
     })
-    const sourcePath = path.resolve(pathStore.testAsset, 'wtm_256x256.png')
-    const targetPath = path.resolve(pathStore.testOut, 'wtm_256x256.pngquant.png')
+    const sourcePath = path.resolve(pathUtil.testAsset, 'wtm_256x256.png')
+    const targetPath = path.resolve(pathUtil.testOut, 'wtm_256x256.pngquant.png')
     const config: IServerImageHandlerConfig = {
       inputFormat: EnumFileFormat.png,
       optimizeAlgo: EnumOptimizationAlgorithm.pngquant,

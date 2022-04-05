@@ -4,12 +4,11 @@ import { NestExpressApplication } from '@nestjs/platform-express'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 import { Logger, ValidationPipe } from '@nestjs/common'
 import { AppModule } from './app.module'
-import workerService from './service/worker-service'
-import jobService from './service/job-service'
+import { workerService, jobService } from './service'
+import { apiConfig } from './config'
 
 const run = async () => {
-  // TODO -- get port from config
-  const port = 3500
+  const port = apiConfig.get('port')
   const app = await NestFactory.create<NestExpressApplication>(AppModule)
 
   await workerService.init()
@@ -46,7 +45,6 @@ const run = async () => {
 
   // Enable DI in class-validator
   useContainer(app.select(AppModule), { fallbackOnErrors: true })
-
   await app.listen(port, () => {
     Logger.log(`Listening on http://localhost:${port}`)
   })

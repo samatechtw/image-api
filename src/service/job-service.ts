@@ -1,6 +1,4 @@
 import { readFile, writeFile } from 'node:fs/promises'
-import { ProcessData } from '../klass/process-data'
-import { IServerImageHandlerConfig } from '../interface/i-server-image-handler-config'
 import Bull, {
   ActiveEventCallback,
   CleanedEventCallback,
@@ -14,10 +12,12 @@ import Bull, {
   StalledEventCallback,
   WaitingEventCallback,
 } from 'bull'
-import workerService from './worker-service'
-import uploadService from './upload-service'
-import { EnumProcessJobStatus } from '../enum/enum-process-job-status'
 import { Logger } from '@nestjs/common'
+import { ProcessData } from '../helper'
+import { IServerImageHandlerConfig } from '../interface'
+import { EnumProcessJobStatus } from '../enum'
+import { workerService } from './worker-service'
+import { uploadService } from './upload-service'
 
 export class JobService {
   workerQueue: Bull.Queue<ProcessData> = null
@@ -171,4 +171,4 @@ export class JobService {
   }
 }
 
-export default new JobService()
+export const jobService = new JobService()

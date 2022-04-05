@@ -1,8 +1,8 @@
-import { SharpOptimizer } from './sharp-optimizer'
 import path from 'path'
-import pathStore from '../store/path-store'
 import { readFile } from 'node:fs/promises'
-import { EnumOptimizationAlgorithm } from '../enum/enum-optimization-algorithm'
+import { SharpOptimizer } from './sharp-optimizer'
+import { pathUtil } from '../config'
+import { EnumOptimizationAlgorithm } from '../enum'
 
 describe('SharpOptimizer', () => {
   jest.setTimeout(60 * 1000 * 1000)
@@ -17,7 +17,7 @@ describe('SharpOptimizer', () => {
     assetName: string,
     isOptimizer: boolean,
   ) => {
-    const inBuffer = await readFile(path.resolve(pathStore.testAsset, assetName))
+    const inBuffer = await readFile(path.resolve(pathUtil.testAsset, assetName))
 
     if (isOptimizer) {
       const outBuffer100 = await optimizer.optimize(inBuffer, algo, 100)

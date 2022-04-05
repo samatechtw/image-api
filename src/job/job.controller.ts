@@ -1,3 +1,4 @@
+import 'multer'
 import {
   Body,
   Controller,
@@ -6,14 +7,15 @@ import {
   Param,
   Post,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common'
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger'
+import { AuthGuard } from '@nestjs/passport'
+import { ApiTags, ApiOperation, ApiResponse, ApiHeader } from '@nestjs/swagger'
 import { FileInterceptor } from '@nestjs/platform-express'
-import { ICreateImageJobResponse } from '../interface/i-create-job-response'
-import 'multer'
+import { ICreateImageJobResponse } from '../interface'
+import { jobService } from '../service'
 import { JobConfigDto } from './create-job.dto'
-import jobService from '../service/job-service'
 
 @ApiTags('Jobs')
 @Controller('jobs')
@@ -34,6 +36,13 @@ export class JobController {
     status: 403,
     description: 'The endpoint has been invoked by an unauthorized client',
   })
+  @ApiHeader({
+    name: 'X-IMAGE-API-KEY',
+    description: 'API Key for external access',
+    required: true,
+    allowEmptyValue: false,
+  })
+  @UseGuards(AuthGuard(['apiKey']))
   @Post()
   @UseInterceptors(FileInterceptor('file'))
   async add(
@@ -59,6 +68,13 @@ export class JobController {
     status: 403,
     description: 'The endpoint has been invoked by an unauthorized client',
   })
+  @ApiHeader({
+    name: 'X-API-KEY',
+    description: 'API Key for external access',
+    required: true,
+    allowEmptyValue: false,
+  })
+  @UseGuards(AuthGuard(['apiKey']))
   @Delete(':id')
   async removeById(@Param('id') id: string) {
     await jobService.removeById(id)
@@ -77,6 +93,13 @@ export class JobController {
     status: 403,
     description: 'The endpoint has been invoked by an unauthorized client',
   })
+  @ApiHeader({
+    name: 'X-API-KEY',
+    description: 'API Key for external access',
+    required: true,
+    allowEmptyValue: false,
+  })
+  @UseGuards(AuthGuard(['apiKey']))
   @Get('/')
   async getAll() {
     // TODO -- implement
@@ -97,6 +120,13 @@ export class JobController {
     status: 403,
     description: 'The endpoint has been invoked by an unauthorized client',
   })
+  @ApiHeader({
+    name: 'X-API-KEY',
+    description: 'API Key for external access',
+    required: true,
+    allowEmptyValue: false,
+  })
+  @UseGuards(AuthGuard(['apiKey']))
   @Get(':id')
   async getById(@Param('id') id: string) {
     const data = await jobService.getById(id)
