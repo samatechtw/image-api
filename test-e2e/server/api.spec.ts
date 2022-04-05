@@ -6,10 +6,8 @@ import pathStore from '../../src/store/path-store'
 import path from 'path'
 import FormData from 'form-data'
 import { EnumOptimizationAlgorithm } from '../../src/enum/enum-optimization-algorithm'
-import jobService from '../../src/service/job-service'
 import { ProcessData } from '../../src/klass/process-data'
 import { EnumProcessJobStatus } from '../../src/enum/enum-process-job-status'
-import workerService from '../../src/service/worker-service'
 
 describe('api', () => {
   const apiHost = 'http://localhost:3500'

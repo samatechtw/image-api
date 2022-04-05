@@ -5,13 +5,16 @@ import { Progress } from '@aws-sdk/lib-storage/dist-types/types'
 import _ from 'lodash'
 
 describe('uploadService', () => {
+  afterEach(() => {
+    jest.resetAllMocks()
+  })
+
   it('constructor()', async () => {
     expect(uploadService).toBeInstanceOf(UploadService)
   })
 
   it('toS3()', async () => {
     const onProgressMock = jest.fn()
-    const originOnProgressFn = uploadService.onS3UploadProgress
     uploadService.onS3UploadProgress = onProgressMock
 
     const s3ClientMock = mockClient(S3Client)

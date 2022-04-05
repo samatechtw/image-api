@@ -1,7 +1,7 @@
 import { SharpOptimizer } from './sharp-optimizer'
 import path from 'path'
 import pathStore from '../store/path-store'
-import { readFile, writeFile } from 'node:fs/promises'
+import { readFile } from 'node:fs/promises'
 import { EnumOptimizationAlgorithm } from '../enum/enum-optimization-algorithm'
 
 describe('SharpOptimizer', () => {

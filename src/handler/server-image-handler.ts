@@ -10,7 +10,6 @@ import { EnumFileFormat } from '../enum/enum-file-format'
 import { EnumOptimizationAlgorithm } from '../enum/enum-optimization-algorithm'
 import { IProcessor } from '../interface/i-processor'
 import { SharpProcessor } from '../processor/sharp-processor'
-import { worker } from 'workerpool'
 
 export class ServerImageHandler {
   // sort by performance
