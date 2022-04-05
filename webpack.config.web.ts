@@ -1,4 +1,4 @@
-import { Configuration, DefinePlugin } from 'webpack'
+import { Configuration } from 'webpack'
 import pathStore from './src/store/path-store'
 import path from 'path'
 import CopyPlugin from 'copy-webpack-plugin'

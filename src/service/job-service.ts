@@ -14,7 +14,6 @@ import Bull, {
   StalledEventCallback,
   WaitingEventCallback,
 } from 'bull'
-import envStore from '../store/env-store'
 import workerService from './worker-service'
 import uploadService from './upload-service'
 import { EnumProcessJobStatus } from '../enum/enum-process-job-status'
@@ -47,15 +46,15 @@ export class JobService {
     return data.data
   }
 
-  onError: ErrorEventCallback = (error) => {
+  onError: ErrorEventCallback = (_error) => {
     // console.log('onError')
   }
 
-  onWaiting: WaitingEventCallback = (jobId) => {
+  onWaiting: WaitingEventCallback = (_jobId) => {
     // console.log('onWaiting')
   }
 
-  onActive: ActiveEventCallback<ProcessData> = async (job, jobPromise) => {
+  onActive: ActiveEventCallback<ProcessData> = async (job, _jobPromise) => {
     await job.update(
       Object.assign({}, job.data, {
         status: EnumProcessJobStatus.processing,
@@ -63,15 +62,15 @@ export class JobService {
     )
   }
 
-  onStalled: StalledEventCallback<ProcessData> = (job) => {
+  onStalled: StalledEventCallback<ProcessData> = (_job) => {
     // console.log('onStalled')
   }
 
-  onProgress: ProgressEventCallback<ProcessData> = (job, progress) => {
+  onProgress: ProgressEventCallback<ProcessData> = (_job, _progress) => {
     // console.log('onProgress')
   }
 
-  onCompleted: CompletedEventCallback<ProcessData> = async (job, result) => {
+  onCompleted: CompletedEventCallback<ProcessData> = async (job, _result) => {
     Logger.log('complete')
     await job.update(
       Object.assign({}, job.data, {
@@ -97,11 +96,11 @@ export class JobService {
     // console.log('onResume')
   }
 
-  onRemoved: RemovedEventCallback<ProcessData> = (job) => {
+  onRemoved: RemovedEventCallback<ProcessData> = (_job) => {
     // console.log('onRemoved')
   }
 
-  onCleaned: CleanedEventCallback<ProcessData> = (jobs, status) => {
+  onCleaned: CleanedEventCallback<ProcessData> = (_jobs, _status) => {
     // console.log('onCleaned')
   }
 
@@ -170,8 +169,6 @@ export class JobService {
     await this.workerQueue.clean(0, 'failed')
     await this.workerQueue.resume()
   }
-
-  constructor() {}
 }
 
 export default new JobService()

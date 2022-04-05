@@ -1,4 +1,4 @@
-import { cpus, pool, WorkerPool } from 'workerpool'
+import { pool, WorkerPool } from 'workerpool'
 import { ServerImageHandler } from '../handler/server-image-handler'
 import { IServerImageHandlerConfig } from '../interface/i-server-image-handler-config'
 import pathStore from '../store/path-store'

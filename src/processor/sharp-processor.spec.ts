@@ -16,6 +16,7 @@ describe('SharpProcessor', () => {
   for (const newWidth of newSizes) {
     for (const newHeight of newSizes) {
       for (const readFormat of processor.readFormats) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         for (const writeFormat of processor.writeFormats) {
           it(`resize() to ${newWidth}x${newHeight}`, async () => {
             const inBuffer = await readFile(

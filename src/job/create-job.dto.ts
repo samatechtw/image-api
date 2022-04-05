@@ -1,5 +1,4 @@
-import { IsNumber, IsEnum, IsObject, IsOptional, ValidateNested } from 'class-validator'
-import { Type } from 'class-transformer'
+import { IsNumber, IsEnum, IsOptional } from 'class-validator'
 import { ApiProperty } from '@nestjs/swagger'
 import { IServerImageHandlerConfig } from '../interface/i-server-image-handler-config'
 import { EnumFileFormat } from '../enum/enum-file-format'
