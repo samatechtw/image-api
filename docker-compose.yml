@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  redis:
+    image: 'redislabs/redismod'
+    ports:
+      - '6379:6379'
+  server:
+    restart: on-failure
+    build: .
+    hostname: image-api
+    ports:
+      - '3500:3500'
+    environment:
+      - REDIS_HOST=redis
