@@ -18,6 +18,7 @@ import { IServerImageHandlerConfig } from '../interface'
 import { EnumProcessJobStatus } from '../enum'
 import { workerService } from './worker-service'
 import { uploadService } from './upload-service'
+import { apiConfig } from '../config'
 
 export class JobService {
   workerQueue: Bull.Queue<ProcessData> = null
@@ -149,7 +150,13 @@ export class JobService {
   }
 
   init = async () => {
-    this.workerQueue = new Bull<ProcessData>('worker-queue')
+    const redisHost = apiConfig.get('redisHost')
+    Logger.debug(`Setting up Bull queue on host: ${redisHost}`)
+    this.workerQueue = new Bull<ProcessData>('worker-queue', {
+      redis: { host: redisHost, port: 6379 },
+    })
+
+    Logger.debug('Bull queue initializing...')
     this.workerQueue.process(this.process)
     this.setListeners()
     await this.workerQueue.isReady()

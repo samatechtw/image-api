@@ -10,11 +10,15 @@ FROM base as build.dev
 ENV SHELL=/bin/sh
 RUN apk add --no-cache \
   npm~=8
+RUN npm install -g pnpm
+
 WORKDIR /usr/src
 
-COPY babel.config.js nest-cli.json rollup.config.ts tsconfig.build.json tsconfig.json ./
-COPY package.json package-lock.json ./
-RUN npm install
+# RUN curl -L https://unpkg.com/@pnpm/self-installer | node - add --global pnpm
+
+COPY babel.config.js nest-cli.json tsconfig.build.json tsconfig.json ./
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile --unsafe-perm
 COPY src ./src
 
 # DEV API APP IMAGE (486MB)
@@ -23,8 +27,7 @@ FROM build.dev as dev
 
 # INCLUDE RUNTIME ARGS/ENV HERE
 
-RUN npm run build:worker
-RUN npm run build:app
+RUN npm run build:server
 EXPOSE 3500
 ENTRYPOINT ["/sbin/tini", "-v", "--"]
 CMD ["npm", "run", "start"]

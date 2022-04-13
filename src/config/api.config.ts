@@ -12,6 +12,12 @@ export const apiConfig = convict({
     default: 'http://localhost:3500',
     env: 'API_URL',
   },
+  redisHost: {
+    doc: 'Redis host',
+    format: String,
+    default: '127.0.0.1',
+    env: 'REDIS_HOST',
+  },
   authorizedReferrers: {
     format: String,
     doc: 'List of authorized referrers allowed to access the service',

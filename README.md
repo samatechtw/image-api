@@ -47,7 +47,25 @@ npm run build:web
 
 ### Test
 
-**Docker**
+**Unit test**
+
+```bash
+npm run test:unit
+```
+
+**E2E test**
+
+Redis must be running first
+
+```bash
+# Start server in another terminal
+npm run dev:server
+
+# Run E2E tests
+npm run test:e2e
+```
+
+### Docker
 
 ```bash
 # Build
@@ -57,6 +75,17 @@ docker run -p 3500:3500 api:dev
 ```
 
 See [build script](./tools/build-docker-images.sh) for building specific images, which can be useful for testing.
+
+**Docker compose**
+
+```bash
+# start app
+docker-compose up -d
+# stop app
+docker-compose down
+# re-build app
+docker-compose build
+```
 
 ### Commit conventions
 
