@@ -1,5 +1,5 @@
 {
-  "name": "image-api",
+  "name": "@samatech/image-api",
   "version": "0.0.0",
   "description": "Service that allows uploading an image, validating it, and pushing to an external data service such as AWS S3.",
   "main": "src/main.ts",
@@ -7,6 +7,8 @@
     "prepare": "husky install",
     "dev:server": "nest start --watch",
     "dev:web": "webpack --config webpack.config.web.ts --watch --mode development",
+    "example": "npm -C example run dev",
+    "dev:example": "concurrently --kill-others \"npm run dev:web\" \"npm run example:dev\"",
     "build:image-rs": "cd src/processor/image-rs-processor && wasm-pack build --target web --out-dir pkg-web && wasm-pack build --target nodejs --out-dir pkg-node",
     "build:server": "nest build",
     "build:web": "webpack --config webpack.config.web.ts --mode production",
