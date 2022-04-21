@@ -1,23 +1,20 @@
-import fs from 'fs-extra'
 import * as _ from 'lodash'
-import { Buffer } from 'buffer'
-import { IServerImageHandlerConfig } from '../interface/i-server-image-handler-config'
-import { IOptimizer } from '../interface/i-optimizer'
-import { SquooshOptimizer, PngquantOptimizer, SvgoOptimizer } from '../optimizer'
-import { EnumFileFormat, EnumOptimizationAlgorithm } from '../enum'
-import { IProcessor } from '../interface/'
-import { SharpProcessor } from '../processor/sharp-processor'
+import { IProcessor, IOptimizer } from '../interface'
+import { EnumOptimizationAlgorithm, EnumFileFormat } from '../enum'
+import { ImageRsProcessor } from '../processor/image-rs-processor'
+import { IWebImageHandlerConfig } from '../interface/i-web-image-handler-config'
 
-export class ServerImageHandler {
+import imageRsProcessorWasmInit from '../processor/image-rs-processor/pkg-web/image_rs_processor'
+const imageRsProcessorWasm = await imageRsProcessorWasmInit()
+
+console.log(imageRsProcessorWasmInit, imageRsProcessorWasm)
+
+export class WebImageHandler {
   // sort by performance
-  processors: IProcessor[] = [new SharpProcessor()]
+  processors: IProcessor[] = [new ImageRsProcessor(imageRsProcessorWasm)]
 
   // sort by performance
-  optimizers: IOptimizer[] = [
-    new SquooshOptimizer(),
-    new PngquantOptimizer(),
-    new SvgoOptimizer(),
-  ]
+  optimizers: IOptimizer[] = []
 
   get readFormats(): EnumFileFormat[] {
     let res = []
@@ -49,10 +46,10 @@ export class ServerImageHandler {
     return _.uniq(res)
   }
 
-  handleBuffer = async (
+  async handleBuffer(
     buffer: Uint8Array,
-    config: IServerImageHandlerConfig,
-  ): Promise<Uint8Array> => {
+    config: IWebImageHandlerConfig,
+  ): Promise<Uint8Array> {
     // check format
     if (this.readFormats.indexOf(config.inputFormat) === -1) {
       throw `Input format ${config.inputFormat} is not supported`
@@ -118,26 +115,5 @@ export class ServerImageHandler {
 
     // convert to buffer type again because some optimizers output uint8array
     return Buffer.from(resBuffer)
-  }
-
-  // for worker
-  handlePath = async (
-    inputPath: string,
-    outputPath: string,
-    config: IServerImageHandlerConfig,
-  ) => {
-    try {
-      const inputBuffer = await fs.readFile(inputPath)
-      const outputBuffer = await this.handleBuffer(inputBuffer, config)
-
-      await fs.outputFile(outputPath, outputBuffer)
-    } catch (e) {
-      console.log('ServerImageHandler.handlePath error:', e)
-    }
-  }
-
-  // for test
-  ping = () => {
-    return 'pong'
   }
 }

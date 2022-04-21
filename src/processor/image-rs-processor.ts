@@ -1,19 +1,13 @@
 import { IProcessor } from '../interface'
 import { EnumFileFormat } from '../enum'
-import { envUtil } from '../env'
 
 export class ImageRsProcessor implements IProcessor {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   wasm: any
 
-  constructor() {
-    if (envUtil.isNode) {
-      this.wasm = require('./image-rs-processor/pkg-node/image_rs_processor')
-    } else if (envUtil.isWeb) {
-      this.wasm = require('./image-rs-processor/pkg-web/image_rs_processor')
-    } else {
-      throw 'Can not detect current env for WASM module.'
-    }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  constructor(wasm: any) {
+    this.wasm = wasm
   }
 
   readFormats: EnumFileFormat[] = [
@@ -35,11 +29,11 @@ export class ImageRsProcessor implements IProcessor {
     EnumFileFormat.ico,
   ]
 
-  async convert(buffer: Buffer, toFormat: EnumFileFormat): Promise<Buffer> {
-    return Buffer.from(this.wasm.convert(buffer, toFormat))
+  async convert(buffer: Uint8Array, toFormat: EnumFileFormat): Promise<Uint8Array> {
+    return new Uint8Array(this.wasm.convert(buffer, toFormat))
   }
 
-  async resize(buffer: Buffer, width: number, height: number): Promise<Buffer> {
-    return Buffer.from(this.wasm.resize(buffer, width, height))
+  async resize(buffer: Uint8Array, width: number, height: number): Promise<Uint8Array> {
+    return new Uint8Array(this.wasm.resize(buffer, width, height))
   }
 }

@@ -2,11 +2,11 @@ import * as _ from 'lodash'
 import { IProcessor, IOptimizer } from '../interface'
 import { SquooshOptimizer } from '../optimizer/squoosh-optimizer'
 import { EnumOptimizationAlgorithm, EnumFileFormat } from '../enum'
-import { ImageRsProcessor } from '../processor/image-rs-processor'
+// import { ImageRsProcessor } from '../processor/image-rs-processor'
 
 export class WebImageHandler {
   // sort by performance
-  processors: IProcessor[] = [new ImageRsProcessor()]
+  processors: IProcessor[] = []
 
   // sort by performance
   optimizers: IOptimizer[] = [new SquooshOptimizer()]

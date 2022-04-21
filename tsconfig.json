@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "module": "CommonJS",
+    "module": "esnext",
     "moduleResolution": "Node",
     "target": "ESNext",
     "sourceMap": true,
@@ -13,6 +13,9 @@
   "references": [
     {
       "path": "./tsconfig.build.json"
+    },
+    {
+      "path": "./tsconfig.esm.json"
     },
     {
       "path": "./tsconfig.spec.json"
