@@ -1,13 +1,13 @@
 import { readFile, writeFile } from 'node:fs/promises'
 import path from 'path'
 import { pathUtil } from '../config'
-import { ImageRsProcessor } from './image-rs-processor'
+import { ImageRsProcessorNode } from './image-rs-processor-node'
 
 describe('ImageRsProcessor', () => {
-  const processor = new ImageRsProcessor()
+  const processor = new ImageRsProcessorNode()
 
   it('constructor()', () => {
-    expect(processor).toBeInstanceOf(ImageRsProcessor)
+    expect(processor).toBeInstanceOf(ImageRsProcessorNode)
   })
 
   const newSizeArr = [128, 64]

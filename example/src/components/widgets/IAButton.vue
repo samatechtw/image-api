@@ -1,5 +1,5 @@
 <template>
-  <button :to="to" type="button" class="ia-button" :disabled="loading || disabled">
+  <button type="button" class="ia-button" :disabled="loading || disabled">
     <Spinner v-if="loading" color="#868692" />
     <template v-else>
       <slot name="leading-icon" />
@@ -13,7 +13,6 @@
 
 <script lang="ts" setup>
 import { toRefs } from 'vue'
-import { RouteLocationRaw } from 'vue-router'
 import Spinner from './Spinner.vue'
 
 const props = withDefaults(
@@ -21,7 +20,6 @@ const props = withDefaults(
     text?: string
     loading?: boolean
     disabled?: boolean
-    to?: RouteLocationRaw
   }>(),
   {
     type: undefined,

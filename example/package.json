@@ -7,13 +7,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@esbuild-plugins/node-modules-polyfill": "^0.1.4",
     "@samatech/image-api": "workspace:*",
     "vue": "^3.2.33"
   },
   "devDependencies": {
+    "@esbuild-plugins/node-globals-polyfill": "^0.1.1",
     "@samatech/postcss-basics": "^0.4.2",
     "@vitejs/plugin-vue": "^2.3.1",
     "postcss": "^8.4.12",
+    "rollup-plugin-node-polyfills": "^0.2.1",
     "typescript": "^4.6.3",
     "vite": "^2.9.4"
   }

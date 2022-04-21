@@ -1,4 +1,6 @@
-import { ImagePool } from '@squoosh/lib'
+import * as ImagePool from '@squoosh/lib'
+console.log(globalThis, ImagePool)
+// import { ImagePool } from '@squoosh/lib'
 import { IOptimizer } from '../interface'
 import { EnumOptimizationAlgorithm } from '../enum'
 
@@ -12,6 +14,7 @@ export class SquooshOptimizer implements IOptimizer {
   ): Promise<Buffer> {
     switch (algo) {
       case EnumOptimizationAlgorithm.mozjpeg: {
+        delete globalThis.navigator
         const imagePool = new ImagePool()
         const image = imagePool.ingestImage(buffer)
 

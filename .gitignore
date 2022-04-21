@@ -1,6 +1,8 @@
 /dist-server
 /dist-web
-/node_modules
+/dist-esm
+/out-tsc
+node_modules
 /test-out
 /dist
 !/test-out/.gitkeep

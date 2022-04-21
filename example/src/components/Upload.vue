@@ -17,9 +17,10 @@ import { ref } from 'vue'
 import { validateMedia, MediaRequirements, ValidatedFile } from '../utils/validate-media'
 import UploadFile from './UploadFile.vue'
 import Actions from './Actions.vue'
-import * as imageApi from '../../../dist-web/image-rs-processor/pkg-web'
+import { WebImageHandler } from '../../../out-tsc/browser/web-image-handler'
+import { EnumFileFormat } from '../../../out-tsc/enum'
 
-console.log(imageApi)
+const imageHandler = new WebImageHandler()
 
 const file = ref()
 const error = ref()
@@ -39,24 +40,32 @@ function base64ToUint8Array(str: string): Uint8Array {
   return array
 }
 
-const mediaValid = (validFile: ValidatedFile, errors: string[] | null) => {
+const handleMedia = async (validFile: ValidatedFile, errors: string[] | null) => {
   if (errors && errors.length) {
     error.value = errors[0]
   } else {
     file.value = validFile
-    validFile.file.arrayBuffer().then((buff) => {
-      const fileArr = new Uint8Array(buff) // x is your uInt8Array
-      // perform all required operations with x here.
-      const result = imageApi.convert(fileArr, 'jpg')
-      console.log(result)
+    const buffer = await validFile.file.arrayBuffer()
+
+    const fileArr = new Uint8Array(buffer)
+    // perform all required operations with x here.
+    // imageApi.
+    // const result = imageApi.convert(fileArr, 'jpg')
+    // console.log(result)
+    await imageHandler.handleBuffer(fileArr, {
+      inputFormat: EnumFileFormat.jpg,
+      outputFormat: EnumFileFormat.png,
+      // width: 64,
+      // height: 64,
     })
   }
 }
 
-const handleFileSelect = (selectedFile: File) => {
+const handleFileSelect = async (selectedFile: File) => {
   if (selectedFile) {
     error.value = ''
-    validateMedia(requirements, selectedFile, mediaValid)
+    const { file, errors } = await validateMedia(requirements, selectedFile)
+    await handleMedia(file, errors)
   }
 }
 </script>
