@@ -1,11 +1,8 @@
-/dist-server
-/dist-web
-/dist-esm
-/out-tsc
-node_modules
-/test-out
-/dist
-!/test-out/.gitkeep
+**/dist
+**/out-tsc
+**/node_modules
+test/out
+!/lib/test/out/.gitkeep
 
 .DS_Store
 

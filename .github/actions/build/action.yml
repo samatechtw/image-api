@@ -1,5 +1,5 @@
 name: Environment Setup
-description: 'Setup PNPM and Node'
+description: 'Build types, lib, and server'
 runs:
   using: 'composite'
   steps:
@@ -11,4 +11,4 @@ runs:
       run: pnpm run build:image-rs
     - name: Build server
       shell: bash
-      run: pnpm run build:server
+      run: pnpm run build

@@ -1,3 +1,5 @@
 packages:
-  - '.'
-  - example/
+  - server/
+  - types/
+  - lib/
+  - frontend/

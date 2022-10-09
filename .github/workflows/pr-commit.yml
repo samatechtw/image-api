@@ -46,10 +46,10 @@ jobs:
       - uses: ./.github/actions/env-setup
       - uses: ./.github/actions/build
       - name: Run unit tests
-        run: pnpm run test:unit
+        run: pnpm run test
 
-  e2e-tests:
-    name: E2E Tests
+  integration-tests:
+    name: Integration Tests
     runs-on: ubuntu-20.04
     services:
       redis:
@@ -67,8 +67,8 @@ jobs:
         run: pnpm run start &
       - name: Wait server start
         run: sleep 20
-      - name: Run e2e test
-        run: pnpm run test:e2e
+      - name: Run integration tests
+        run: pnpm run integration
 
   build-server:
     name: Build server
@@ -80,30 +80,30 @@ jobs:
           fetch-depth: 0
       - uses: ./.github/actions/env-setup
       - name: Build server
-        run: pnpm run build:server
+        run: pnpm run build
 
-  build-web:
-    name: Build client library
-    runs-on: ubuntu-20.04
-    steps:
-      - name: Checkout code into workspace directory
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - uses: ./.github/actions/env-setup
-      - name: Build web
-        run: pnpm run build:web
+  # build-web:
+  #   name: Build client library
+  #   runs-on: ubuntu-20.04
+  #   steps:
+  #     - name: Checkout code into workspace directory
+  #       uses: actions/checkout@v3
+  #       with:
+  #         fetch-depth: 0
+  #     - uses: ./.github/actions/env-setup
+  #     - name: Build web
+  #       run: pnpm run build:web
 
-  build-wasm:
-    name: Build wasm libraries
-    runs-on: ubuntu-20.04
-    steps:
-      - name: Checkout code into workspace directory
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - uses: ./.github/actions/env-setup
-      - name: Install wasm-pack
-        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-      - name: Build image-rs
-        run: pnpm run build:image-rs
+  # build-wasm:
+  #   name: Build wasm libraries
+  #   runs-on: ubuntu-20.04
+  #   steps:
+  #     - name: Checkout code into workspace directory
+  #       uses: actions/checkout@v3
+  #       with:
+  #         fetch-depth: 0
+  #     - uses: ./.github/actions/env-setup
+  #     - name: Install wasm-pack
+  #       run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+  #     - name: Build image-rs
+  #       run: pnpm run build:image-rs

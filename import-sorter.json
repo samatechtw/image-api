@@ -1,0 +1,26 @@
+{
+  "importSorter.generalConfiguration.sortOnBeforeSave": true,
+  "importSorter.importStringConfiguration.hasSemicolon": false,
+  "importSorter.importStringConfiguration.tabSize": 2,
+  "importSorter.sortConfiguration.customOrderingRules.defaultNumberOfEmptyLinesAfterGroup": 0,
+  "importSorter.importStringConfiguration.trailingComma": "multi-line",
+  "importSorter.sortConfiguration.customOrderingRules.defaultOrderLevel": 20,
+  "importSorter.importStringConfiguration.maximumNumberOfImportExpressionsPerLine.type": "newLineEachExpressionAfterCountLimitExceptIfOnlyOne",
+  "importSorter.importStringConfiguration.maximumNumberOfImportExpressionsPerLine.count": 90,
+  "importSorter.sortConfiguration.customOrderingRules.rules": [
+    {
+      "type": "importMember",
+      "regex": "^[_*]$",
+      "orderLevel": 10,
+      "disableSort": true
+    },
+    {
+      "regex": "^@samatech",
+      "orderLevel": 40
+    },
+    {
+      "regex": "^\\.{1,2}/?",
+      "orderLevel": 60
+    }
+  ]
+}
