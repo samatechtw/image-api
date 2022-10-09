@@ -2,7 +2,7 @@
 
 ## Overview
 
-A lightweight service for uploading an image from a client, validating and processing it, and pushing to an external data service such as AWS S3.
+A lightweight service for uploading an image from a client, validating and processing it, and uploading to a URL.
 Image processing is handled by a Redis task queue. Some supported operations include resizing, converting formats, generating thumbnails, and size optimization.
 
 ## Features
@@ -49,11 +49,13 @@ npm run build:web
 
 **Unit test**
 
+Run all unit tests
+
 ```bash
-npm run test:unit
+npm run test
 ```
 
-**E2E test**
+**Integration test**
 
 Redis must be running first
 
@@ -62,7 +64,7 @@ Redis must be running first
 npm run dev:server
 
 # Run E2E tests
-npm run test:e2e
+npm run integration
 ```
 
 ### Docker
@@ -91,21 +93,7 @@ docker-compose build
 
 The commit message format is: `<scope>: <short-summary> #<issue-number>`
 
-- `scope`: Use a [gitmoji](https://gitmoji.dev/)
+- `scope`: `release | feat | fix | refactor | test | ci`
+- `type` (optional): `server | web | example | docs`
 - `short-summary`: Short summary about this commit
 - `issue-number`: The related issue number
-
-The following are `gitmoji` recommendations for the `scope`. These are not currently enforced, but may be in the future.
-
-- Release/tag - :bookmark: `:bookmark:`
-- Feature - :sparkles: `:sparkles:`
-- Docs - :books: `:books:`
-- Bugfix - :bug: `:bug:`
-- Testing - :white_check_mark: `:white_check_mark:`
-- Lint/format - :art: `:art:`
-- Refactor - :hammer: `:hammer:`
-- Code/file removal - :fire: `:fire:`
-- CI/CD - :green_heart: `:green_heart:`
-- Deps - :lock: `:lock:`
-- Breaking changes - :boom: `:boom:`
-- Config - :wrench: `:wrench:`

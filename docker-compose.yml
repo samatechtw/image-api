@@ -7,7 +7,7 @@ services:
       - '6379:6379'
   server:
     restart: on-failure
-    build: .
+    build: ./server
     hostname: image-api
     ports:
       - '3500:3500'

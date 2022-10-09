@@ -3,6 +3,7 @@
 /dist
 **/artifacts
 **/coverage
+**/target/*
 node_modules
 *-lock.*
 cache
