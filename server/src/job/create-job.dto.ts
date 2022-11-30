@@ -7,6 +7,8 @@ import {
 import { Transform } from 'class-transformer'
 import { IsEnum, IsNumber, IsOptional, Max, Min } from 'class-validator'
 
+// Just a test!
+
 export class JobConfigDto implements IImageJobConfig {
   @ApiProperty({
     description: 'Input file format type',
