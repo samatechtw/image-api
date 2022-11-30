@@ -98,7 +98,18 @@ describe('api', () => {
     })
 
     it('POST /jobs upload to url', async () => {
-      // TODO
+      jpegFormData.append('inputFormat', EnumFileFormat.jpg)
+      jpegFormData.append('outputFormat', EnumFileFormat.png)
+      jpegFormData.append(
+        'uploadUrl',
+        'https://my-bucket.s3.ap-northeast-1.amazonaws.com/some-random-string',
+      )
+
+      await fetch(`${apiHost}/jobs`, {
+        method: 'POST',
+        body: jpegFormData,
+        headers: authHeaders,
+      })
     })
 
     it('GET /jobs all jobs', async () => {
@@ -124,6 +135,39 @@ describe('api', () => {
       const jsonGet: IJobData = await fetchedGet.json()
 
       expect(jsonGet.status).toEqual(ProcessJobStatusEnum.Complete)
+    })
+  })
+
+  describe('when request is not valid', () => {
+    let jpegFormData: FormData
+
+    beforeEach(async () => {
+      const fileBuffer = await readFile(path.resolve(testAsset, 'wtm_256x256.jpg'))
+      jpegFormData = new FormData()
+      jpegFormData.append('file', fileBuffer, {
+        contentType: 'image/jpg',
+        filename: 'wtm_256x256.jpg',
+      })
+    })
+
+    it('when uploadUrl is not supported', async () => {
+      const unsupportedUrl = 'https://some-random-url'
+      jpegFormData.append('inputFormat', EnumFileFormat.jpg)
+      jpegFormData.append('outputFormat', EnumFileFormat.png)
+      jpegFormData.append('uploadUrl', unsupportedUrl)
+
+      const response = await fetch(`${apiHost}/jobs`, {
+        method: 'POST',
+        body: jpegFormData,
+        headers: authHeaders,
+      })
+      const body = await response.json()
+
+      expect(body).toEqual({
+        statusCode: 400,
+        message: `Unsupported uploadUrl ${unsupportedUrl}`,
+        error: 'Bad Request',
+      })
     })
   })
 })

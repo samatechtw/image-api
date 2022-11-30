@@ -1,4 +1,4 @@
-import { Logger } from '@nestjs/common'
+import { BadRequestException, Logger } from '@nestjs/common'
 import Bull, {
   ActiveEventCallback,
   CleanedEventCallback,
@@ -23,8 +23,9 @@ import {
   ProcessJobStatusEnum,
 } from '@samatech/image-api-types'
 import { apiConfig } from '../config'
-import { uploadService } from './upload-service'
 import { workerService } from './worker-service'
+import { IUploadService } from './i-upload-service'
+import { s3UploadService } from './s3-upload-service'
 
 const getTempInputPath = async (id: string): Promise<string> => {
   const tmp = os.tmpdir()
@@ -48,6 +49,12 @@ export class JobService {
   ): Promise<string> {
     const id = uuidv4()
     const tempInputPath = await getTempInputPath(id)
+
+    if (config.uploadUrl) {
+      // Check if uploadUrl is supported
+      this.getUploadService(config.uploadUrl)
+    }
+
     const jobData: IJobData = {
       id,
       filename,
@@ -81,6 +88,13 @@ export class JobService {
       ...job.data,
       jobId: Number(job.id),
     }))
+  }
+
+  getUploadService(uploadUrl: string): IUploadService {
+    if (s3UploadService.matchUrl(uploadUrl)) {
+      return s3UploadService
+    }
+    throw new BadRequestException(`Unsupported uploadUrl ${uploadUrl}`)
   }
 
   onError: ErrorEventCallback = (_error) => {
@@ -158,8 +172,8 @@ export class JobService {
       )
 
       const outBuffer = await readFile(tempOutputPath)
-
-      await uploadService.upload(outBuffer, job.data.config.uploadUrl)
+      const uploadService = this.getUploadService(job.data.config.uploadUrl)
+      await uploadService.upload(job.data.config.uploadUrl, outBuffer)
     }
   }
 

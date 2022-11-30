@@ -5,7 +5,7 @@ import {
   IImageJobConfig,
 } from '@samatech/image-api-types'
 import { Transform } from 'class-transformer'
-import { IsEnum, IsNumber, IsOptional, Max, Min } from 'class-validator'
+import { IsEnum, IsNumber, IsOptional, IsString, Max, Min } from 'class-validator'
 
 export class JobConfigDto implements IImageJobConfig {
   @ApiProperty({
@@ -59,4 +59,11 @@ export class JobConfigDto implements IImageJobConfig {
   @Max(100)
   @Transform(({ value }) => Number(value))
   quality?: number
+
+  @ApiProperty({
+    description: 'The url where compressed image should be uploaded to.',
+  })
+  @IsOptional()
+  @IsString()
+  uploadUrl?: string
 }
