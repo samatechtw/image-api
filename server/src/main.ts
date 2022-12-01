@@ -1,11 +1,11 @@
-import { useContainer } from 'class-validator'
+import { Logger, ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { NestExpressApplication } from '@nestjs/platform-express'
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
-import { Logger, ValidationPipe } from '@nestjs/common'
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
+import { useContainer } from 'class-validator'
 import { AppModule } from './app.module'
-import { workerService, jobService } from './service'
 import { apiConfig } from './config'
+import { jobService } from './service'
 
 const run = async () => {
   const port = apiConfig.get('port')
@@ -15,7 +15,6 @@ const run = async () => {
     credentials: true,
   })
 
-  await workerService.init()
   await jobService.init()
 
   if (process.env.NODE_ENV !== 'production') {

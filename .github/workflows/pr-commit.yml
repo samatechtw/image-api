@@ -39,6 +39,10 @@ jobs:
         with:
           fetch-depth: 0
       - uses: ./.github/actions/env-setup
+      - name: Install redis
+        run: sudo apt-get install -y redis-tools redis-server
+      - name: Verify that redis is up
+        run: redis-cli ping
       - name: Build server
         run: pnpm run build
       - name: Run unit tests

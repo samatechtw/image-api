@@ -1,10 +1,11 @@
-import { EnumOptimizationAlgorithm } from '@samatech/image-api-types'
 import { readFile } from 'node:fs/promises'
 import path from 'path'
+import { EnumOptimizationAlgorithm } from '@samatech/image-api-types'
 import { SharpOptimizer } from './sharp-optimizer'
 
+jest.setTimeout(60000)
+
 describe('SharpOptimizer', () => {
-  jest.setTimeout(60 * 1000 * 1000)
   let optimizer: SharpOptimizer
   let testAsset: string
 

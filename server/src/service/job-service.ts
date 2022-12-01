@@ -1,4 +1,4 @@
-import { BadRequestException, Logger } from '@nestjs/common'
+import { Logger } from '@nestjs/common'
 import Bull, {
   ActiveEventCallback,
   CleanedEventCallback,
@@ -6,14 +6,12 @@ import Bull, {
   ErrorEventCallback,
   EventCallback,
   FailedEventCallback,
-  ProcessPromiseFunction,
   ProgressEventCallback,
   RemovedEventCallback,
   StalledEventCallback,
   WaitingEventCallback,
 } from 'bull'
-import { mkdir, readFile, writeFile } from 'node:fs/promises'
-import os from 'os'
+import { writeFile } from 'node:fs/promises'
 import path from 'path'
 import { v4 as uuidv4 } from 'uuid'
 import {
@@ -23,21 +21,7 @@ import {
   ProcessJobStatusEnum,
 } from '@samatech/image-api-types'
 import { apiConfig } from '../config'
-import { IUploadService } from './i-upload-service'
-import { s3UploadService } from './s3-upload-service'
-import { workerService } from './worker-service'
-
-const getTempInputPath = async (id: string): Promise<string> => {
-  const tmp = os.tmpdir()
-  await mkdir(path.resolve(tmp, 'input'), { recursive: true })
-  return path.resolve(tmp, 'input', id)
-}
-
-const getTempOutputPath = async (id: string): Promise<string> => {
-  const tmp = os.tmpdir()
-  await mkdir(path.resolve(tmp, 'output'), { recursive: true })
-  return path.resolve(os.tmpdir(), 'output', id)
-}
+import { getPackageJsonDir, getTempInputPath } from '../util'
 
 export class JobService {
   workerQueue: Bull.Queue<IJobData> = null
@@ -49,11 +33,6 @@ export class JobService {
   ): Promise<string> {
     const id = uuidv4()
     const tempInputPath = await getTempInputPath(id)
-
-    if (config.uploadUrl) {
-      // Check if uploadUrl is supported
-      this.getUploadService(config.uploadUrl)
-    }
 
     const jobData: IJobData = {
       id,
@@ -88,13 +67,6 @@ export class JobService {
       ...job.data,
       jobId: Number(job.id),
     }))
-  }
-
-  getUploadService(uploadUrl: string): IUploadService {
-    if (s3UploadService.matchUrl(uploadUrl)) {
-      return s3UploadService
-    }
-    throw new BadRequestException(`Unsupported uploadUrl ${uploadUrl}`)
   }
 
   onError: ErrorEventCallback = (_error) => {
@@ -159,24 +131,6 @@ export class JobService {
     // console.log('onDrained')
   }
 
-  process: ProcessPromiseFunction<IJobData> = async (job: Bull.Job<IJobData>) => {
-    const tempInputPath = await getTempInputPath(job.data.id)
-    const tempOutputPath = await getTempOutputPath(job.data.id)
-    await workerService.handlePath(tempInputPath, tempOutputPath, job.data.config)
-
-    if (job.data.config.uploadUrl) {
-      await job.update(
-        Object.assign({}, job.data, {
-          status: ProcessJobStatusEnum.Uploading,
-        }),
-      )
-
-      const outBuffer = await readFile(tempOutputPath)
-      const uploadService = this.getUploadService(job.data.config.uploadUrl)
-      await uploadService.upload(job.data.config.uploadUrl, outBuffer)
-    }
-  }
-
   // for test
   setListeners = () => {
     this.workerQueue.on('error', this.onError)
@@ -205,7 +159,9 @@ export class JobService {
     })
 
     Logger.debug('Bull queue initializing...')
-    this.workerQueue.process(this.process)
+    const processPath = path.join(getPackageJsonDir(), 'dist/src/handler/process-job.js')
+    console.log(processPath)
+    this.workerQueue.process(8, processPath)
     this.setListeners()
     await this.workerQueue.isReady()
   }

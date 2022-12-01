@@ -1,19 +1,18 @@
-import { EnumFileFormat, IImageJobConfig } from '@samatech/image-api-types'
 import { readFile } from 'node:fs/promises'
 import path from 'path'
+import { EnumFileFormat, IImageJobConfig } from '@samatech/image-api-types'
 import { JobService, jobService } from './job-service'
-import { workerService } from './worker-service'
+
+jest.setTimeout(10000)
 
 describe('JobService', () => {
   let testAsset: string
 
   beforeAll(async () => {
-    await workerService.init()
     await jobService.init()
   })
 
   afterAll(async () => {
-    await workerService.close()
     await jobService.close()
   })
 
