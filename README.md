@@ -18,8 +18,10 @@ Image processing is handled by a Redis task queue. Some supported operations inc
 
 ### Install
 
+PNPM workspace is used for project organization.
+
 ```bash
-npm install
+pnpm install
 ```
 
 ### Run

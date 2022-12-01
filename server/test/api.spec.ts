@@ -129,7 +129,7 @@ describe('api', () => {
       const jsonPost = await fetchedPost.json()
       const jobId = parseInt(jsonPost['jobId'])
 
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      await new Promise((resolve) => setTimeout(resolve, 3000))
 
       const fetchedGet = await fetch(`${apiHost}/jobs/${jobId}`, { headers: authHeaders })
       const jsonGet: IJobData = await fetchedGet.json()

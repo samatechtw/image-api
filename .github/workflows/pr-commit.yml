@@ -33,40 +33,36 @@ jobs:
   unit-tests:
     name: Unit Tests
     runs-on: ubuntu-20.04
-    services:
-      redis:
-        image: redis
-        ports:
-          - 6379:6379
     steps:
       - name: Checkout code into workspace directory
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - uses: ./.github/actions/env-setup
-      - uses: ./.github/actions/build
+      - name: Build server
+        run: pnpm run build
       - name: Run unit tests
         run: pnpm run test
 
   integration-tests:
     name: Integration Tests
     runs-on: ubuntu-20.04
-    services:
-      redis:
-        image: redis
-        ports:
-          - 6379:6379
     steps:
       - name: Checkout code into workspace directory
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - uses: ./.github/actions/env-setup
-      - uses: ./.github/actions/build
+      - name: Install redis
+        run: sudo apt-get install -y redis-tools redis-server
+      - name: Verify that redis is up
+        run: redis-cli ping
+      - name: Build server
+        run: pnpm run build
       - name: Run server
         run: pnpm run start &
-      - name: Wait server start
-        run: sleep 20
+      - name: Wait for server to start
+        run: sleep 15
       - name: Run integration tests
         run: pnpm run integration
 

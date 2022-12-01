@@ -10,7 +10,10 @@ runs:
     - uses: actions-rs/toolchain@v1
       with:
         toolchain: stable
-    - uses: pnpm/action-setup@v2.2.1
+    - uses: pnpm/action-setup@v2.2.4
       with:
-        version: 6.32.4
-        run_install: true
+        version: 7.17.1
+        run_install: false
+    - name: Install packages
+      shell: bash
+      run: pnpm install -r
