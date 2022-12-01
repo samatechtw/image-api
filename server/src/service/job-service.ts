@@ -23,9 +23,9 @@ import {
   ProcessJobStatusEnum,
 } from '@samatech/image-api-types'
 import { apiConfig } from '../config'
-import { workerService } from './worker-service'
 import { IUploadService } from './i-upload-service'
 import { s3UploadService } from './s3-upload-service'
+import { workerService } from './worker-service'
 
 const getTempInputPath = async (id: string): Promise<string> => {
   const tmp = os.tmpdir()
@@ -191,6 +191,10 @@ export class JobService {
     this.workerQueue.on('removed', this.onRemoved)
     this.workerQueue.on('cleaned', this.onCleaned)
     this.workerQueue.on('drained', this.onDrained)
+  }
+
+  getWorkers(): Promise<unknown[]> {
+    return this.workerQueue.getWorkers()
   }
 
   async init() {

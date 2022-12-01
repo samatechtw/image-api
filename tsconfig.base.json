@@ -12,6 +12,11 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "paths": {
+      "@samatech/image-api": ["@samatech/image-api/lib/src"],
+      "@samatech/image-api-types": ["@samatech/image-api/types/src"],
+      "@samatech/image-server": ["@samatech/image-api/server/src"]
+    }
   }
 }

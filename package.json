@@ -7,19 +7,18 @@
     "prepare": "husky install",
     "redis": "docker run --name redis -d -p 6379:6379 redis:6.0",
     "frontend": "npm -C frontend run dev",
-    "dev:server": "npm -C server run dev",
-    "dev:lib": "npm -C lib run dev",
-    "dev:types": "npm -C types run dev",
-    "dev:frontend": "concurrently --kill-others \"npm run dev:lib\" \"npm run dev:types\" \"npm run dev:server\" \"npm run frontend\"",
-    "test": "npm -C lib test && npm -C server test",
-    "integration": "npm -C server run integration",
-    "build:server": "npm -C server run build",
-    "build:lib": "npm -C lib run build",
-    "build:types": "npm -C types run build",
-    "build": "npm run build:types && npm run build:lib && npm run build:server",
+    "dev:server": "pnpm --stream --parallel --filter '*types' --filter '*server' run dev",
+    "dev:lib": "pnpm --filter '*image-api' run dev",
+    "dev:frontend": "pnpm --stream --parallel -r run dev",
+    "test": "pnpm -r test",
+    "integration": "pnpm --filter '*server' run integration",
+    "build:server": "pnpm --filter '*server' run build",
+    "build:lib": "pnpm --filter '*image-api' run build",
+    "build:types": "pnpm --filter '*types' run build",
+    "build": "pnpm --filter '*types' --filter '*image-api' --filter '*server' run build",
     "build:image-rs": "npm -C lib run build:image-rs",
-    "start": "npm -C server run start",
     "lint": "pnpm run -r lint",
+    "start": "pnpm --filter '*server' run start",
     "format": "pnpm run -r format",
     "format:check": "pnpm run -r format:check"
   },
@@ -34,12 +33,11 @@
   },
   "homepage": "https://github.com/samatechtw/image-api#readme",
   "devDependencies": {
-    "commitlint": "^17.1.2",
-    "concurrently": "^7.4.0",
+    "commitlint": "^17.3.0",
     "husky": "^7.0.0",
     "semantic-release": "^19.0.5"
   },
   "dependencies": {
-    "@commitlint/config-angular": "^17.1.0"
+    "@commitlint/config-angular": "^17.3.0"
   }
 }
