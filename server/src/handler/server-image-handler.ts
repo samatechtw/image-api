@@ -1,4 +1,6 @@
 import * as _ from 'lodash'
+import { Buffer } from 'buffer'
+import fs from 'fs-extra'
 import {
   IOptimizer,
   IProcessor,
@@ -12,8 +14,6 @@ import {
   EnumOptimizationAlgorithm,
   IImageJobConfig,
 } from '@samatech/image-api-types'
-import { Buffer } from 'buffer'
-import fs from 'fs-extra'
 
 export class ServerImageHandler {
   // sort by performance
@@ -128,7 +128,7 @@ export class ServerImageHandler {
   }
 
   // for worker
-  handlePath = async (inputPath: string, outputPath: string, config: IImageJobConfig) => {
+  async handlePath(inputPath: string, outputPath: string, config: IImageJobConfig) {
     try {
       const inputBuffer = await fs.readFile(inputPath)
       const outputBuffer = await this.handleBuffer(inputBuffer, config)
@@ -140,7 +140,7 @@ export class ServerImageHandler {
   }
 
   // for test
-  ping = () => {
+  ping() {
     return 'pong'
   }
 }
