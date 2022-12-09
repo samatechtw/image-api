@@ -1,4 +1,4 @@
-import { Logger } from '@nestjs/common'
+import { Injectable, Logger, OnApplicationShutdown } from '@nestjs/common'
 import Bull, {
   ActiveEventCallback,
   CleanedEventCallback,
@@ -23,7 +23,8 @@ import {
 import { apiConfig } from '../config'
 import { getPackageJsonDir, getTempInputPath } from '../util'
 
-export class JobService {
+@Injectable()
+export class JobService implements OnApplicationShutdown {
   workerQueue: Bull.Queue<IJobData> = null
 
   async add(
@@ -166,6 +167,11 @@ export class JobService {
     await this.workerQueue.isReady()
   }
 
+  onApplicationShutdown(_signal: string) {
+    Logger.debug('Job service workerQueue shutdown')
+    return this.close()
+  }
+
   async close() {
     this.workerQueue.removeAllListeners()
     await this.workerQueue.close()
@@ -181,5 +187,3 @@ export class JobService {
     await this.workerQueue.resume()
   }
 }
-
-export const jobService = new JobService()

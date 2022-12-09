@@ -1,14 +1,20 @@
+import { Test } from '@nestjs/testing'
 import { readFile } from 'node:fs/promises'
 import path from 'path'
 import { EnumFileFormat, IImageJobConfig } from '@samatech/image-api-types'
-import { JobService, jobService } from './job-service'
+import { JobService } from './job.service'
 
 jest.setTimeout(10000)
 
 describe('JobService', () => {
   let testAsset: string
+  let jobService: JobService
 
   beforeAll(async () => {
+    const JobServiceRef = await Test.createTestingModule({
+      providers: [JobService],
+    }).compile()
+    jobService = JobServiceRef.get<JobService>(JobService)
     await jobService.init()
   })
 
@@ -40,7 +46,7 @@ describe('JobService', () => {
     expect(jobCounts.completed).toEqual(0)
     expect(jobCounts.failed).toEqual(0)
 
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    await new Promise((resolve) => setTimeout(resolve, 3000))
     jobCounts = await jobService.workerQueue.getJobCounts()
 
     expect(jobCounts.active).toEqual(0)

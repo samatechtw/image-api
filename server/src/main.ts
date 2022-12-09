@@ -5,7 +5,6 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { useContainer } from 'class-validator'
 import { AppModule } from './app.module'
 import { apiConfig } from './config'
-import { jobService } from './service'
 
 const run = async () => {
   const port = apiConfig.get('port')
@@ -14,8 +13,6 @@ const run = async () => {
     origin: 'http://localhost:3100'.split(','),
     credentials: true,
   })
-
-  await jobService.init()
 
   if (process.env.NODE_ENV !== 'production') {
     const options = new DocumentBuilder()

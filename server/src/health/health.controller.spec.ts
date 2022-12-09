@@ -1,27 +1,29 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { jobService } from '../service'
+import { JobService } from '../job'
 import { HealthController } from './health.controller'
 import { HealthService } from './health.service'
-
-jest.mock('../service')
-const mockedJobService = jobService as jest.Mocked<typeof jobService>
 
 describe('HealthService', () => {
   let healthService: HealthService
   let healthController: HealthController
+  let jobService: JobService
 
   beforeEach(async () => {
     const moduleRef: TestingModule = await Test.createTestingModule({
       controllers: [HealthController],
-      providers: [HealthService],
+      providers: [HealthService, JobService],
     }).compile()
 
     healthService = moduleRef.get<HealthService>(HealthService)
     healthController = moduleRef.get<HealthController>(HealthController)
+    jobService = moduleRef.get<JobService>(JobService)
   })
 
   it('ping()', async () => {
-    mockedJobService.getWorkers = jest.fn(() => Promise.resolve(['worker1', 'worker2']))
+    jest
+      .spyOn(jobService, 'getWorkers')
+      .mockImplementation(() => Promise.resolve(['worker1', 'worker2']))
+
     const res = await healthService.ping()
 
     expect(res).toEqual('pong')
