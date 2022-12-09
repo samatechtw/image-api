@@ -11,6 +11,7 @@
     "dev:lib": "pnpm --filter '*image-api' run dev",
     "dev:frontend": "pnpm --stream --parallel -r run dev",
     "test": "pnpm -r test",
+    "test:server": "pnpm --filter '*server' run test",
     "integration": "pnpm --filter '*server' run integration",
     "build:server": "pnpm --filter '*server' run build",
     "build:lib": "pnpm --filter '*image-api' run build",

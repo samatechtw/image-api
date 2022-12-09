@@ -14,19 +14,21 @@ import {
 import { AuthGuard } from '@nestjs/passport'
 import { FileInterceptor } from '@nestjs/platform-express'
 import { ApiHeader, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
+import 'multer'
 import {
   ICreateJobApiResponse,
   IGetJobApiResponse,
   IListJobsApiResponse,
 } from '@samatech/image-api-types'
-import 'multer'
-import { jobService } from '../service'
 import { JobConfigDto } from './create-job.dto'
+import { JobService } from './job.service'
 import { ListJobsQuery } from './list-jobs.query'
 
 @ApiTags('Jobs')
 @Controller('jobs')
 export class JobController {
+  constructor(private readonly jobService: JobService) {}
+
   @ApiOperation({
     summary: 'Post a new job',
     description:
@@ -59,7 +61,7 @@ export class JobController {
     if (!file) {
       throw new BadRequestException('Missing file')
     }
-    const jobId = await jobService.add(file.originalname, file.buffer, dto)
+    const jobId = await this.jobService.add(file.originalname, file.buffer, dto)
 
     return { jobId }
   }
@@ -86,7 +88,7 @@ export class JobController {
   @UseGuards(AuthGuard(['apiKey']))
   @Delete(':id')
   async removeById(@Param('id') id: string) {
-    await jobService.removeById(id)
+    await this.jobService.removeById(id)
   }
 
   @ApiOperation({
@@ -111,7 +113,7 @@ export class JobController {
   @UseGuards(AuthGuard(['apiKey']))
   @Get('/')
   async listJobs(@Query() dto: ListJobsQuery): Promise<IListJobsApiResponse> {
-    const jobs = await jobService.getAll(dto)
+    const jobs = await this.jobService.getAll(dto)
     return jobs
   }
 
@@ -137,7 +139,7 @@ export class JobController {
   @UseGuards(AuthGuard(['apiKey']))
   @Get(':id')
   async getById(@Param('id') id: string): Promise<IGetJobApiResponse> {
-    const data = await jobService.getById(id)
+    const data = await this.jobService.getById(id)
     return data
   }
 }

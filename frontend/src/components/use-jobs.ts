@@ -1,10 +1,10 @@
+import { computed, ref, Ref } from 'vue'
 import {
   ICreateJobApiRequest,
   IJobData,
   IListJobsApiQuery,
   ProcessJobStatusEnum,
 } from '@samatech/image-api-types'
-import { computed, ref, Ref } from 'vue'
 import { useImageApi } from '../api-image'
 
 export interface IUseJobs {
@@ -44,7 +44,6 @@ export const useJobs = (): IUseJobs => {
   const listJobs = async (query?: IListJobsApiQuery) => {
     try {
       jobs.value = await api.listJobs(query ?? {})
-      console.log('GOT JOBS', jobs.value)
     } catch (e) {
       console.log('Failed to get jobs' + e)
     }
