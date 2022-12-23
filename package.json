@@ -21,7 +21,8 @@
     "lint": "pnpm run -r lint",
     "start": "pnpm --filter '*server' run start",
     "format": "pnpm run -r format",
-    "format:check": "pnpm run -r format:check"
+    "format:check": "pnpm run -r format:check",
+    "publish:types": "pnpm --filter '*types' run build"
   },
   "repository": {
     "type": "git",
@@ -35,7 +36,7 @@
   "homepage": "https://github.com/samatechtw/image-api#readme",
   "devDependencies": {
     "commitlint": "^17.3.0",
-    "husky": "^7.0.0",
+    "husky": "^8.0.2",
     "semantic-release": "^19.0.5"
   },
   "dependencies": {
