@@ -12,11 +12,7 @@ const process: ProcessPromiseFunction<IJobData> = async (job: Bull.Job<IJobData>
   await handler.handlePath(tempInputPath, tempOutputPath, job.data.config)
 
   if (job.data.config.uploadUrl) {
-    await job.update(
-      Object.assign({}, job.data, {
-        status: ProcessJobStatusEnum.Uploading,
-      }),
-    )
+    await job.update({ ...job.data, status: ProcessJobStatusEnum.Uploading })
 
     const outBuffer = await readFile(tempOutputPath)
     if (job.data.config.uploadUrl) {

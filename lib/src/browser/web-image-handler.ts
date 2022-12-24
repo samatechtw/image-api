@@ -1,4 +1,3 @@
-import * as _ from 'lodash'
 import {
   EnumFileFormat,
   EnumOptimizationAlgorithm,
@@ -20,33 +19,36 @@ export class WebImageHandler {
   }
 
   get readFormats(): EnumFileFormat[] {
-    let res: EnumFileFormat[] = []
+    const res = new Set<EnumFileFormat>()
 
     for (const processor of this.processors) {
-      res = [...res, ...processor.readFormats]
+      for (const format of processor.readFormats) {
+        res.add(format)
+      }
     }
-
-    return _.uniq(res)
+    return [...res.values()]
   }
 
   get writeFormats(): EnumFileFormat[] {
-    let res: EnumFileFormat[] = []
+    const res = new Set<EnumFileFormat>()
 
     for (const processor of this.processors) {
-      res = [...res, ...processor.writeFormats]
+      for (const format of processor.writeFormats) {
+        res.add(format)
+      }
     }
-
-    return _.uniq(res)
+    return [...res.values()]
   }
 
   get acceptOptimizeAlgorithms(): EnumOptimizationAlgorithm[] {
-    let res: EnumOptimizationAlgorithm[] = []
+    const res = new Set<EnumOptimizationAlgorithm>()
 
     for (const optimizer of this.optimizers) {
-      res = [...res, ...optimizer.acceptAlgorithms]
+      for (const algo of optimizer.acceptAlgorithms) {
+        res.add(algo)
+      }
     }
-
-    return _.uniq(res)
+    return [...res.values()]
   }
 
   async handleBuffer(buffer: Uint8Array, config: IImageJobConfig): Promise<Uint8Array> {

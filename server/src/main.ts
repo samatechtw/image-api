@@ -10,7 +10,10 @@ const run = async () => {
   const port = apiConfig.get('port')
   const app = await NestFactory.create<NestExpressApplication>(AppModule)
   app.enableCors({
-    origin: 'http://localhost:3100'.split(','),
+    origin:
+      'http://localhost:3100,http://localhost:8000,http://localhost:3100,https://stg.collectfrontrow.com,https://collectfrontrow.com'.split(
+        ',',
+      ),
     credentials: true,
   })
 

@@ -13,3 +13,4 @@ services:
       - '3500:3500'
     environment:
       - REDIS_HOST=redis
+      - IMAGE_API_KEY="${IMAGE_API_KEY}"

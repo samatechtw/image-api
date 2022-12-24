@@ -79,11 +79,7 @@ export class JobService implements OnApplicationShutdown {
   }
 
   onActive: ActiveEventCallback<IJobData> = async (job, _jobPromise) => {
-    await job.update(
-      Object.assign({}, job.data, {
-        status: ProcessJobStatusEnum.Processing,
-      }),
-    )
+    await job.update({ ...job.data, status: ProcessJobStatusEnum.Processing })
   }
 
   onStalled: StalledEventCallback<IJobData> = (_job) => {
@@ -96,20 +92,12 @@ export class JobService implements OnApplicationShutdown {
 
   onCompleted: CompletedEventCallback<IJobData> = async (job, _result) => {
     Logger.log('complete')
-    await job.update(
-      Object.assign({}, job.data, {
-        status: ProcessJobStatusEnum.Complete,
-      }),
-    )
+    await job.update({ ...job.data, status: ProcessJobStatusEnum.Complete })
   }
 
   onFailed: FailedEventCallback<IJobData> = async (job, error) => {
     Logger.error(error)
-    await job.update(
-      Object.assign({}, job.data, {
-        status: ProcessJobStatusEnum.Fail,
-      }),
-    )
+    await job.update({ ...job.data, status: ProcessJobStatusEnum.Fail })
   }
 
   onPaused: EventCallback = () => {

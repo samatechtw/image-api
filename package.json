@@ -35,9 +35,13 @@
   },
   "homepage": "https://github.com/samatechtw/image-api#readme",
   "devDependencies": {
+    "@types/node": "^16.11.7",
     "commitlint": "^17.3.0",
+    "form-data": "^4.0.0",
     "husky": "^8.0.2",
-    "semantic-release": "^19.0.5"
+    "node-fetch": "2.6.7",
+    "semantic-release": "^19.0.5",
+    "ts-node": "^10.9.1"
   },
   "dependencies": {
     "@commitlint/config-angular": "^17.3.0"
