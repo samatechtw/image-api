@@ -1,4 +1,3 @@
-import * as _ from 'lodash'
 import { Buffer } from 'buffer'
 import fs from 'fs-extra'
 import {
@@ -27,33 +26,36 @@ export class ServerImageHandler {
   ]
 
   get readFormats(): EnumFileFormat[] {
-    let res = []
+    const res = new Set<EnumFileFormat>()
 
     for (const processor of this.processors) {
-      res = [...res, ...processor.readFormats]
+      for (const format of processor.readFormats) {
+        res.add(format)
+      }
     }
-
-    return _.uniq(res)
+    return [...res.values()]
   }
 
   get writeFormats(): EnumFileFormat[] {
-    let res = []
+    const res = new Set<EnumFileFormat>()
 
     for (const processor of this.processors) {
-      res = [...res, ...processor.writeFormats]
+      for (const format of processor.writeFormats) {
+        res.add(format)
+      }
     }
-
-    return _.uniq(res)
+    return [...res.values()]
   }
 
   get acceptOptimizeAlgorithms(): EnumOptimizationAlgorithm[] {
-    let res = []
+    const res = new Set<EnumOptimizationAlgorithm>()
 
     for (const optimizer of this.optimizers) {
-      res = [...res, ...optimizer.acceptAlgorithms]
+      for (const algo of optimizer.acceptAlgorithms) {
+        res.add(algo)
+      }
     }
-
-    return _.uniq(res)
+    return [...res.values()]
   }
 
   handleBuffer = async (
@@ -113,30 +115,29 @@ export class ServerImageHandler {
     if (config.optimizeAlgo && config.quality) {
       for (const optimizer of this.optimizers) {
         if (optimizer.acceptAlgorithms.indexOf(config.optimizeAlgo) > -1) {
-          resBuffer = await optimizer.optimize(
+          const optimized = await optimizer.optimize(
             resBuffer,
             config.optimizeAlgo,
             config.quality,
           )
+          // Pass through un-optimized version if it's smaller
+          if (optimized.length < resBuffer.length) {
+            resBuffer = optimized
+          }
           break
         }
       }
     }
-
     // convert to buffer type again because some optimizers output uint8array
     return Buffer.from(resBuffer)
   }
 
   // for worker
   async handlePath(inputPath: string, outputPath: string, config: IImageJobConfig) {
-    try {
-      const inputBuffer = await fs.readFile(inputPath)
-      const outputBuffer = await this.handleBuffer(inputBuffer, config)
+    const inputBuffer = await fs.readFile(inputPath)
+    const outputBuffer = await this.handleBuffer(inputBuffer, config)
 
-      await fs.outputFile(outputPath, outputBuffer)
-    } catch (e) {
-      console.log('ServerImageHandler.handlePath error:', e)
-    }
+    await fs.outputFile(outputPath, outputBuffer)
   }
 
   // for test

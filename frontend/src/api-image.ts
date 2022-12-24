@@ -1,3 +1,4 @@
+import { RequestParams } from '@sampullman/fetch-api'
 import {
   ICreateJobApiResponse,
   IGetJobApiResponse,
@@ -5,7 +6,6 @@ import {
   IListJobsApiQuery,
   IListJobsApiResponse,
 } from '@samatech/image-api-types'
-import { RequestParams } from '@sampullman/fetch-api'
 import { api } from './api'
 
 export interface IApiImage {
@@ -28,7 +28,6 @@ export const useImageApi = (): IApiImage => {
       url: 'jobs',
       params: query as unknown as RequestParams,
     })
-    console.log(response.body, response.data)
     return response.data as unknown as IListJobsApiResponse
   }
 
@@ -41,21 +40,12 @@ export const useImageApi = (): IApiImage => {
     for (const [key, value] of Object.entries(payload)) {
       formData.append(key, value)
     }
-    // FIX: allow FormData in fetch-api
-    /*
-    const { data } = await api.authRequest({
-      url: 'jobs',
-      method: 'POST',
-      data: formData,
-    })
-    */
-    const response = await fetch('http://localhost:3500/jobs', {
+    const response = await api.authRequest({
+      url: `jobs`,
       method: 'POST',
       body: formData,
-      headers: { 'X-IMAGE-API-KEY': api.apiKey.value || '' },
     })
     const data = await response.json()
-    console.log('postJob response', data)
     return data as unknown as ICreateJobApiResponse
   }
 

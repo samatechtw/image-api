@@ -1,5 +1,5 @@
-import { EnumOptimizationAlgorithm } from '@samatech/image-api-types'
 import { ImagePool } from '@squoosh/lib'
+import { EnumOptimizationAlgorithm } from '@samatech/image-api-types'
 import { IOptimizer } from '../interface'
 
 export class SquooshOptimizer implements IOptimizer {
@@ -20,7 +20,7 @@ export class SquooshOptimizer implements IOptimizer {
           mozjpeg: { quality },
         })
 
-        imagePool.close()
+        await imagePool.close()
 
         const res = await image.encodedWith.mozjpeg
 

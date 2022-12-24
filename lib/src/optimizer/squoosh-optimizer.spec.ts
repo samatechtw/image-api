@@ -22,7 +22,7 @@ describe('SquooshOptimizer', () => {
       const outBuffer10 = await optimizer.optimize(inBuffer, algo, 10)
 
       await writeFile(
-        path.resolve(testOut, `wtm_256x256_${algo}_${90}.jpeg`),
+        path.resolve(testOut, `wtm_256x256_${algo}_${80}.jpeg`),
         outBuffer90,
       )
       await writeFile(
