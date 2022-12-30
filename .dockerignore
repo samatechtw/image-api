@@ -1,0 +1,13 @@
+# Ignore all by default
+*
+
+# Except these
+!server/
+!frontend/
+!types/
+!lib/
+!**/tsconfig*.json
+!**/package.json
+!**/pnpm*.yaml
+
+**/*.spec.ts

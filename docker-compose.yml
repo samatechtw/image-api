@@ -2,15 +2,17 @@ version: '3.8'
 
 services:
   redis:
-    image: 'redislabs/redismod'
+    image: 'redis:7.0'
     ports:
       - '6379:6379'
   server:
     restart: on-failure
-    build: ./server
+    build:
+      dockerfile: ./server/Dockerfile
+      context: .
     hostname: image-api
     ports:
       - '3500:3500'
     environment:
       - REDIS_HOST=redis
-      - IMAGE_API_KEY="${IMAGE_API_KEY}"
+      - IMAGE_API_KEY=${IMAGE_API_KEY}
