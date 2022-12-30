@@ -142,9 +142,10 @@ export class JobService implements OnApplicationShutdown {
 
   async init() {
     const redisHost = apiConfig.get('redisHost')
+    const redisPort = apiConfig.get('redisPort')
     Logger.debug(`Setting up Bull queue on host: ${redisHost}`)
     this.workerQueue = new Bull<IJobData>('worker-queue', {
-      redis: { host: redisHost, port: 6379 },
+      redis: { host: redisHost, port: redisPort },
     })
 
     Logger.debug('Bull queue initializing...')

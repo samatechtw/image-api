@@ -26,9 +26,11 @@ FROM build.dev as dev
 
 ARG IMAGE_API_KEY
 ENV IMAGE_API_KEY=$IMAGE_API_KEY
+ARG IMAGE_API_REDIS_PORT
+ENV IMAGE_API_REDIS_PORT=$IMAGE_API_REDIS_PORT
 
 RUN npm run build:server
-EXPOSE 3500
+
 ENTRYPOINT ["/sbin/tini", "-v", "--"]
 CMD ["npm", "run", "start"]
 

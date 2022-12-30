@@ -1,10 +1,9 @@
 **/dist
 **/out-tsc
 **/node_modules
+.env
 test/out
 lib/test/out
 !/lib/test/out/.gitkeep
 
 .DS_Store
-
-pnpm-lock.yaml

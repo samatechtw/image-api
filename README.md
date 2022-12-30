@@ -26,7 +26,7 @@ pnpm install
 
 ### Run
 
-A Redis instance must be available on port 6379. An easy way to do that is:
+A Redis instance must be available on IMAGE_API_REDIS_PORT, which defaults to 6379. An easy way to do that is:
 
 ```bash
 docker run --name redis -d -p 6379:6379 redis:6.0

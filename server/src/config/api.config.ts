@@ -18,6 +18,12 @@ export const apiConfig = convict({
     default: '127.0.0.1',
     env: 'REDIS_HOST',
   },
+  redisPort: {
+    doc: 'Redis port',
+    format: Number,
+    default: 6379,
+    env: 'IMAGE_API_REDIS_PORT',
+  },
   authorizedReferrers: {
     format: String,
     doc: 'List of authorized referrers allowed to access the service',
