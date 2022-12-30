@@ -1,6 +1,6 @@
-import { HeaderAPIKeyStrategy } from 'passport-headerapikey'
-import { PassportStrategy } from '@nestjs/passport'
 import { Injectable, UnauthorizedException } from '@nestjs/common'
+import { PassportStrategy } from '@nestjs/passport'
+import { HeaderAPIKeyStrategy } from 'passport-headerapikey'
 import { apiConfig } from '../config'
 
 type DoneFunction = (error: Error | null, result?: unknown) => void

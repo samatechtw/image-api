@@ -1,31 +1,31 @@
 # BASE IMAGE (46MB)
 # ------------------------------------------------------------------------------------
-FROM alpine:3.15 as base
-RUN apk add --no-cache nodejs~=16 tini~=0.19
+FROM node:16.19.0-alpine3.17 as base
+RUN apk add --no-cache tini~=0.19
 RUN addgroup -g 1001 -S app && adduser -u 1001 -S app -G app
 
 # DEV BUILD IMAGE (486MB)
 # ------------------------------------------------------------------------------------
 FROM base as build.dev
 ENV SHELL=/bin/sh
-RUN apk add --no-cache \
-  npm~=8
 RUN npm install -g pnpm
 
 WORKDIR /usr/src
 
-# RUN curl -L https://unpkg.com/@pnpm/self-installer | node - add --global pnpm
-
-COPY  nest-cli.json tsconfig.build.json tsconfig.json ./
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile --unsafe-perm
-COPY src ./src
+COPY package.json ./
+COPY pnpm-*.yaml ./
+COPY tsconfig*.json ./
+COPY types ./types
+COPY lib ./lib
+COPY server ./server
+RUN pnpm install -r --frozen-lockfile --unsafe-perm --production
 
 # DEV API APP IMAGE (486MB)
 # ------------------------------------------------------------------------------------
 FROM build.dev as dev
 
-# INCLUDE RUNTIME ARGS/ENV HERE
+ARG IMAGE_API_KEY
+ENV IMAGE_API_KEY=$IMAGE_API_KEY
 
 RUN npm run build:server
 EXPOSE 3500

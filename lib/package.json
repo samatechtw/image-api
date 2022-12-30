@@ -14,8 +14,6 @@
   },
   "devDependencies": {
     "@jest/types": "^29.3.1",
-    "@samatech/image-api-types": "workspace:*",
-    "@squoosh/lib": "^0.4.0",
     "@types/jest": "29.2.4",
     "@types/sharp": "^0.31.0",
     "eslint": "8.30.0",
@@ -27,6 +25,8 @@
     "typescript": "^4.9.4"
   },
   "dependencies": {
+    "@samatech/image-api-types": "workspace:*",
+    "@squoosh/lib": "^0.4.0",
     "pngquant": "^4.1.0",
     "sharp": "^0.31.3",
     "svgo": "^3.0.2"
