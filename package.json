@@ -5,6 +5,7 @@
   "main": "src/main.ts",
   "scripts": {
     "redis": "docker run --name redis -d -p 6379:6379 redis:7.0",
+    "compose:reset": "docker compose down --rmi local -v --remove-orphans",
     "frontend": "npm -C frontend run dev",
     "dev:server": "pnpm --stream --parallel --filter '*types' --filter '*server' run dev",
     "dev:lib": "pnpm --filter '*image-api' run dev",

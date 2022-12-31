@@ -3,13 +3,13 @@ import convict from 'convict'
 export const apiConfig = convict({
   port: {
     format: 'port',
-    default: 3500,
+    default: 4100,
     env: 'API_PORT',
   },
   url: {
     doc: 'API URL',
     format: String,
-    default: 'http://localhost:3500',
+    default: 'http://localhost',
     env: 'API_URL',
   },
   redisHost: {

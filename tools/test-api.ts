@@ -9,7 +9,7 @@ import {
   ProcessJobStatusEnum,
 } from '../types'
 
-const apiHost = 'http://localhost:3500'
+const apiHost = 'http://localhost:4100'
 const testAsset = path.resolve(__dirname, './test-assets/Rufina.jpg')
 const imageApiKey = 'dev-image-api-key'
 const authHeaders = {

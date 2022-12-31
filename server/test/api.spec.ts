@@ -18,7 +18,7 @@ describe('api', () => {
   let authHeaders: Record<string, string>
 
   beforeEach(() => {
-    apiHost = apiConfig.get('url')
+    apiHost = `${apiConfig.get('url')}:${apiConfig.get('port')}`
     testAsset = path.resolve(__dirname, '../../tools/test-assets')
     const imageApiKey = apiConfig.get('imageApiKey')
     authHeaders = {

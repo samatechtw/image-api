@@ -38,7 +38,7 @@ Run the server:
 npm run dev:server
 ```
 
-With the app running, API docs are available at http://localhost:3500/docs
+With the app running, API docs are available at http://localhost:4100/docs
 
 ### Build
 
@@ -75,7 +75,7 @@ npm run integration
 # Build
 docker build --progress=plain -t api:dev -f Dockerfile --target=dev .
 # Run
-docker run -p 3500:3500 api:dev
+docker run -p 4100:4100 api:dev
 ```
 
 See [build script](./tools/build-docker-images.sh) for building specific images, which can be useful for testing.

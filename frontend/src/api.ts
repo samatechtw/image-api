@@ -83,7 +83,7 @@ export class ImageApi extends FetchApi<ApiResponse> {
 }
 
 export const api = new ImageApi({
-  baseUrl: 'http://localhost:3500/',
+  baseUrl: 'http://localhost:4100/',
   apiKey: computed(() => 'dev-image-api-key'),
   responseInterceptors: [
     async (res: Response): Promise<ApiResponse> => {

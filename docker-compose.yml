@@ -5,47 +5,16 @@ services:
     image: 'redis:7.0'
     ports:
       - ${IMAGE_API_REDIS_PORT}:${IMAGE_API_REDIS_PORT}
-  nginx:
-    image: nginx:mainline-alpine
-    container_name: nginx
-    restart: unless-stopped
-    ports:
-      - '3100:3100'
-    volumes:
-      - ./tools/nginx-conf:/etc/nginx/conf.d
-      - certbot-etc:/etc/letsencrypt
-      - certbot-var:/var/lib/letsencrypt
-    depends_on:
-      - nodejs
-    networks:
-      - app-network
-  certbot:
-    image: certbot/certbot
-    container_name: certbot
-    volumes:
-      - certbot-etc:/etc/letsencrypt
-      - certbot-var:/var/lib/letsencrypt
-    depends_on:
-      - nginx
-    command: certonly --webroot --webroot-path=/var/www/html --email sam@samatech.tw --agree-tos --no-eff-email --staging -d image.samatech.tw
   image-api-server:
     restart: on-failure
     build:
       dockerfile: ./server/Dockerfile
       context: .
     hostname: image-api
-    networks:
-      - app-network
     ports:
       - ${IMAGE_API_PORT}:${IMAGE_API_PORT}
     environment:
       - REDIS_HOST=redis
       - IMAGE_API_KEY=${IMAGE_API_KEY}
-
-volumes:
-  certbot-etc:
-  certbot-var:
-
-networks:
-  app-network:
-    driver: bridge
+      - IMAGE_API_PORT=${IMAGE_API_PORT}
+      - IMAGE_API_REDIS_PORT=${IMAGE_API_REDIS_PORT}
