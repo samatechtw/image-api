@@ -9,11 +9,18 @@ import {
   ProcessJobStatusEnum,
 } from '../types'
 
-const apiHost = 'http://localhost:4100'
+const dev = {
+  host: 'http://localhost:4100',
+  apiKey: 'dev-image-api-key',
+}
+const prod = {
+  host: 'http://image.samatech.tw:4100',
+  apiKey: '949a922c-f039-43fd-b015-8398218a9b24',
+}
+const env = prod
 const testAsset = path.resolve(__dirname, './test-assets/Rufina.jpg')
-const imageApiKey = 'dev-image-api-key'
 const authHeaders = {
-  'X-IMAGE-API-KEY': imageApiKey,
+  'X-IMAGE-API-KEY': env.apiKey,
 }
 
 const optimize = async () => {
@@ -25,7 +32,7 @@ const optimize = async () => {
   formData.append('optimizeAlgo', EnumOptimizationAlgorithm.mozjpeg)
   formData.append('quality', '80')
 
-  const createRes = await fetch(`${apiHost}/jobs`, {
+  const createRes = await fetch(`${env.host}/jobs`, {
     method: 'POST',
     body: formData,
     headers: authHeaders,
@@ -38,7 +45,7 @@ const optimize = async () => {
   let time = startTime
   let data: IGetJobApiResponse
   while (time - startTime < 10000) {
-    const res = await fetch(`${apiHost}/jobs/${json.jobId}`, {
+    const res = await fetch(`${env.host}/jobs/${json.jobId}`, {
       method: 'GET',
       headers: authHeaders,
     })

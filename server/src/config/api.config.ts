@@ -4,13 +4,13 @@ export const apiConfig = convict({
   port: {
     format: 'port',
     default: 4100,
-    env: 'API_PORT',
+    env: 'IMAGE_API_PORT',
   },
   url: {
     doc: 'API URL',
     format: String,
     default: 'http://localhost',
-    env: 'API_URL',
+    env: 'IMAGE_API_URL',
   },
   redisHost: {
     doc: 'Redis host',
