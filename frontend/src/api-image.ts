@@ -45,8 +45,7 @@ export const useImageApi = (): IApiImage => {
       method: 'POST',
       body: formData,
     })
-    const data = await response.json()
-    return data as unknown as ICreateJobApiResponse
+    return response.data as unknown as ICreateJobApiResponse
   }
 
   const deleteJob = async (jobId: string): Promise<void> => {

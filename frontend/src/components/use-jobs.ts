@@ -25,7 +25,6 @@ const latestPendingJob = computed(() => {
   const pending = jobs.value
     .filter((job) => !jobStatusDone.includes(job.status))
     .sort((a, b) => ((a.jobId ?? 0) < (b.jobId ?? 0) ? -1 : 1))
-  console.log('Pending jobs', pending)
   return pending[0]
 })
 
@@ -35,7 +34,7 @@ export const useJobs = (): IUseJobs => {
   const createJob = async (file: Blob, payload: ICreateJobApiRequest): Promise<void> => {
     try {
       await api.postJob(file, payload)
-      pollJobs()
+      return pollJobs()
     } catch (e) {
       console.log('Failed to create job' + e)
     }

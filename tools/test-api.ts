@@ -17,7 +17,7 @@ const prod = {
   host: 'http://image.samatech.tw:4100',
   apiKey: '949a922c-f039-43fd-b015-8398218a9b24',
 }
-const env = prod
+const env = dev
 const testAsset = path.resolve(__dirname, './test-assets/Rufina.jpg')
 const authHeaders = {
   'X-IMAGE-API-KEY': env.apiKey,

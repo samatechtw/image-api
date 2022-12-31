@@ -12,6 +12,12 @@ export const apiConfig = convict({
     default: 'http://localhost',
     env: 'IMAGE_API_URL',
   },
+  authorizedReferrers: {
+    format: String,
+    doc: 'Comma separated list of authorized referrers allowed to access the API',
+    env: 'API_AUTHORIZED_REFERRERS',
+    default: 'http://localhost:3100,http://localhost:8000',
+  },
   redisHost: {
     doc: 'Redis host',
     format: String,
@@ -23,13 +29,6 @@ export const apiConfig = convict({
     format: Number,
     default: 6379,
     env: 'IMAGE_API_REDIS_PORT',
-  },
-  authorizedReferrers: {
-    format: String,
-    doc: 'List of authorized referrers allowed to access the service',
-    env: 'API_AUTHORIZED_REFERRERS',
-    // Default empty string bypasses CORS
-    default: '',
   },
   imageApiKey: {
     format: String,

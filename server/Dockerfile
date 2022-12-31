@@ -24,6 +24,8 @@ RUN pnpm install -r --frozen-lockfile --unsafe-perm --production
 # ------------------------------------------------------------------------------------
 FROM build.dev as dev
 
+ARG API_AUTHORIZED_REFERRERS
+ENV API_AUTHORIZED_REFERRERS=$API_AUTHORIZED_REFERRERS
 ARG IMAGE_API_KEY
 ENV IMAGE_API_KEY=$IMAGE_API_KEY
 ARG IMAGE_API_PORT
