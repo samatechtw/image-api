@@ -52,10 +52,10 @@ const optimize = async () => {
     data = (await res.json()) as IGetJobApiResponse
     const { status } = data
     if (status === ProcessJobStatusEnum.Fail) {
-      console.log('Success:', data)
+      console.log('Fail:', data)
       break
     } else if (status === ProcessJobStatusEnum.Complete) {
-      console.log('Fail:', data)
+      console.log('Complete:', data)
       break
     } else {
       await new Promise((resolve) => setTimeout(resolve, 1500))

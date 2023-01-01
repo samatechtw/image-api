@@ -27,6 +27,22 @@ import { getPackageJsonDir, getTempInputPath } from '../util'
 export class JobService implements OnApplicationShutdown {
   workerQueue: Bull.Queue<IJobData> = null
 
+  async init() {
+    const redisHost = apiConfig.get('redisHost')
+    const redisPort = apiConfig.get('redisPort')
+    Logger.debug(`Init Bull queue on ${redisHost}:${redisPort}`)
+    this.workerQueue = new Bull<IJobData>('worker-queue', {
+      redis: { host: redisHost, port: redisPort },
+    })
+
+    Logger.debug('Bull queue initializing...')
+    const processPath = path.join(getPackageJsonDir(), 'dist/src/handler/process-job.js')
+    this.workerQueue.process(8, processPath)
+    console.log('Processor: ', processPath)
+    this.setListeners()
+    await this.workerQueue.isReady()
+  }
+
   async add(
     filename: string,
     fileBuffer: Buffer,
@@ -138,22 +154,6 @@ export class JobService implements OnApplicationShutdown {
 
   getWorkers(): Promise<unknown[]> {
     return this.workerQueue.getWorkers()
-  }
-
-  async init() {
-    const redisHost = apiConfig.get('redisHost')
-    const redisPort = apiConfig.get('redisPort')
-    Logger.debug(`Setting up Bull queue on host: ${redisHost}`)
-    this.workerQueue = new Bull<IJobData>('worker-queue', {
-      redis: { host: redisHost, port: redisPort },
-    })
-
-    Logger.debug('Bull queue initializing...')
-    const processPath = path.join(getPackageJsonDir(), 'dist/src/handler/process-job.js')
-    console.log(processPath)
-    this.workerQueue.process(8, processPath)
-    this.setListeners()
-    await this.workerQueue.isReady()
   }
 
   onApplicationShutdown(_signal: string) {

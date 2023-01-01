@@ -22,7 +22,7 @@ export const apiConfig = convict({
     doc: 'Redis host',
     format: String,
     default: '127.0.0.1',
-    env: 'REDIS_HOST',
+    env: 'IMAGE_API_REDIS_HOST',
   },
   redisPort: {
     doc: 'Redis port',

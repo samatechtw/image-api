@@ -3,6 +3,7 @@ version: '3.8'
 services:
   redis:
     image: 'redis:7.0'
+    command: --port ${IMAGE_API_REDIS_PORT}
     ports:
       - ${IMAGE_API_REDIS_PORT}:${IMAGE_API_REDIS_PORT}
   image-api-server:
@@ -14,7 +15,7 @@ services:
     ports:
       - ${IMAGE_API_PORT}:${IMAGE_API_PORT}
     environment:
-      - REDIS_HOST=redis
+      - IMAGE_API_REDIS_HOST=redis
       - IMAGE_API_KEY=${IMAGE_API_KEY}
       - IMAGE_API_PORT=${IMAGE_API_PORT}
       - IMAGE_API_REDIS_PORT=${IMAGE_API_REDIS_PORT}
