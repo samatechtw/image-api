@@ -30,6 +30,8 @@ export class JobService implements OnApplicationShutdown {
   async init() {
     const redisHost = apiConfig.get('redisHost')
     const redisPort = apiConfig.get('redisPort')
+    const workerProcesses = apiConfig.get('workerProcesses')
+
     Logger.debug(`Init Bull queue on ${redisHost}:${redisPort}`)
     this.workerQueue = new Bull<IJobData>('worker-queue', {
       redis: { host: redisHost, port: redisPort },
@@ -37,7 +39,7 @@ export class JobService implements OnApplicationShutdown {
 
     Logger.debug('Bull queue initializing...')
     const processPath = path.join(getPackageJsonDir(), 'dist/src/handler/process-job.js')
-    this.workerQueue.process(8, processPath)
+    this.workerQueue.process(workerProcesses, processPath)
     console.log('Processor: ', processPath)
     this.setListeners()
     await this.workerQueue.isReady()

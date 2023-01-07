@@ -36,4 +36,10 @@ export const apiConfig = convict({
     env: 'IMAGE_API_KEY',
     default: 'dev-image-api-key',
   },
+  workerProcesses: {
+    doc: 'The number of workers in job service',
+    format: Number,
+    default: 8,
+    env: 'WORKER_PROCESSES',
+  },
 })
