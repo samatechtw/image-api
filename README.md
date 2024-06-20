@@ -84,11 +84,17 @@ See [build script](./tools/build-docker-images.sh) for building specific images,
 
 ```bash
 # start app
-docker-compose up -d
+docker compose up -d
 # stop app
-docker-compose down
+docker compose down
 # re-build app
-docker-compose build
+docker compose build
+```
+
+Rebuild one container without cache and restart
+
+```bash
+docker compose up -d --force-recreate --build image-api-server
 ```
 
 ### Commit conventions

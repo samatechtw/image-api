@@ -1,6 +1,6 @@
 # BASE IMAGE (46MB)
 # ------------------------------------------------------------------------------------
-FROM node:16.19.0-alpine3.17 as base
+FROM node:18-alpine3.17 as base
 RUN apk add --no-cache tini~=0.19
 RUN addgroup -g 1001 -S app && adduser -u 1001 -S app -G app
 
@@ -18,7 +18,7 @@ COPY tsconfig*.json ./
 COPY types ./types
 COPY lib ./lib
 COPY server ./server
-RUN pnpm install -r --frozen-lockfile --unsafe-perm --production
+RUN pnpm install -r --frozen-lockfile --unsafe-perm
 
 # DEV API APP IMAGE (486MB)
 # ------------------------------------------------------------------------------------
@@ -37,7 +37,7 @@ ENV IMAGE_API_REDIS_PORT=$IMAGE_API_REDIS_PORT
 ARG WORKER_PROCESSES
 ENV WORKER_PROCESSES=$WORKER_PROCESSES
 
-RUN npm run build:server
+RUN npm run build
 
 ENTRYPOINT ["/sbin/tini", "-v", "--"]
 CMD ["npm", "run", "start"]
