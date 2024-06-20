@@ -13,7 +13,7 @@ export class SquooshOptimizer implements IOptimizer {
     switch (algo) {
       case EnumOptimizationAlgorithm.mozjpeg: {
         delete globalThis.navigator
-        const imagePool = new ImagePool()
+        const imagePool = new ImagePool(8)
         const image = imagePool.ingestImage(buffer)
 
         await image.encode({
@@ -24,7 +24,7 @@ export class SquooshOptimizer implements IOptimizer {
 
         const res = await image.encodedWith.mozjpeg
 
-        return res.binary
+        return Buffer.from(res.binary)
       }
     }
 

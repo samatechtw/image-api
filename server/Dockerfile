@@ -37,7 +37,7 @@ ENV IMAGE_API_REDIS_PORT=$IMAGE_API_REDIS_PORT
 ARG WORKER_PROCESSES
 ENV WORKER_PROCESSES=$WORKER_PROCESSES
 
-RUN npm run build:server
+RUN npm run build
 
 ENTRYPOINT ["/sbin/tini", "-v", "--"]
 CMD ["npm", "run", "start"]
