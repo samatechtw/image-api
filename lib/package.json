@@ -26,9 +26,9 @@
   },
   "dependencies": {
     "@samatech/image-api-types": "workspace:*",
-    "@squoosh/lib": "^0.4.0",
-    "pngquant": "^4.1.0",
+    "@squoosh/lib": "^0.5.3",
+    "pngquant": "^4.2.0",
     "sharp": "^0.31.3",
-    "svgo": "^3.0.2"
+    "svgo": "^3.3.2"
   }
 }

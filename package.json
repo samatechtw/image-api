@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "Service that allows uploading an image, validating it, and uploading to a URL.",
   "main": "src/main.ts",
+  "packageManager": "pnpm@8.15.8",
   "scripts": {
     "redis": "docker run --name redis -d -p 6379:6379 redis:7.0",
     "compose:reset": "docker compose down --rmi local -v --remove-orphans",

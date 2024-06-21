@@ -8,7 +8,7 @@ RUN addgroup -g 1001 -S app && adduser -u 1001 -S app -G app
 # ------------------------------------------------------------------------------------
 FROM base as build.dev
 ENV SHELL=/bin/sh
-RUN npm install -g pnpm
+RUN npm install -g pnpm@8
 
 WORKDIR /usr/src
 
